@@ -1,0 +1,118 @@
+.container-background-image.login {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--main-background-color);
+  position: relative;
+}
+
+.container-background-image.login > img {
+  width: 100%;
+  height: 100%;
+  object-position: bottom;
+  position: absolute;
+}
+
+.container-background-image.login > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 15px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.container-card-form-and-title.login {
+  max-width: 400px;
+  width: 100%;
+  margin-bottom: 90px;
+}
+
+.container-card-form-and-title.login > div:first-child {
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.container-card-form-and-title.login > div:first-child > h1 {
+  margin-bottom: 5px;
+}
+
+.container-card-form-and-title.login > div:first-child > span {
+  color: var(--sub-text-color);
+  font-family: nunito, sans-serif;
+  font-size: 0.7rem;
+}
+
+.container-card-form-and-title.login > form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+  background-color: var(--card-color);
+  border-radius: 20px;
+  border: 1px solid var(--border-card-color);
+}
+
+.container-card-form-and-title.login > form > label {
+  color: var(--hero-text-color);
+}
+
+.container-card-form-and-title.login > form > input {
+  padding: 13px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--main-background-color);
+  border: 1px solid var(--border-card-color);
+  color: var(--hero-text-color);
+}
+
+.container-card-form-and-title.login > form > input:focus {
+  outline: 1px solid var(--main-opponent-color);
+}
+
+.container-card-form-and-title.login > form > input {
+  margin-bottom: 10px;
+}
+
+.container-card-form-and-title.login > form > button {
+  border: none;
+  padding: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: 550;
+}
+
+.container-card-form-and-title.login > form > button:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.container-card-form-and-title.login > p {
+  color: var(--sub-text-color);
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.link-to-sign-up {
+  color: var(--hero-text-color);
+  margin-left: 2px;
+  font-weight: 500;
+}
+
+.container-logo {
+  top: 15px;
+  left: 15px;
+  position: absolute;
+  display: flex;
+  gap: 5px;
+}
+
+.container-logo img {
+  width: 20px;
+}
+
+.container-logo p {
+  font-weight: 550;
+}

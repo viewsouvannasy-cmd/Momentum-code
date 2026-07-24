@@ -1,0 +1,35 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+:root {
+  --main-background-color: #111111;
+  --hero-text-color: #ffffff;
+  --sub-text-color: #777777;
+  --card-color: #232323;
+  --border-card-color: #454545;
+  --main-opponent-color: #fafafa;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: quicksand, sans-serif;
+  color: var(--hero-text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+}
