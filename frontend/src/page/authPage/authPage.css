@@ -1,0 +1,227 @@
+/* this auth css it reuse between login page and signup page  */
+
+.container-background-image.login,
+.container-background-image.sign {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--main-background-color);
+  position: relative;
+}
+
+.container-background-image.login > img,
+.container-background-image.sign > img {
+  width: 100%;
+  height: 100%;
+  object-position: bottom;
+  position: absolute;
+}
+
+.container-background-image.login > div,
+.container-background-image.sign > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 15px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+}
+
+.container-card-form-and-title.login,
+.container-card-form-and-title.sign {
+  max-width: 400px;
+  width: 100%;
+  margin-bottom: 137px;
+}
+
+.container-card-form-and-title.login > div:first-child,
+.container-card-form-and-title.sign > div:first-child {
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.container-card-form-and-title.login > div:first-child > h1,
+.container-card-form-and-title.sign > div:first-child > h1 {
+  margin-bottom: 5px;
+}
+
+.container-card-form-and-title.login > div:first-child > span,
+.container-card-form-and-title.sign > div:first-child > span {
+  color: var(--sub-text-color);
+  font-family: nunito, sans-serif;
+  font-size: 0.7rem;
+}
+
+.container-card-form-and-title.login > form,
+.container-card-form-and-title.sign > form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+  background-color: var(--card-color);
+  border-radius: 20px;
+  border: 1px solid var(--border-card-color);
+}
+
+.container-card-form-and-title.login > form > label,
+.container-card-form-and-title.sign > form > label {
+  color: var(--hero-text-color);
+}
+
+.container-card-form-and-title.login > form > input,
+.container-card-form-and-title.sign > form > input {
+  padding: 13px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--main-background-color);
+  border: 1px solid var(--border-card-color);
+  color: var(--hero-text-color);
+  margin-bottom: 10px;
+}
+
+.container-card-form-and-title.login > form > input:focus,
+.container-card-form-and-title.sign > form > input:focus {
+  outline: 1px solid var(--main-opponent-color);
+}
+
+.container-card-form-and-title.login > form > button {
+  border: none;
+  padding: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: 550;
+}
+
+.container-card-form-and-title.login > form > button:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.container-card-form-and-title.login > p,
+.container-card-form-and-title.sign > p {
+  color: var(--sub-text-color);
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.link-to-sign-up-login {
+  color: var(--hero-text-color);
+  margin-left: 2px;
+  font-weight: 500;
+}
+
+.container-logo {
+  top: 15px;
+  left: 15px;
+  position: absolute;
+  display: flex;
+  gap: 5px;
+}
+
+.container-logo img {
+  width: 20px;
+}
+
+.container-logo p {
+  font-weight: 550;
+}
+
+/* -------- additional from sign page ------ */
+
+/* this style add to input password */
+.container-card-form-and-title.sign {
+  margin-bottom: 0;
+}
+
+.box-password-sign-up {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.box-password-sign-up > input {
+  padding: 13px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--main-background-color);
+  border: 1px solid var(--border-card-color);
+  color: var(--hero-text-color);
+  margin-top: 10px;
+}
+
+.box-password-sign-up > input:focus {
+  color: var(--hero-text-color);
+}
+
+.box-password-sign-up > span {
+  margin-top: 5px;
+  color: var(--sub-text-color);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* this style add to submit button */
+.box-submit-and-checkbox-sign-up {
+  width: 100%;
+}
+
+.box-submit-and-checkbox-sign-up > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.box-submit-and-checkbox-sign-up > div > p {
+  font-size: 0.7rem;
+  color: var(--sub-text-color);
+}
+
+.checkbox-agree-sign-up {
+  border: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  border: 1px solid var(--border-card-color);
+  background-color: var(--main-background-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-agree-sign-up img {
+  width: 12px;
+  opacity: 0;
+}
+
+.checkbox-agree-sign-up.checked {
+  background-color: var(--main-opponent-color);
+  border: 1px solid var(--border-opponent-color);
+}
+
+.checkbox-agree-sign-up.checked img {
+  opacity: 1;
+}
+
+.box-submit-and-checkbox-sign-up > div > p > span {
+  color: var(--hero-text-color);
+  text-decoration: underline;
+}
+
+.box-submit-and-checkbox-sign-up > button {
+  width: 100%;
+  border: none;
+  padding: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: 550;
+  margin-top: 8px;
+}
+
+.box-submit-and-checkbox-sign-up > button:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
