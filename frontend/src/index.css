@@ -10,6 +10,7 @@
   --sub-text-color: #777777;
   --card-color: #232323;
   --border-card-color: #454545;
+  --color-hover-button-auth: rgba(255, 255, 255, 0.7);
   --main-opponent-color: #fafafa;
   --border-opponent-color: #cccccc;
 }

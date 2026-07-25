@@ -20,12 +20,18 @@ export function SignupPage() {
           </div>
           <form>
             <label>Name</label>
-            <input type="text" placeholder="Enter your name" required />
+            <input
+              type="text"
+              placeholder="Enter your name"
+              minLength={1}
+              maxLength={50}
+              required
+            />
             <label>Email</label>
             <input type="email" placeholder="Enter your email" required />
             <div className="box-password-sign-up">
               <label>Password</label>
-              <input type="text" placeholder="••••••••" required />
+              <input type="password" placeholder="••••••••" required />
               <span>At least 8 characters</span>
             </div>
             <div className="box-submit-and-checkbox-sign-up">

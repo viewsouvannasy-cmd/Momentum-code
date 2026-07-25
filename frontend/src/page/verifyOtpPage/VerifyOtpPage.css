@@ -1,0 +1,93 @@
+.container-verify-otp-main {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--main-background-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 15px;
+}
+
+.container-verify-otp-main > div:first-child {
+  display: flex;
+  gap: 3px;
+}
+
+.container-verify-otp-main > div:first-child > img {
+  width: 20px;
+  height: 20px;
+}
+
+.container-verify-otp-main > div:first-child > p {
+  font-weight: 550;
+}
+
+.box-input-otp-verify {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--card-color);
+  border: 1px solid var(--border-card-color);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.box-input-otp-verify > span {
+  color: var(--sub-text-color);
+}
+
+.box-input-otp-verify > p {
+  font-weight: 500;
+}
+
+.box-input-otp-verify > input {
+  border: none;
+  padding: 10px;
+  width: 100%;
+  background-color: var(--main-background-color);
+  border: 1px solid var(--border-card-color);
+  border-radius: 5px;
+  margin-top: 15px;
+  color: var(--hero-text-color);
+}
+
+.box-input-otp-verify > input:focus {
+  outline: white;
+}
+
+.count-expires > span {
+  color: var(--hero-text-color);
+}
+
+.box-input-otp-verify > button {
+  border: none;
+  width: 100%;
+  padding: 10px;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.box-input-otp-verify > button:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.back-to-sign-up-from-verify {
+  color: var(--sub-text-color);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-top: 20px;
+  font-weight: 500;
+  gap: 5px;
+  transition: color 0.2s;
+}
+
+.back-to-sign-up-from-verify:hover {
+  color: var(--hero-text-color);
+}
