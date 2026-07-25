@@ -5,39 +5,33 @@ import { vaildateFormatEamil, checkDomainEamil } from "../utils/validation.js";
 import { sentOtpEmail, genrateOtp } from "../service/emailService.js";
 import { sql } from "../config/database.js";
 
+// this function is use to check valid info of user
+// and check that user email is truly have
 const createAccount = async (req, res) => {
   try {
-    const { user_name, user_email, user_password } = req.body;
+    const { user_name, user_email } = req.body;
 
     // check provide info
-    if (!user_name || !user_email || !user_password) {
-      return res.status(401).json({ msg: "please provide all info" });
+    if (!user_name || !user_email) {
+      return res
+        .status(401)
+        .json({ msg: "Please provide all required information" });
     }
 
     // vaildate email
     const checkForrmatEmail = vaildateFormatEamil(user_email);
     if (!checkForrmatEmail) {
-      return res.status(401).json({ msg: "we can not find your email" });
+      return res.status(401).json({ msg: "Invilid email format" });
     }
 
     // check email domain
     const checkDomain = await checkDomainEamil(user_email);
     if (!checkDomain) {
-      return res.status(401).json({ msg: "we can not find your email" });
+      return res.status(401).json({ msg: "Email domain dose not exist" });
     }
 
-    // genrate Opt code and set time out
+    // genrate opt code and set time out
     const otp = genrateOtp();
-    const expiresAt = Date.now() + 5 * 60 * 1000;
-
-    // encrypt the user_password
-    const hashPassword = await bcrypt.hash(user_password, 10);
-
-    //store otp to a database
-    const results =
-      await sql`INSERT INTO user_otps('user_name','user_email','password_hash','otp_code','expire_at')
-      VALUES (${user_name},${user_email},${hashPassword},${otp},${expiresAt})
-    `;
 
     // sending email
     const isSend = await sentOtpEmail(user_email, otp);
@@ -46,10 +40,49 @@ const createAccount = async (req, res) => {
       return res.status(500).json({ msg: "we're can not send email" });
     }
 
+    //store otp to a database
+    await sql`INSERT INTO user_otps(user_name,user_email,otp_code,expires_at)
+      VALUES (
+      ${user_name},
+      ${user_email},
+      ${otp},
+      CURRENT_TIMESTAMP + INTERVAL '5 minutes'
+      )
+    `;
+
     res.status(200).json({ msg: "we have send OTP to your email" });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error" });
+    res.status(500).json({ msg: "internal server error", error });
   }
 };
 
-export { createAccount };
+// this actucl function that use to store a user to
+// datebase after verify otp code
+const verifyUserOTP = async (req, res) => {
+  const { user_name, user_email, user_password, otp_code } = req.body;
+
+  // check valid otp
+  const checkOtp = await sql`
+  SELECT
+   * 
+  FROM user_otps 
+  WHERE user_name = ${user_name}
+    AND user_email = ${user_email} 
+    AND otp_code = ${otp_code}
+  `;
+  console.log(checkOtp);
+  if (checkOtp.length === 0) {
+    return res.status(401).json({ msg: "Otp code is incorrect" });
+  }
+
+  // check expire
+  const expireAtMs = new Date(checkOtp[0].expires_at).getTime();
+  console.log(expireAtMs);
+  if (Date.now() > expireAtMs) {
+    return res.status(404).json({ msg: "the OTP code has expired" });
+  }
+
+  res.status(201).json({ msg: "create account successful" });
+};
+
+export { createAccount, verifyUserOTP };

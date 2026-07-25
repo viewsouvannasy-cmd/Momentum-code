@@ -130,16 +130,17 @@
 
 /* -------- additional from sign page ------ */
 
-/* this style add to input password */
 .container-card-form-and-title.sign {
   margin-bottom: 0;
 }
 
+/* this style add to input password */
 .box-password-sign-up {
   width: 100%;
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .box-password-sign-up > input {
@@ -153,6 +154,24 @@
 }
 
 .box-password-sign-up > input:focus {
+  outline: 1px solid var(--main-opponent-color);
+}
+
+.box-password-sign-up > svg {
+  position: absolute;
+  right: 12px;
+  padding: 0;
+  display: flex;
+  border: none;
+  background-color: transparent;
+  top: 46%;
+  cursor: pointer;
+  color: gray;
+
+  transition: color 0.2s;
+}
+
+.box-password-sign-up > svg:hover {
   color: var(--hero-text-color);
 }
 

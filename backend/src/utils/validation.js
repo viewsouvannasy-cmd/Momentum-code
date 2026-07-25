@@ -14,7 +14,6 @@ const checkDomainEamil = async (email) => {
     }
 
     const mxRecords = await dns.resolveMx(domain);
-    console.log(mxRecords);
     return mxRecords && mxRecords.length > 0;
   } catch (error) {
     return false;
