@@ -10,12 +10,28 @@ import { sql } from "../config/database.js";
 const createAccount = async (req, res) => {
   try {
     const { user_name, user_email } = req.body;
+    console.log(user_name, user_email);
 
     // check provide info
     if (!user_name || !user_email) {
       return res
         .status(401)
         .json({ msg: "Please provide all required information" });
+    }
+
+    // check dupicate name
+    const dupicateName = await sql`
+        SELECT 
+        *
+        FROM users
+        WHERE user_name = ${user_name}
+        `;
+    if (dupicateName.length > 0) {
+      return res.status(401).json({
+        success: false,
+        point: "name",
+        msg: "This name is already taken",
+      });
     }
 
     // check valid email format
@@ -25,9 +41,28 @@ const createAccount = async (req, res) => {
     }
 
     // check email domain
-    const checkDomain = await checkDomainEamil(user_email);
-    if (!checkDomain) {
-      return res.status(401).json({ msg: "Email domain dose not exist" });
+    const checkMailDoamin = await checkDomainEamil(user_email);
+    if (!checkMailDoamin) {
+      return res.status(401).json({
+        success: false,
+        point: "email",
+        msg: "Email domin does not exist",
+      });
+    }
+
+    // check dupicate email
+    const dupicateEmail = `
+    SELECT
+    *
+    FROM users
+    WHERE user_email = ${user_email}
+    `;
+    if (dupicateEmail.length > 0) {
+      return res.status(401).json({
+        success: false,
+        point: "email",
+        msg: "This email is already in use",
+      });
     }
 
     // genrate opt code

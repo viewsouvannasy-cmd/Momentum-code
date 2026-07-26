@@ -14,9 +14,12 @@ const checkDomainEamil = async (email) => {
     }
 
     const mxRecords = await dns.resolveMx(domain);
-    return mxRecords && mxRecords.length > 0;
+    console.log(mxRecords);
+    return mxRecords && mxRecords.length;
   } catch (error) {
-    return false;
+    if (error.code === "ENOTFOUND" || error.code === "ENODATA") {
+      return false;
+    }
   }
 };
 
