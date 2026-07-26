@@ -1,8 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import axios from "axios";
+import { Link, useNavigate } from "react-router";
 import "./authPage.css";
 
+type fetchResult = {
+  success: boolean;
+  point?: string;
+  msg?: string;
+};
+
 export function SignupPage() {
+  const navigate = useNavigate();
+
   const [isCheck, setIsCheck] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState("close");
 
@@ -11,12 +20,77 @@ export function SignupPage() {
   const [inputEmail, setInputEmail] = useState("");
   const [inputPasswrod, setInputPassword] = useState("");
 
+  // this state use to store value from backend
+  const [isLoading, setIsLading] = useState(false);
+  const [resultFetch, setResultFetch] = useState<fetchResult>();
+
   function handleIsCheck() {
     setIsCheck(isCheck ? false : true);
   }
 
   function handleShowPassword() {
     setIsShowPassword(isShowPassword === "close" ? "open" : "close");
+  }
+
+  // we will not send a password to server in process
+  // this fetch it use to check a valid name and email
+  // we actual store user whem they verify they email at verift-otp page
+  const fetchCreateAccount = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/users/create-account",
+        {
+          user_name: inputName,
+          user_email: inputEmail,
+        },
+      );
+      setIsLading(false);
+      handleToVerifyOtpPage(response.data);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          setIsLading(false);
+          setResultFetch(error.response.data);
+        }
+      } else {
+        console.log(error);
+      }
+    }
+  };
+
+  function handleCreateAccount(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    fetchCreateAccount();
+    setIsLading(true);
+  }
+
+  function handleRemoveHightLinghtError() {
+    if (resultFetch?.point === "email" || resultFetch?.point === "name") {
+      setResultFetch({
+        success: false,
+        point: "",
+        msg: "",
+      });
+    } else {
+      return;
+    }
+  }
+
+  // go to verify-otp page after validation
+  function handleToVerifyOtpPage(data: fetchResult) {
+    console.log(data);
+    if (!data.success) {
+      return;
+    }
+
+    navigate(`/verify-otp/${inputName}`, {
+      state: {
+        user_name: inputName,
+        user_email: inputEmail,
+        user_password: inputPasswrod,
+      },
+    });
   }
 
   return (
@@ -28,27 +102,41 @@ export function SignupPage() {
             <h1>Create your account</h1>
             <span>Free forever. No credit card needed.</span>
           </div>
-          <form>
-            <label>Name</label>
-            <input
-              type="text"
-              placeholder="Enter your name"
-              minLength={1}
-              maxLength={50}
-              onChange={(e) => setInputName(e.target.value)}
-              value={inputName}
-              required
-            />
-            <label>Email</label>
-            <input
-              minLength={1}
-              maxLength={50}
-              type="email"
-              placeholder="Enter your email"
-              onChange={(e) => setInputEmail(e.target.value)}
-              value={inputEmail}
-              required
-            />
+          <form onSubmit={handleCreateAccount}>
+            <div
+              className={`box-input-name ${resultFetch?.point === "name" && "error"}`}
+            >
+              <label>Name</label>
+              <input
+                type="text"
+                placeholder="Enter your name"
+                minLength={1}
+                maxLength={100}
+                onFocus={handleRemoveHightLinghtError}
+                onChange={(e) => setInputName(e.target.value)}
+                value={inputName}
+                required
+              />
+              <span>{resultFetch?.msg}</span>
+            </div>
+
+            <div
+              className={`box-input-email ${resultFetch?.point === "email" && "error"}`}
+            >
+              <label>Email</label>
+              <input
+                minLength={1}
+                maxLength={100}
+                type="email"
+                placeholder="Enter your email"
+                onFocus={handleRemoveHightLinghtError}
+                onChange={(e) => setInputEmail(e.target.value)}
+                value={inputEmail}
+                required
+              />
+              <span>{resultFetch?.msg}</span>
+            </div>
+
             <div className="box-password-sign-up">
               <label>Password</label>
               <input
@@ -56,6 +144,7 @@ export function SignupPage() {
                 minLength={8}
                 maxLength={100}
                 placeholder="••••••••"
+                onFocus={handleRemoveHightLinghtError}
                 onChange={(e) => setInputPassword(e.target.value)}
                 value={inputPasswrod}
                 required
@@ -102,7 +191,11 @@ export function SignupPage() {
                   <span>Privacy Policy</span>
                 </p>
               </div>
-              <button type="submit">Create account</button>
+              {!isLoading ? (
+                <button type="submit">Create account</button>
+              ) : (
+                <div className="spinner-load"></div>
+              )}
             </div>
           </form>
           <p>

@@ -10,7 +10,6 @@ import { sql } from "../config/database.js";
 const createAccount = async (req, res) => {
   try {
     const { user_name, user_email } = req.body;
-    console.log(user_name, user_email);
 
     // check provide info
     if (!user_name || !user_email) {
@@ -51,7 +50,7 @@ const createAccount = async (req, res) => {
     }
 
     // check dupicate email
-    const dupicateEmail = `
+    const dupicateEmail = await sql`
     SELECT
     *
     FROM users
@@ -84,7 +83,9 @@ const createAccount = async (req, res) => {
       )
     `;
 
-    res.status(200).json({ msg: "we have send OTP to your email" });
+    res
+      .status(200)
+      .json({ success: true, msg: "we have send OTP to your email" });
   } catch (error) {
     res.status(500).json({ msg: "internal server error", error });
   }
@@ -106,13 +107,19 @@ const verifyUserOTP = async (req, res) => {
   `;
 
   if (checkOtp.length === 0) {
-    return res.status(401).json({ msg: "Otp code is incorrect" });
+    return res
+      .status(401)
+      .json({ success: false, point: "verify", msg: "Otp code is incorrect" });
   }
 
   // check expire
   const expireAtMs = new Date(checkOtp[0].expires_at).getTime();
   if (Date.now() > expireAtMs) {
-    return res.status(404).json({ msg: "the OTP code has expired" });
+    return res.status(404).json({
+      success: false,
+      point: "verify",
+      msg: "the OTP code has expired",
+    });
   }
 
   // genrate access token and refresh token
@@ -151,6 +158,7 @@ const verifyUserOTP = async (req, res) => {
   });
 
   res.status(201).json({
+    success: true,
     msg: `create account user name: ${user_name} successful`,
     accessToken: accessToken,
   });

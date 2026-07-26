@@ -64,8 +64,8 @@
   border: 1px solid var(--border-card-color);
 }
 
-.container-card-form-and-title.login > form > label,
-.container-card-form-and-title.sign > form > label {
+.box-input-name > label,
+.container-background-image.login > form > label {
   color: var(--hero-text-color);
 }
 
@@ -134,8 +134,10 @@
   margin-bottom: 0;
 }
 
-/* this style add to input password */
-.box-password-sign-up {
+/* this style add to input password and name and email */
+.box-password-sign-up,
+.box-input-name,
+.box-input-email {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -143,7 +145,9 @@
   position: relative;
 }
 
-.box-password-sign-up > input {
+.box-password-sign-up > input,
+.box-input-name > input,
+.box-input-email > input {
   padding: 13px;
   border: none;
   border-radius: 5px;
@@ -153,7 +157,14 @@
   margin-top: 10px;
 }
 
-.box-password-sign-up > input:focus {
+.box-input-email.error > input,
+.box-input-name.error > input {
+  border: 1px solid var(--error-text-color);
+}
+
+.box-password-sign-up > input:focus,
+.box-input-name > input:focus,
+.box-input-email > input:focus {
   outline: 1px solid var(--main-opponent-color);
 }
 
@@ -182,18 +193,34 @@
   cursor: pointer;
 }
 
+.box-input-name > span,
+.box-input-email > span {
+  color: var(--error-text-color);
+  font-size: 0.8rem;
+  margin-top: 3px;
+  display: none;
+}
+
+.box-input-name.error > span,
+.box-input-email.error > span {
+  display: initial;
+}
+
 /* this style add to submit button */
 .box-submit-and-checkbox-sign-up {
   width: 100%;
-}
-
-.box-submit-and-checkbox-sign-up > div {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 5px;
 }
 
-.box-submit-and-checkbox-sign-up > div > p {
+.box-submit-and-checkbox-sign-up > div:first-child {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+}
+
+.box-submit-and-checkbox-sign-up > div:first-child > p {
   font-size: 0.7rem;
   color: var(--sub-text-color);
 }
@@ -225,7 +252,7 @@
   opacity: 1;
 }
 
-.box-submit-and-checkbox-sign-up > div > p > span {
+.box-submit-and-checkbox-sign-up > div:first-child > p > span {
   color: var(--hero-text-color);
   text-decoration: underline;
 }
@@ -243,4 +270,20 @@
 
 .box-submit-and-checkbox-sign-up > button:hover {
   background-color: var(--color-hover-button-auth);
+}
+
+.spinner-load {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  border: 3px solid var(--main-opponent-color);
+  border-top-color: var(--main-background-color);
+  animation: spin 0.8s linear infinite;
+  margin-top: 10px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

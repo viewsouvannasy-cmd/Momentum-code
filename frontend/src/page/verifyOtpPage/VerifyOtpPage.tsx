@@ -1,22 +1,116 @@
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { useState } from "react";
+import axios from "axios";
+
 import "./VerifyOtpPage.css";
 
+type fetchResult = {
+  success: boolean;
+  point?: string;
+  msg?: string;
+};
+
 export function VerifyOtpPage() {
+  const navigate = useNavigate();
+  // this value it recvie from sign up page
+  const location = useLocation();
+  const { user_name, user_email, user_password } = location.state;
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  // set count down time expires
+
+  // this state is store input otp
+  const [inputOtp, setInputOtp] = useState("");
+
+  //this state is store value from server
+  const [fetchResult, setFetchResult] = useState<fetchResult>();
+
+  // this function will send a otp and user info to a server
+  // this will save a user to database if valid success
+  const fetchVerifyOtpEmail = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/users/verify-otp",
+        {
+          user_name: user_name,
+          user_email: user_email,
+          user_password: user_password,
+          otp_code: inputOtp,
+        },
+      );
+      setIsLoading(false);
+      handleToMainApp(response.data);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          setIsLoading(false);
+          setFetchResult(error.response.data);
+        }
+      } else {
+        console.log(error);
+      }
+    }
+  };
+
+  // this function will lead a user to app main
+  function handleToMainApp(data: fetchResult) {
+    if (data.success) {
+      navigate(`/app/${user_name}`);
+    }
+  }
+
+  // class a fetch verift otp
+  function handleSendOtp(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    fetchVerifyOtpEmail();
+    setIsLoading(true);
+  }
+
+  function handleRemoveHightLightError() {
+    if (fetchResult?.success === false) {
+      setFetchResult({
+        success: false,
+        point: "",
+        msg: "",
+      });
+    }
+  }
+
   return (
     <div className="container-verify-otp-main">
       <div>
         <img src="/logo/logo-momentum-black.png" />
         <p>Momentum</p>
       </div>
-      <form className="box-input-otp-verify">
+      <form className="box-input-otp-verify" onSubmit={handleSendOtp}>
         <h2>Verify your email</h2>
-        <span>We send otp code to</span>
-        <p>view@gmail.com</p>
-        <input type="number" max="6" placeholder="XXXXXX" required />
+        <span>we send otp code to</span>
+        <p>{user_email}</p>
+        <div
+          className={`box-verift-otp-input-with-error-message ${fetchResult?.point === "verify" && "error"}`}
+        >
+          <input
+            placeholder="XXXXXX"
+            maxLength={6}
+            minLength={6}
+            onFocus={handleRemoveHightLightError}
+            onChange={(e) => setInputOtp(e.target.value)}
+            value={inputOtp}
+            required
+          />
+          <span>{fetchResult?.msg}</span>
+        </div>
+
         <span className="count-expires">
-          expires code at <span>2:30</span>
+          expires code in<span> 5 min</span>
         </span>
-        <button type="submit">Verify</button>
+        {!isLoading ? (
+          <button type="submit">Verify</button>
+        ) : (
+          <div className="spinner-load"></div>
+        )}
       </form>
       <Link className="back-to-sign-up-from-verify" to="/sign">
         <svg
@@ -25,9 +119,9 @@ export function VerifyOtpPage() {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
           <path d="M19 12H5M12 19l-7-7 7-7"></path>
         </svg>
