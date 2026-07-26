@@ -62,30 +62,30 @@
   background-color: var(--card-color);
   border-radius: 20px;
   border: 1px solid var(--border-card-color);
+  align-items: center;
 }
 
-.box-input-name > label,
-.container-background-image.login > form > label {
-  color: var(--hero-text-color);
+.box-submit-btn-and-error-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
 }
 
-.container-card-form-and-title.login > form > input,
-.container-card-form-and-title.sign > form > input {
-  padding: 13px;
-  border: none;
-  border-radius: 5px;
-  background-color: var(--main-background-color);
-  border: 1px solid var(--border-card-color);
-  color: var(--hero-text-color);
-  margin-bottom: 10px;
+.box-submit-btn-and-error-msg > span {
+  font-family: nunito;
+  font-weight: 300;
+  color: var(--error-text-color);
+  align-self: start;
+  display: none;
+  font-size: 0.8rem;
 }
 
-.container-card-form-and-title.login > form > input:focus,
-.container-card-form-and-title.sign > form > input:focus {
-  outline: 1px solid var(--main-opponent-color);
+.box-submit-btn-and-error-msg.error > span {
+  display: initial;
 }
 
-.container-card-form-and-title.login > form > button {
+.box-submit-btn-and-error-msg > button {
   border: none;
   padding: 14px;
   border-radius: 5px;
@@ -136,8 +136,7 @@
 
 /* this style add to input password and name and email */
 .box-password-sign-up,
-.box-input-name,
-.box-input-email {
+.box-input-password.login {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -145,9 +144,18 @@
   position: relative;
 }
 
+.box-input-name,
+.box-input-email {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
 .box-password-sign-up > input,
 .box-input-name > input,
-.box-input-email > input {
+.box-input-email > input,
+.box-input-password.login > input {
   padding: 13px;
   border: none;
   border-radius: 5px;
@@ -164,11 +172,13 @@
 
 .box-password-sign-up > input:focus,
 .box-input-name > input:focus,
-.box-input-email > input:focus {
+.box-input-email > input:focus,
+.box-input-password.login > input:focus {
   outline: 1px solid var(--main-opponent-color);
 }
 
-.box-password-sign-up > svg {
+.box-password-sign-up > svg,
+.box-input-password.login > svg {
   position: absolute;
   right: 12px;
   padding: 0;
@@ -182,7 +192,12 @@
   transition: color 0.2s;
 }
 
-.box-password-sign-up > svg:hover {
+.box-input-password.login > svg {
+  top: 59.5%;
+}
+
+.box-password-sign-up > svg:hover,
+.box-input-password.login > svg:hover {
   color: var(--hero-text-color);
 }
 
@@ -199,6 +214,8 @@
   font-size: 0.8rem;
   margin-top: 3px;
   display: none;
+  font-family: nunito;
+  font-weight: 300;
 }
 
 .box-input-name.error > span,
@@ -270,20 +287,4 @@
 
 .box-submit-and-checkbox-sign-up > button:hover {
   background-color: var(--color-hover-button-auth);
-}
-
-.spinner-load {
-  width: 37px;
-  height: 37px;
-  border-radius: 50%;
-  border: 3px solid var(--main-opponent-color);
-  border-top-color: var(--main-background-color);
-  animation: spin 0.8s linear infinite;
-  margin-top: 10px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }

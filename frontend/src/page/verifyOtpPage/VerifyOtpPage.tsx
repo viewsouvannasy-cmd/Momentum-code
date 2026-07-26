@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router";
 import { useState } from "react";
 import axios from "axios";
+import { LoadButton } from "../../components/load-button/LoadButton";
 
 import "./VerifyOtpPage.css";
 
@@ -31,7 +32,7 @@ export function VerifyOtpPage() {
   const fetchVerifyOtpEmail = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/users/verify-otp",
+        "http://localhost:4000/api/auth/verify-otp",
         {
           user_name: user_name,
           user_email: user_email,
@@ -106,11 +107,7 @@ export function VerifyOtpPage() {
         <span className="count-expires">
           expires code in<span> 5 min</span>
         </span>
-        {!isLoading ? (
-          <button type="submit">Verify</button>
-        ) : (
-          <div className="spinner-load"></div>
-        )}
+        {!isLoading ? <button type="submit">Verify</button> : <LoadButton />}
       </form>
       <Link className="back-to-sign-up-from-verify" to="/sign">
         <svg

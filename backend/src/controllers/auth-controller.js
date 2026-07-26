@@ -1,9 +1,12 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 import { vaildateFormatEamil, checkDomainEamil } from "../utils/validation.js";
 import { sentOtpEmail, genrateOtp } from "../service/emailService.js";
 import { sql } from "../config/database.js";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../utils/generateToken.js";
 
 // this function is use to check valid info of user
 // and check that user email is truly have
@@ -123,16 +126,8 @@ const verifyUserOTP = async (req, res) => {
   }
 
   // genrate access token and refresh token
-  const accessToken = jwt.sign(
-    { user_name: user_name },
-    process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "30s" },
-  );
-  const refreshToken = jwt.sign(
-    { user_name: user_name },
-    process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: "15d" },
-  );
+  const accessToken = generateAccessToken(user_name);
+  const refreshToken = generateRefreshToken(user_name);
 
   //hashing password and refresh token before store
   const hashPassword = await bcrypt.hash(user_password, 10);
@@ -164,9 +159,53 @@ const verifyUserOTP = async (req, res) => {
   });
 };
 
+// validate user login
+const handleLogin = async (req, res) => {
+  const { user_name, user_password } = req.body;
+
+  // find user
+  const findUser = await sql`
+  SELECT
+  *
+  FROM users
+  WHERE user_name = ${user_name}
+  `;
+  if (findUser.length === 0) {
+    return res.status(401).json({
+      success: false,
+      msg: "name or password is wrong try again",
+    });
+  }
+
+  // compare hash password
+  const comparePassword = await bcrypt.compare(
+    user_password,
+    findUser[0].user_password,
+  );
+  if (!comparePassword) {
+    return res.status(401).json({
+      success: false,
+      msg: "name or password is wrong try again",
+    });
+  }
+
+  // generate refresh token and hast it
+  const refreshToken = generateRefreshToken(user_name);
+  const hasdRefreshToken = await bcrypt.hash(refreshToken, 10);
+
+  // update refreshToken in database
+  await sql`
+  UPDATE users
+  SET refresh_token = ${hasdRefreshToken}
+  WHERE user_name = ${user_name}
+  `;
+
+  res.status(200).json({ success: true, msg: "login successful" });
+};
+
 const getInfoUser = async (req, res) => {
   const { user_name } = req.params;
   res.status(200).json({ msg: `hello ${user_name}` });
 };
 
-export { createAccount, verifyUserOTP, getInfoUser };
+export { createAccount, verifyUserOTP, handleLogin, getInfoUser };

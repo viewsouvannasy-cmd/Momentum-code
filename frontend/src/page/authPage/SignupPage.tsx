@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
+import { LoadButton } from "../../components/load-button/LoadButton";
 import "./authPage.css";
 
 type fetchResult = {
@@ -38,7 +39,7 @@ export function SignupPage() {
   const fetchCreateAccount = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/users/create-account",
+        "http://localhost:4000/api/auth/create-account",
         {
           user_name: inputName,
           user_email: inputEmail,
@@ -194,7 +195,7 @@ export function SignupPage() {
               {!isLoading ? (
                 <button type="submit">Create account</button>
               ) : (
-                <div className="spinner-load"></div>
+                <LoadButton />
               )}
             </div>
           </form>
