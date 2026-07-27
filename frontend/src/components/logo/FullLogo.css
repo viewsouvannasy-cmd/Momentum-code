@@ -3,6 +3,7 @@
   gap: 5px;
   text-decoration: none;
   cursor: pointer;
+  align-items: center;
 }
 
 .container-logo img {
@@ -11,5 +12,5 @@
 
 .container-logo p {
   font-weight: 550;
-  color: white;
+  color: var(--main-opponent-color);
 }

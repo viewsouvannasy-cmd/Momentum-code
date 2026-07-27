@@ -82,7 +82,7 @@
 }
 
 .box-submit-btn-and-error-msg > span {
-  font-family: nunito;
+  font-family: nunito, sans-serif;
   font-weight: 300;
   color: var(--error-text-color);
   align-self: start;
@@ -207,7 +207,7 @@
   font-size: 0.8rem;
   margin-top: 3px;
   display: none;
-  font-family: nunito;
+  font-family: nunito, sans-serif;
   font-weight: 300;
 }
 

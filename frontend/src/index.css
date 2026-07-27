@@ -11,6 +11,7 @@
   --card-color: #232323;
   --border-card-color: #454545;
   --error-text-color: #ef4444;
+  --hero-text-color-opponent: #000000;
   --color-hover-button-auth: rgba(255, 255, 255, 0.7);
   --main-opponent-color: #fafafa;
   --border-opponent-color: #cccccc;
@@ -21,6 +22,7 @@ body {
   padding: 0;
   font-family: quicksand, sans-serif;
   color: var(--hero-text-color);
+  background-color: var(--main-background-color);
 }
 
 h1,

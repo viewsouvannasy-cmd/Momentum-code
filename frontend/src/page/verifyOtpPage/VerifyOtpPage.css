@@ -70,7 +70,7 @@
 .box-verift-otp-input-with-error-message > span {
   color: var(--error-text-color);
   display: none;
-  font-family: nunito;
+  font-family: nunito, sans-serif;
 }
 
 .box-verift-otp-input-with-error-message.error > input {

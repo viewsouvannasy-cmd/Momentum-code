@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router";
 import { useState } from "react";
 import axios from "axios";
 import { LoadButton } from "../../components/load-button/LoadButton";
-import { HeaderAuth } from "../../components/header-auth/HeaderAuth";
+import { FullLogo } from "../../components/logo/FullLogo";
 import "./authPage.css";
 
 type fetchResult = {
@@ -65,7 +65,9 @@ export function LoginPage() {
     <div className="container-background-image login">
       <img src="/background-image.png" />
       <div>
-        <HeaderAuth />
+        <div>
+          <FullLogo />
+        </div>
         <div className="container-card-form-and-title-main">
           <div className="container-card-form-and-title login">
             <div>

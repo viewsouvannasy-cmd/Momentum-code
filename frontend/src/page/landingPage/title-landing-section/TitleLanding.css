@@ -1,0 +1,107 @@
+.container-title-landing-main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 70px 13px 0 13px;
+  max-width: 2000px;
+  margin-top: 60px;
+}
+
+.container-title-landing {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-title-landing > h1 {
+  font-weight: 400;
+  font-size: clamp(1.5rem, 4vw + 1rem, 3.1rem);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.normal-text {
+  animation: appearOpacity 2s forwards;
+}
+
+.hightlight-text {
+  display: inline-block;
+  color: black;
+  background-color: var(--main-opponent-color);
+  font-weight: 600;
+}
+
+.hightlight-text.one {
+  animation: appearFromRight 1.3s forwards ease-out;
+}
+
+.hightlight-text.two {
+  animation: appearFromLeft 1.3s forwards ease-out;
+}
+
+.container-title-landing > p {
+  margin-top: 20px;
+  text-align: center;
+  font-family: nunito;
+  color: #cccccc;
+  font-size: clamp(0.75rem, 2.5vw, 1rem);
+
+  animation: appearOpacity 2s forwards;
+}
+
+.container-title-landing > div {
+  display: flex;
+  margin-top: 30px;
+  gap: 20px;
+
+  animation: appearOpacity 2s forwards;
+}
+
+.container-title-landing > div * {
+  text-decoration: none;
+  padding: 12px 19px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+}
+
+.link-how-it-work {
+  color: var(--hero-text-color);
+  background-color: transparent;
+  border: 1px solid var(--main-opponent-color);
+
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.link-how-it-work:hover {
+  background-color: var(--main-opponent-color);
+  color: var(--hero-text-color-opponent);
+}
+
+.link-get-start {
+  font-weight: 550;
+  color: var(--hero-text-color-opponent);
+  background-color: var(--main-opponent-color);
+  transition: background-color 0.2s;
+  text-justify: center;
+}
+
+.link-get-start:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+/* --------- this style process --------  */
+
+.container-show-process-main {
+  width: 100%;
+  max-width: 2000px;
+}
+
+.container-show-process-main > img {
+  width: 100%;
+}
