@@ -1,0 +1,15 @@
+.container-logo {
+  display: flex;
+  gap: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.container-logo img {
+  width: 20px;
+}
+
+.container-logo p {
+  font-weight: 550;
+  color: white;
+}

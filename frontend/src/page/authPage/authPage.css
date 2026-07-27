@@ -22,9 +22,16 @@
   height: 100%;
   display: flex;
   padding: 15px;
-  align-items: center;
-  justify-content: center;
   position: absolute;
+  flex-direction: column;
+}
+
+.container-card-form-and-title-main {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container-card-form-and-title.login,
@@ -32,6 +39,8 @@
   max-width: 400px;
   width: 100%;
   margin-bottom: 137px;
+  display: flex;
+  flex-direction: column;
 }
 
 .container-card-form-and-title.login > div:first-child,
@@ -78,7 +87,7 @@
   color: var(--error-text-color);
   align-self: start;
   display: none;
-  font-size: 0.8rem;
+  font-size: 0.6;
 }
 
 .box-submit-btn-and-error-msg.error > span {
@@ -110,22 +119,6 @@
   color: var(--hero-text-color);
   margin-left: 2px;
   font-weight: 500;
-}
-
-.container-logo {
-  top: 15px;
-  left: 15px;
-  position: absolute;
-  display: flex;
-  gap: 5px;
-}
-
-.container-logo img {
-  width: 20px;
-}
-
-.container-logo p {
-  font-weight: 550;
 }
 
 /* -------- additional from sign page ------ */
