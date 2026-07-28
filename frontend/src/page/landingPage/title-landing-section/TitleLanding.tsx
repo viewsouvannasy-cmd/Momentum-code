@@ -27,10 +27,6 @@ export function TitleLanding() {
           </div>
         </div>
       </div>
-
-      <div className="container-show-process-main">
-        <img src="/background-image-black-landing.png" />
-      </div>
     </>
   );
 }

@@ -11,7 +11,7 @@
 @keyframes appearFromLeft {
   0% {
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateX(-50px);
   }
 
   80% {
@@ -26,7 +26,7 @@
 @keyframes appearFromRight {
   0% {
     opacity: 0;
-    transform: translateX(100px);
+    transform: translateX(50px);
   }
 
   80% {
@@ -35,5 +35,27 @@
 
   100% {
     transform: translateX(0px);
+  }
+}
+
+@keyframes appearFromBottom {
+  0% {
+    transform: translateY(100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes appearFromBottomLitle {
+  0% {
+    transform: translateY(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
   }
 }

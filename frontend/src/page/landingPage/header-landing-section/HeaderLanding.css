@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  animation: appearOpacity 2s;
+  animation: appearOpacity 2s forwards;
   max-width: 2000px;
   position: fixed;
   background-color: var(--main-background-color);

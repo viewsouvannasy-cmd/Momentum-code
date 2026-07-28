@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { HeaderLanding } from "./header-landing-section/HeaderLanding";
 import { TitleLanding } from "./title-landing-section/TitleLanding";
+import { AboutPage } from "./about-page/AboutPage";
 import "./LandingPage.css";
 
 export function LandingPage() {
@@ -21,6 +22,7 @@ export function LandingPage() {
     <div className="container-landing-main">
       <HeaderLanding isScroll={isScroll} />
       <TitleLanding />
+      <AboutPage />
     </div>
   );
 }

@@ -1,0 +1,238 @@
+.container-show-process-main {
+  width: 100%;
+  max-width: 2000px;
+  position: relative;
+  height: 100%;
+}
+
+.container-show-process-main > img {
+  width: 100%;
+  object-position: top;
+}
+
+.background-shadow {
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 40px;
+  background-color: #343434;
+  border-radius: 50% 50%;
+  filter: blur(30px);
+  opacity: 0;
+
+  animation: appearOpacity 0.5s forwards ease-in-out 2.8s;
+}
+
+.container-show-process {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10% 15px 0px 13px;
+}
+
+.box-process {
+  display: flex;
+  gap: 30px;
+}
+
+.box-process > div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.box-process > div > p {
+  font-size: clamp(0.85rem, 2vw, 1.2rem);
+  font-weight: 500;
+  opacity: 0;
+}
+
+.box-process > div:nth-child(1) > p {
+  animation: appearFromBottomLitle 1s forwards ease-in-out 0.8s;
+}
+
+.box-process > div:nth-child(2) > p {
+  animation: appearFromBottomLitle 1s forwards ease-in-out 1.3s;
+}
+
+.box-process > div:nth-child(3) > p {
+  animation: appearFromBottomLitle 1s forwards ease-in-out 1.8s;
+}
+
+.to-do-card-landing,
+.doing-card-landing,
+.done-card-landing {
+  background-color: var(--card-color);
+  border-radius: 10px;
+  border: 1px solid var(--border-card-color);
+  padding: 15px;
+  max-width: 300px;
+  display: flex;
+  gap: 10px;
+  opacity: 0;
+}
+
+.to-do-card-landing {
+  animation: appearFromBottom 1s forwards ease-in-out;
+}
+
+.doing-card-landing {
+  animation: appearFromBottom 1s forwards ease-in-out 0.5s;
+}
+
+.done-card-landing {
+  animation: appearFromBottom 1s forwards ease-in-out 1s;
+}
+
+.to-do-card-landing .circle,
+.doing-card-landing .circle,
+.done-card-landing .circle {
+  width: 9px;
+  height: 9px;
+  border-radius: 50px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.to-do-card-landing .circle {
+  background-color: var(--todo-state-color);
+}
+
+.doing-card-landing .circle {
+  background-color: var(--doing-state-color);
+}
+
+.done-card-landing .circle {
+  background-color: var(--done-state-color);
+}
+
+.to-do-card-landing > div:last-child,
+.doing-card-landing > div:last-child,
+.done-card-landing > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.to-do-card-landing > div:last-child > span,
+.doing-card-landing > div:last-child > span,
+.done-card-landing > div:last-child > span {
+  font-family: nunito, sans-serif;
+  font-weight: 350;
+  font-size: 0.85rem;
+  color: var(--sub-text-color);
+}
+
+/* ----- this is style for about section ------  */
+
+.container-about-section-main {
+  margin-top: -33%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 100px;
+  z-index: 888;
+  padding: 13px;
+}
+
+.container-about-section-main > h2 {
+  font-weight: 500;
+  font-size: clamp(1.3rem, 2vw, 2rem);
+}
+
+.container-card-about-and-why {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  gap: 20px;
+}
+
+.container-card-about-and-why > div {
+  background-color: #232323d7;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border-card-color);
+  max-height: 300px;
+  position: relative;
+}
+
+.container-card-about-and-why > div > p {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 500;
+}
+
+.box-wrap-text {
+  height: 90%;
+  overflow-y: scroll;
+}
+
+.box-wrap-text span {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  color: #cccccc;
+}
+
+@media (max-width: 750px) {
+  .container-show-process-main {
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+
+  .container-show-process-main > img {
+    width: 800px;
+  }
+}
+
+@media (max-width: 650px) {
+  .to-do-card-landing > div:last-child > p,
+  .doing-card-landing > div:last-child > p,
+  .done-card-landing > div:last-child > p {
+    display: none;
+  }
+
+  .box-process {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .box-process > div {
+    width: 100%;
+    gap: 15px;
+  }
+
+  .to-do-card-landing,
+  .doing-card-landing,
+  .done-card-landing {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .container-about-section-main {
+    margin-top: -55%;
+  }
+}
+
+@media (max-width: 500px) {
+  .container-card-about-and-why {
+    flex-direction: column;
+  }
+  .container-card-about-and-why > div {
+    width: 100%;
+  }
+}

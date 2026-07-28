@@ -34,11 +34,11 @@
 }
 
 .hightlight-text.one {
-  animation: appearFromRight 1.3s forwards ease-out;
+  animation: appearFromRight 1s forwards ease-in-out;
 }
 
 .hightlight-text.two {
-  animation: appearFromLeft 1.3s forwards ease-out;
+  animation: appearFromLeft 1s forwards ease-in-out;
 }
 
 .container-title-landing > p {
@@ -96,12 +96,3 @@
 }
 
 /* --------- this style process --------  */
-
-.container-show-process-main {
-  width: 100%;
-  max-width: 2000px;
-}
-
-.container-show-process-main > img {
-  width: 100%;
-}
