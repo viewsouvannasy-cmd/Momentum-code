@@ -142,6 +142,7 @@
   gap: 100px;
   z-index: 888;
   padding: 13px;
+  position: relative;
 }
 
 .container-about-section-main > h2 {
@@ -184,6 +185,11 @@
   font-family: nunito, sans-serif;
   font-weight: 300;
   color: #cccccc;
+}
+
+.container-about-section-main .point {
+  position: absolute;
+  top: -110px;
 }
 
 @media (max-width: 750px) {

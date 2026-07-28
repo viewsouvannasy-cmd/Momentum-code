@@ -5,6 +5,7 @@
   padding: 70px 13px 0 13px;
   max-width: 2000px;
   margin-top: 60px;
+  position: relative;
 }
 
 .container-title-landing {
@@ -95,4 +96,7 @@
   background-color: var(--color-hover-button-auth);
 }
 
-/* --------- this style process --------  */
+.container-title-landing-main .point {
+  position: absolute;
+  top: -60px;
+}

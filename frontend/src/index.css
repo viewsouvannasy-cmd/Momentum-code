@@ -21,13 +21,16 @@
   --border-opponent-color: #cccccc;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: quicksand, sans-serif;
   color: var(--hero-text-color);
   background-color: var(--main-background-color);
-  scroll-behavior: smooth;
   height: 300vh;
 }
 

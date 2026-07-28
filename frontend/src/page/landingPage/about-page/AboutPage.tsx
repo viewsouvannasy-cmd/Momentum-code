@@ -92,6 +92,7 @@ export function AboutPage() {
             </div>
           </div>
         </div>
+        <div className="point" id="about-section"></div>
       </div>
     </>
   );

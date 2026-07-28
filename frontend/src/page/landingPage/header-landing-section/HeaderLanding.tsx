@@ -14,10 +14,10 @@ export function HeaderLanding({ isScroll }: prop) {
         <FullLogo />
       </div>
       <div className="header-middle-section">
-        <button>Home</button>
-        <button>About</button>
-        <button>Featrue</button>
-        <button>Contact</button>
+        <a href="#home-section">Home</a>
+        <a href="#about-section">About</a>
+        <a href="#featrue-section">Featrue</a>
+        <a>Contact</a>
       </div>
       <div className="header-right-section">
         <Link className="link-log-in-page" to="/login">

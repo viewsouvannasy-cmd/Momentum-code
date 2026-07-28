@@ -28,7 +28,7 @@
   gap: 15px;
 }
 
-.header-middle-section > button {
+.header-middle-section > a {
   border: none;
   background-color: transparent;
   color: var(--hero-text-color);
@@ -36,11 +36,12 @@
   cursor: pointer;
   padding: 7px 15px;
   border-radius: 50px;
+  text-decoration: none;
 
   transition: background-color 0.2s;
 }
 
-.header-middle-section > button:hover,
+.header-middle-section > a:hover,
 .link-log-in-page:hover {
   background-color: var(--card-color);
 }
