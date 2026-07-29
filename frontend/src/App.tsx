@@ -3,6 +3,7 @@ import { LoginPage } from "./page/authPage/LoginPage";
 import { SignupPage } from "./page/authPage/SignupPage";
 import { VerifyOtpPage } from "./page/verifyOtpPage/VerifyOtpPage";
 import { LandingPage } from "./page/landingPage/LandingPage";
+
 import { AppPage } from "./page/app-page/AppPage";
 
 function App() {

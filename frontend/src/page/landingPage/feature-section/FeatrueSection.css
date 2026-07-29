@@ -31,7 +31,7 @@
 .container-featrue-grid > div {
   border: 1px solid var(--border-card-color);
   border-radius: 10px;
-  background-color: #232323d7;
+  background-color: rgba(35, 35, 35, 0.85);
 }
 
 .container-featrue-grid > div:nth-child(1) {

@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+/* normal color dark */
 :root {
   --main-background-color: #111111;
   --hero-text-color: #ffffff;
@@ -21,8 +22,80 @@
   --border-opponent-color: #cccccc;
 }
 
+/* option color light */
+[data-theme="white"] {
+  --main-background-color: #fafafa;
+  --hero-text-color: #000000;
+  --sub-text-color: #777777;
+  --card-color: #ffffff;
+  --border-card-color: #cccccc;
+  --error-text-color: #ef4444;
+  --todo-state-color: #aaaaaa;
+  --doing-state-color: #3b82f6;
+  --done-state-color: #22c55e;
+
+  /* ----- */
+  --hero-text-color-opponent: #ffffff;
+  --color-hover-button-auth: rgba(17, 17, 17, 0.7);
+  --main-opponent-color: #111111;
+  --border-opponent-color: #454545;
+}
+
+/* --- this from header --- */
+[data-theme="white"] .header-middle-section > a:hover,
+[data-theme="white"] .link-log-in-page:hover {
+  background-color: #eeeeee;
+}
+
+/* this from title landing page */
+[data-theme="white"] .container-title-landing > p {
+  color: var(--sub-text-color);
+}
+
+/* this from about section landing page */
+[data-theme="white"] .box-wrap-text span {
+  color: black;
+}
+[data-theme="white"] .background-shadow {
+  background-color: #bbbbbb;
+}
+
+/* this for log in and sign up page */
+[data-theme="white"] .container-card-form-and-title.login > form,
+[data-theme="white"] .container-card-form-and-title.sign > form,
+[data-theme="white"] .box-input-otp-verify {
+  box-shadow: 0 1px 4px 0 gray;
+}
+[data-theme="white"]
+  .container-card-form-and-title.login
+  > div:first-child
+  > span,
+[data-theme="white"]
+  .container-card-form-and-title.sign
+  > div:first-child
+  > span,
+[data-theme="white"] .container-card-form-and-title.login > p,
+[data-theme="white"] .container-card-form-and-title.sign > p,
+[data-theme="white"] .box-password-sign-up > span,
+[data-theme="white"] .box-submit-and-checkbox-sign-up > div:first-child > p {
+  color: #454545;
+}
+
+/* this for featrue section landing page */
+[data-theme="white"] .container-featrue-grid > div,
+[data-theme="white"] .container-card-about-and-why > div {
+  background-color: rgb(255, 255, 255, 0.9);
+  box-shadow: 0 1px 4px 0 gray;
+}
+
+/* this for footer landing page */
+[data-theme="white"] .link-sign-up:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
 html {
   scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
 body {
@@ -31,7 +104,6 @@ body {
   font-family: quicksand, sans-serif;
   color: var(--hero-text-color);
   background-color: var(--main-background-color);
-  height: 300vh;
 }
 
 h1,

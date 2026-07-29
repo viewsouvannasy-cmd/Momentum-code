@@ -101,10 +101,12 @@
   cursor: pointer;
   transition: background-color 0.2s;
   font-weight: 550;
+  background-color: var(--main-opponent-color);
+  color: var(--hero-text-color-opponent);
 }
 
-.container-card-form-and-title.login > form > button:hover {
-  background-color: rgba(255, 255, 255, 0.7);
+.box-submit-btn-and-error-msg > button:hover {
+  background-color: var(--color-hover-button-auth);
 }
 
 .container-card-form-and-title.login > p,
@@ -276,8 +278,22 @@
   transition: background-color 0.2s;
   font-weight: 550;
   margin-top: 8px;
+  background-color: var(--main-opponent-color);
+  color: var(--hero-text-color-opponent);
 }
 
 .box-submit-and-checkbox-sign-up > button:hover {
   background-color: var(--color-hover-button-auth);
+}
+
+@media (max-width: 700px) {
+  .container-background-image.login,
+  .container-background-image.sign {
+    overflow-x: hidden;
+  }
+
+  .container-background-image.login > img,
+  .container-background-image.sign > img {
+    width: 800px;
+  }
 }

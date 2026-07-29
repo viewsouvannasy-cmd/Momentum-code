@@ -93,6 +93,8 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s;
+  color: var(--hero-text-color-opponent);
+  background-color: var(--main-opponent-color);
 }
 
 .box-input-otp-verify > button:hover {

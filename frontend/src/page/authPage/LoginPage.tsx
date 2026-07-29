@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { LoadButton } from "../../components/load-button/LoadButton";
 import { FullLogo } from "../../components/logo/FullLogo";
+import useToggleTheme from "../../store/theme/useToggleTheme";
 import "./authPage.css";
 
 type fetchResult = {
@@ -12,6 +13,9 @@ type fetchResult = {
 
 export function LoginPage() {
   const navigate = useNavigate();
+
+  // this is use to change color of image
+  const { themeColor } = useToggleTheme();
 
   const [isLoading, setIsLading] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState("close");
@@ -63,7 +67,7 @@ export function LoginPage() {
 
   return (
     <div className="container-background-image login">
-      <img src="/background-image.png" />
+      <img src={`/background-image-${themeColor}.png`} />
       <div>
         <div>
           <FullLogo />

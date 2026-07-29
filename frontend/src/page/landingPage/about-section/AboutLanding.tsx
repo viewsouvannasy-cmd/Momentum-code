@@ -1,10 +1,12 @@
-import "./AboutPage.css";
+import "./AboutLanding.css";
+import useToggleTheme from "../../../store/theme/useToggleTheme.ts";
+export function AboutLanding() {
+  const { themeColor } = useToggleTheme();
 
-export function AboutPage() {
   return (
     <>
       <div className="container-show-process-main">
-        <img src="/background-image-black-landing.png" />
+        <img src={`/background-image-${themeColor}-landing.png`} />
         <div className="background-shadow"></div>
         <div className="container-show-process">
           <div className="box-process">

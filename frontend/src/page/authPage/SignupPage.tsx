@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router";
 import { LoadButton } from "../../components/load-button/LoadButton";
 import { FullLogo } from "../../components/logo/FullLogo";
+import useToggleTheme from "../../store/theme/useToggleTheme";
 import "./authPage.css";
 
 type fetchResult = {
@@ -12,6 +13,9 @@ type fetchResult = {
 };
 
 export function SignupPage() {
+  // this use to change image color
+  const { themeColor } = useToggleTheme();
+
   const navigate = useNavigate();
 
   const [isCheck, setIsCheck] = useState(false);
@@ -99,7 +103,7 @@ export function SignupPage() {
 
   return (
     <div className="container-background-image sign">
-      <img src="/background-image.png" />
+      <img src={`/background-image-${themeColor}.png`} />
       <div>
         <div>
           <FullLogo />
@@ -193,7 +197,7 @@ export function SignupPage() {
                     role="button"
                     onClick={handleIsCheck}
                   >
-                    <img src="/icon/check-icon.png" />
+                    <img src={`/icon/check-icon-${themeColor}.png`} />
                   </div>
                   <p>
                     I agree to Momentum's <span>Terms of Service</span> and{" "}

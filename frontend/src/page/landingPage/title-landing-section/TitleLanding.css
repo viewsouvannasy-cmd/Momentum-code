@@ -29,7 +29,7 @@
 
 .hightlight-text {
   display: inline-block;
-  color: black;
+  color: var(--hero-text-color-opponent);
   background-color: var(--main-opponent-color);
   font-weight: 600;
 }

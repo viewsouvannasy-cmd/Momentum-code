@@ -17,7 +17,7 @@ export function HeaderLanding({ isScroll }: prop) {
         <a href="#home-section">Home</a>
         <a href="#about-section">About</a>
         <a href="#featrue-section">Featrue</a>
-        <a>Contact</a>
+        <a href="#contact-section">Contact</a>
       </div>
       <div className="header-right-section">
         <Link className="link-log-in-page" to="/login">
