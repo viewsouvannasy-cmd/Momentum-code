@@ -1,10 +1,24 @@
 import { Link } from "react-router";
-
+import dayjs from "dayjs";
+import { useState, useEffect } from "react";
 import useToggleTheme from "../../../store/theme/useToggleTheme.ts";
 import "./FooterLanding.css";
 
 export function FooterLanding() {
   const { themeColor, toggle } = useToggleTheme();
+  const [days, setDays] = useState("");
+  const [hours, setHours] = useState("");
+  const [mintues, setMintues] = useState("");
+  const [seconds, setSeconds] = useState("");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setDays(dayjs(new Date()).format("D"));
+      setHours(dayjs(new Date()).format("hh"));
+      setMintues(dayjs(new Date()).format("mm"));
+      setSeconds(dayjs(new Date()).format("ss"));
+    }, 1000);
+  }, [days, hours, mintues, seconds]);
 
   return (
     <div className="cnotainer-footer-section-main" id="contact-section">
@@ -31,26 +45,26 @@ export function FooterLanding() {
               <img
                 src={`/icon/${themeColor === "black" ? "light-mode" : "dark-mode"}.png`}
               />
-              Light mode
+              {themeColor === "black" ? "Light" : "Dark"} mode
             </button>
           </div>
         </div>
         <div className="box-footer-right">
           <div>
             <div>
-              <h2>02</h2>
+              <h2>{days}</h2>
               <span>Days</span>
             </div>
             <div>
-              <h2>20</h2>
+              <h2>{hours}</h2>
               <span>Hours</span>
             </div>
             <div>
-              <h2>02</h2>
+              <h2>{mintues}</h2>
               <span>Minutes</span>
             </div>
             <div>
-              <h2>02</h2>
+              <h2>{seconds}</h2>
               <span>Seonds</span>
             </div>
           </div>
