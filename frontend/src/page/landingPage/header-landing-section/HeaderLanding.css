@@ -49,9 +49,32 @@
 .header-right-section {
   display: flex;
   gap: 10px;
+
+  align-items: center;
 }
 
-.header-right-section * {
+.header-right-section .spinner-load {
+  margin: 0;
+  width: 25px;
+  height: 25px;
+}
+
+.link-log-in-page {
+  color: var(--hero-text-color);
+  background-color: transparent;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 50px;
+  font-weight: 600;
+  background-color: var(--main-background-color);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.link-sign-up-page {
+  color: var(--hero-text-color-opponent);
   border: none;
   padding: 8px 15px;
   border-radius: 50px;
@@ -61,15 +84,6 @@
   transition: background-color 0.2s;
   text-decoration: none;
   font-size: 0.95rem;
-}
-
-.link-log-in-page {
-  color: var(--hero-text-color);
-  background-color: transparent;
-}
-
-.link-sign-up-page {
-  color: var(--hero-text-color-opponent);
 }
 
 .link-sign-up-page:hover {
@@ -89,12 +103,18 @@
     gap: 5px;
   }
 
-  .header-right-section * {
+  .header-middle-section {
+    display: none;
+  }
+
+  .link-log-in-page,
+  .link-sign-up-page {
     font-size: 0.85rem;
     padding: 7px 13px;
   }
 
-  .header-middle-section {
-    display: none;
+  .header-right-section .spinner-load {
+    width: 20px;
+    height: 20px;
   }
 }

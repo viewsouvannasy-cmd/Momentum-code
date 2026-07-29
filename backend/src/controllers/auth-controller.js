@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-
+import jwt from "jsonwebtoken";
 import { vaildateFormatEamil, checkDomainEamil } from "../utils/validation.js";
 import { sentOtpEmail, genrateOtp } from "../service/emailService.js";
 import { sql } from "../config/database.js";
@@ -147,8 +147,8 @@ const verifyUserOTP = async (req, res) => {
 
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
-    sameSite: "None",
-    secure: true,
+    sameSite: "Lax",
+    secure: false,
     maxAge: 15 * 24 * 60 * 60 * 1000,
   });
 
@@ -200,7 +200,80 @@ const handleLogin = async (req, res) => {
   WHERE user_name = ${user_name}
   `;
 
+  res.cookie("jwt", refreshToken, {
+    httpOnly: true,
+    sameSite: "Lax",
+    secure: false,
+    maxAge: 15 * 24 * 60 * 60 * 1000,
+  });
+
   res.status(200).json({ success: true, msg: "login successful" });
+};
+
+const handleLogout = async (req, res) => {
+  const cookie = req.cookies;
+
+  if (!cookie?.jwt) {
+    return res.status(404).json({ success: false, msg: "jwt is not fount" });
+  }
+
+  // find user
+  const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
+
+  const findUser = await sql`
+  SELECT
+  * 
+  FROM users
+  WHERE user_name = ${payload.user_name}
+  `;
+  if (findUser.length === 0) {
+    res.status(404).json({
+      success: false,
+      msg: "user is not found",
+    });
+  }
+
+  // remove refresh token from database
+  await sql`
+  UPDATE users
+  SET refresh_token = ''
+  WHERE user_name = ${payload.user_name}
+  `;
+
+  res.clearCookie("jwt", { httpOnly: true });
+
+  res.status(200).json({ success: true, msg: "log out" });
+};
+
+// this funciton use to check user is already in system
+// if in, will send that user to app page or user refresh token is not expires
+const checkUser = async (req, res) => {
+  const cookie = req.cookies;
+
+  // check that token jwt is exist
+  if (!cookie?.jwt) {
+    res.clearCookie("jwt", { httpOnly: true });
+    return res
+      .status(401)
+      .json({ success: false, msg: "cookie jwt is not found" });
+  }
+
+  // find user
+  const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
+  const findUser = await sql`
+  SELECT
+  * 
+  FROM users
+  WHERE user_name = ${payload.user_name}
+  `;
+  if (findUser.length === 0) {
+    res.status(404).json({
+      success: false,
+      msg: "user is not found",
+    });
+  }
+
+  res.status(200).json({ success: true });
 };
 
 const getInfoUser = async (req, res) => {
@@ -208,4 +281,11 @@ const getInfoUser = async (req, res) => {
   res.status(200).json({ msg: `hello ${user_name}` });
 };
 
-export { createAccount, verifyUserOTP, handleLogin, getInfoUser };
+export {
+  createAccount,
+  verifyUserOTP,
+  handleLogin,
+  handleLogout,
+  checkUser,
+  getInfoUser,
+};

@@ -1,13 +1,39 @@
-import { Link } from "react-router";
-
+import { Link, useNavigate } from "react-router";
+import { useState } from "react";
+import { checkUser } from "../../../store/auth/checkUse.ts";
 import { FullLogo } from "../../../components/logo/FullLogo";
+import { LoadButton } from "../../../components/load-button/LoadButton";
 import "./HeaderLanding.css";
 
 type prop = {
   isScroll: number;
 };
 
+type fetchResult = {
+  success: boolean;
+  msg?: string;
+};
+
 export function HeaderLanding({ isScroll }: prop) {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleFetchCheckUser = async () => {
+    setIsLoading(true);
+    const checkResult = await checkUser();
+    handleToPage(checkResult);
+  };
+
+  function handleToPage(data: fetchResult) {
+    if (data.success) {
+      navigate("/app");
+      setIsLoading(false);
+      return;
+    }
+    navigate("/login");
+    setIsLoading(false);
+  }
+
   return (
     <div className={`container-header-landing ${isScroll > 0 && "add"}`}>
       <div className="header-left-section">
@@ -20,9 +46,10 @@ export function HeaderLanding({ isScroll }: prop) {
         <a href="#contact-section">Contact</a>
       </div>
       <div className="header-right-section">
-        <Link className="link-log-in-page" to="/login">
-          Log in
-        </Link>
+        <button className="link-log-in-page" onClick={handleFetchCheckUser}>
+          {!isLoading ? "Log in" : <LoadButton />}
+        </button>
+
         <Link className="link-sign-up-page" to="sign">
           Sign up
         </Link>

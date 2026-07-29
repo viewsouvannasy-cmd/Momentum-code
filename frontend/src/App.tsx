@@ -4,7 +4,7 @@ import { SignupPage } from "./page/authPage/SignupPage";
 import { VerifyOtpPage } from "./page/verifyOtpPage/VerifyOtpPage";
 import { LandingPage } from "./page/landingPage/LandingPage";
 
-import { AppPage } from "./page/app-page/AppPage";
+import { AppPage } from "./page/appPage/AppPage";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/sign" element={<SignupPage />} />
       <Route path="/verify-otp/:name" element={<VerifyOtpPage />} />
-      <Route path="/app/:user_name" element={<AppPage />} />
+      <Route path="/app" element={<AppPage />} />
     </Routes>
   );
 }

@@ -4,6 +4,7 @@ import { TitleLanding } from "./title-landing-section/TitleLanding";
 import { AboutLanding } from "./about-section/AboutLanding";
 import { FeatrueSection } from "./feature-section/FeatrueSection";
 import { FooterLanding } from "./footer-section/FooterLanding";
+
 import "./LandingPage.css";
 
 export function LandingPage() {

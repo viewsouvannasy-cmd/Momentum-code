@@ -39,6 +39,7 @@ export function VerifyOtpPage() {
           user_password: user_password,
           otp_code: inputOtp,
         },
+        { withCredentials: true },
       );
       setIsLoading(false);
       handleToMainApp(response.data);
@@ -54,7 +55,7 @@ export function VerifyOtpPage() {
     }
   };
 
-  // this function will lead a user to app main
+  // this function will lead a user to main app
   function handleToMainApp(data: fetchResult) {
     if (data.success) {
       navigate(`/app/${user_name}`);
