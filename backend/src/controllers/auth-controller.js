@@ -125,16 +125,12 @@ const verifyUserOTP = async (req, res) => {
     });
   }
 
-  // genrate access token and refresh token
-  const accessToken = generateAccessToken(user_name);
-  const refreshToken = generateRefreshToken(user_name);
-
   //hashing password and refresh token before store
   const hashPassword = await bcrypt.hash(user_password, 10);
   const hasdRefreshToken = await bcrypt.hash(refreshToken, 10);
 
   //store user into database
-  await sql`
+  const user = await sql`
   INSERT INTO users(user_name,user_email,user_password,refresh_token,created_at)
   VALUES (
   ${user_name},
@@ -143,7 +139,14 @@ const verifyUserOTP = async (req, res) => {
   ${hasdRefreshToken},
   CURRENT_TIMESTAMP
   )
+  RETURNING user_id
   `;
+
+  console.log(user);
+
+  // genrate access token and refresh token
+  const accessToken = generateAccessToken(user[0].user_id);
+  const refreshToken = generateRefreshToken(user[0].user_id);
 
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
@@ -154,7 +157,6 @@ const verifyUserOTP = async (req, res) => {
 
   res.status(201).json({
     success: true,
-    msg: `create account user name: ${user_name} successful`,
     accessToken: accessToken,
   });
 };
@@ -210,6 +212,7 @@ const handleLogin = async (req, res) => {
   res.status(200).json({ success: true, msg: "login successful" });
 };
 
+// handle log out
 const handleLogout = async (req, res) => {
   const cookie = req.cookies;
 
@@ -227,6 +230,7 @@ const handleLogout = async (req, res) => {
   WHERE user_name = ${payload.user_name}
   `;
   if (findUser.length === 0) {
+    res.clearCookie("jwt", { httpOnly: true, sameSite: "Lax", secure: false });
     res.status(404).json({
       success: false,
       msg: "user is not found",
@@ -240,7 +244,7 @@ const handleLogout = async (req, res) => {
   WHERE user_name = ${payload.user_name}
   `;
 
-  res.clearCookie("jwt", { httpOnly: true });
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "Lax", secure: false });
 
   res.status(200).json({ success: true, msg: "log out" });
 };

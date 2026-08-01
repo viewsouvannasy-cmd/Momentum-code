@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken";
 
-function generateAccessToken(user_name) {
-  return jwt.sign({ user_name: user_name }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "30s",
+function generateAccessToken(user_id) {
+  return jwt.sign({ user_id: user_id }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "15m",
   });
 }
 
-function generateRefreshToken(user_name) {
-  return jwt.sign({ user_name: user_name }, process.env.REFRESH_TOKEN_SECRET, {
+function generateRefreshToken(user_id) {
+  return jwt.sign({ user_id }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "15d",
   });
 }

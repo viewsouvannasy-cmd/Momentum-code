@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { generateAccessToken } from "../utils/generateToken.js";
 import { sql } from "../config/database.js";
 
 const refreshToken = async (req, res) => {
   try {
-    const { user_id } = req.params;
     const cookie = req.cookies;
 
     // check that token jwt is exist
@@ -13,11 +13,12 @@ const refreshToken = async (req, res) => {
     }
 
     // find user
+    const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
     const findUser = await sql`
     SELECT
     *
     FROM users
-    WHERE user_id = ${user_id}
+    WHERE user_id = ${payload.user_id}
     `;
     if (findUser.length === 0) {
       return res.status(401).json({ msg: "user is not exist" });
@@ -33,22 +34,10 @@ const refreshToken = async (req, res) => {
       return res.status(401).json({ msg: "refresh token is invalid" });
     }
 
-    jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET,
-      (error, decoded) => {
-        if (error || findUser[0].user_name !== decoded.user_name) {
-          return res.status(403).json({ msg: "verify refresh token error" });
-        }
+    // generate access token and send to client
+    const accessToken = generateAccessToken(payload.user_id);
 
-        const accessToken = jwt.sign(
-          { user_name: decoded.user_name },
-          process.env.ACCESS_TOKEN_SECRET,
-          { expiresIn: "30s" },
-        );
-        res.status(200).json({ accessToken: accessToken });
-      },
-    );
+    res.status(200).json({ accessToken: accessToken });
   } catch (error) {
     res.status(500).json({ msg: "internal server error", error });
   }
