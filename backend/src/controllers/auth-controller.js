@@ -76,15 +76,22 @@ const createAccount = async (req, res) => {
       return res.status(500).json({ msg: "we're can not send email" });
     }
 
-    //store otp to a database for compareing
-    await sql`INSERT INTO user_otps(user_name,user_email,otp_code,expires_at)
-      VALUES (
-      ${user_name},
-      ${user_email},
-      ${otp},
-      CURRENT_TIMESTAMP + INTERVAL '5 minutes'
-      )
-    `;
+    // hash otp
+    const otpHash = await bcrypt.hash(otp, 10);
+
+    // generate otp token
+    const otpToken = jwt.sign(
+      { user_name: user_name, otp_code_hash: otpHash },
+      process.env.OTP_TOKEN_SECRET,
+      { expiresIn: "5m" },
+    );
+
+    res.cookie("jwt_otp", otpToken, {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: false,
+      maxAge: 5 * 60 * 1000,
+    });
 
     res
       .status(200)
@@ -99,25 +106,10 @@ const createAccount = async (req, res) => {
 const verifyUserOTP = async (req, res) => {
   const { user_name, user_email, user_password, otp_code } = req.body;
 
-  // check valid otp
-  const checkOtp = await sql`
-  SELECT
-   * 
-  FROM user_otps 
-  WHERE user_name = ${user_name}
-    AND user_email = ${user_email} 
-    AND otp_code = ${otp_code}
-  `;
+  const cookieOtp = req.cookies.jwt_otp;
 
-  if (checkOtp.length === 0) {
-    return res
-      .status(401)
-      .json({ success: false, point: "verify", msg: "Otp code is incorrect" });
-  }
-
-  // check expire
-  const expireAtMs = new Date(checkOtp[0].expires_at).getTime();
-  if (Date.now() > expireAtMs) {
+  //check cookie
+  if (!cookieOtp) {
     return res.status(404).json({
       success: false,
       point: "verify",
@@ -125,28 +117,44 @@ const verifyUserOTP = async (req, res) => {
     });
   }
 
+  // check valid otp code
+  const payload = jwt.verify(cookieOtp, process.env.OTP_TOKEN_SECRET);
+  const compareOtp = await bcrypt.compare(otp_code, payload.otp_code_hash);
+  if (payload.user_name !== user_name || !compareOtp) {
+    return res
+      .status(401)
+      .json({ success: false, point: "verify", msg: "Otp code is incorrect" });
+  }
+
   //hashing password and refresh token before store
   const hashPassword = await bcrypt.hash(user_password, 10);
-  const hasdRefreshToken = await bcrypt.hash(refreshToken, 10);
 
   //store user into database
-  const user = await sql`
+  const [{ user_id }] = await sql`
   INSERT INTO users(user_name,user_email,user_password,refresh_token,created_at)
   VALUES (
   ${user_name},
   ${user_email},    
   ${hashPassword},
-  ${hasdRefreshToken},
+  'null',
   CURRENT_TIMESTAMP
   )
   RETURNING user_id
   `;
 
-  console.log(user);
-
   // genrate access token and refresh token
-  const accessToken = generateAccessToken(user[0].user_id);
-  const refreshToken = generateRefreshToken(user[0].user_id);
+  const accessToken = generateAccessToken(user_id);
+  const refreshToken = generateRefreshToken(user_id);
+
+  //hash refresh token
+  const hasdRefreshToken = await bcrypt.hash(refreshToken, 10);
+
+  // update refresh_token in a database
+  await sql`
+  UPDATE users
+  SET refresh_token = ${hasdRefreshToken}
+  WHERE user_id = ${user_id}
+  `;
 
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
@@ -192,14 +200,14 @@ const handleLogin = async (req, res) => {
   }
 
   // generate refresh token and hast it
-  const refreshToken = generateRefreshToken(user_name);
+  const refreshToken = generateRefreshToken(findUser[0].user_id);
   const hasdRefreshToken = await bcrypt.hash(refreshToken, 10);
 
   // update refreshToken in database
   await sql`
   UPDATE users
   SET refresh_token = ${hasdRefreshToken}
-  WHERE user_name = ${user_name}
+  WHERE user_id = ${findUser[0].user_id}
   `;
 
   res.cookie("jwt", refreshToken, {
@@ -227,7 +235,7 @@ const handleLogout = async (req, res) => {
   SELECT
   * 
   FROM users
-  WHERE user_name = ${payload.user_name}
+  WHERE user_id = ${payload.user_id}
   `;
   if (findUser.length === 0) {
     res.clearCookie("jwt", { httpOnly: true, sameSite: "Lax", secure: false });
@@ -241,7 +249,7 @@ const handleLogout = async (req, res) => {
   await sql`
   UPDATE users
   SET refresh_token = ''
-  WHERE user_name = ${payload.user_name}
+  WHERE user_id = ${payload.user_id}
   `;
 
   res.clearCookie("jwt", { httpOnly: true, sameSite: "Lax", secure: false });
@@ -268,7 +276,7 @@ const checkUser = async (req, res) => {
   SELECT
   * 
   FROM users
-  WHERE user_name = ${payload.user_name}
+  WHERE user_id = ${payload.user_id}
   `;
   if (findUser.length === 0) {
     res.status(404).json({
