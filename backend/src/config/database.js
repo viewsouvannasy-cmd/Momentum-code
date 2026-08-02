@@ -9,7 +9,9 @@ const sql = neon(process.env.NEONDB_URL);
 
 const connectDB = async () => {
   try {
+    console.time();
     const result = await sql`SELECT NOW()`;
+    console.timeEnd();
 
     console.log("NeonBD connected!!", result[0].now);
   } catch (error) {

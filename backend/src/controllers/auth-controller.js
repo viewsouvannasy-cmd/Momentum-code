@@ -104,188 +104,210 @@ const createAccount = async (req, res) => {
 // this actucl function that use to store a user to
 // datebase after verify otp code
 const verifyUserOTP = async (req, res) => {
-  const { user_name, user_email, user_password, otp_code } = req.body;
+  try {
+    const { user_name, user_email, user_password, otp_code } = req.body;
 
-  const cookieOtp = req.cookies.jwt_otp;
+    const cookieOtp = req.cookies.jwt_otp;
 
-  //check cookie
-  if (!cookieOtp) {
-    return res.status(404).json({
-      success: false,
-      point: "verify",
-      msg: "the OTP code has expired",
+    //check cookie
+    if (!cookieOtp) {
+      return res.status(404).json({
+        success: false,
+        point: "verify",
+        msg: "the OTP code has expired",
+      });
+    }
+
+    // check valid otp code
+    const payload = jwt.verify(cookieOtp, process.env.OTP_TOKEN_SECRET);
+    const compareOtp = await bcrypt.compare(otp_code, payload.otp_code_hash);
+    if (payload.user_name !== user_name || !compareOtp) {
+      return res.status(401).json({
+        success: false,
+        point: "verify",
+        msg: "Otp code is incorrect",
+      });
+    }
+
+    //hashing password and refresh token before store
+    const hashPassword = await bcrypt.hash(user_password, 10);
+
+    //store user into database
+    const [{ user_id }] = await sql`
+    INSERT INTO users(user_name,user_email,user_password,refresh_token,created_at)
+    VALUES (
+    ${user_name},
+    ${user_email},    
+    ${hashPassword},
+    'null',
+    CURRENT_TIMESTAMP
+    )
+    RETURNING user_id
+    `;
+
+    // genrate access token and refresh token
+    const accessToken = generateAccessToken(user_id);
+    const refreshToken = generateRefreshToken(user_id);
+
+    //hash refresh token
+    const hasdRefreshToken = await bcrypt.hash(refreshToken, 10);
+
+    // update refresh_token in a database
+    await sql`
+    UPDATE users
+    SET refresh_token = ${hasdRefreshToken}
+    WHERE user_id = ${user_id}
+    `;
+
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: false,
+      maxAge: 15 * 24 * 60 * 60 * 1000,
     });
+
+    res.status(201).json({
+      success: true,
+      accessToken: accessToken,
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "internal server error", error });
   }
-
-  // check valid otp code
-  const payload = jwt.verify(cookieOtp, process.env.OTP_TOKEN_SECRET);
-  const compareOtp = await bcrypt.compare(otp_code, payload.otp_code_hash);
-  if (payload.user_name !== user_name || !compareOtp) {
-    return res
-      .status(401)
-      .json({ success: false, point: "verify", msg: "Otp code is incorrect" });
-  }
-
-  //hashing password and refresh token before store
-  const hashPassword = await bcrypt.hash(user_password, 10);
-
-  //store user into database
-  const [{ user_id }] = await sql`
-  INSERT INTO users(user_name,user_email,user_password,refresh_token,created_at)
-  VALUES (
-  ${user_name},
-  ${user_email},    
-  ${hashPassword},
-  'null',
-  CURRENT_TIMESTAMP
-  )
-  RETURNING user_id
-  `;
-
-  // genrate access token and refresh token
-  const accessToken = generateAccessToken(user_id);
-  const refreshToken = generateRefreshToken(user_id);
-
-  //hash refresh token
-  const hasdRefreshToken = await bcrypt.hash(refreshToken, 10);
-
-  // update refresh_token in a database
-  await sql`
-  UPDATE users
-  SET refresh_token = ${hasdRefreshToken}
-  WHERE user_id = ${user_id}
-  `;
-
-  res.cookie("jwt", refreshToken, {
-    httpOnly: true,
-    sameSite: "Lax",
-    secure: false,
-    maxAge: 15 * 24 * 60 * 60 * 1000,
-  });
-
-  res.status(201).json({
-    success: true,
-    accessToken: accessToken,
-  });
 };
 
 // validate user login
 const handleLogin = async (req, res) => {
-  const { user_name, user_password } = req.body;
+  try {
+    const { user_name, user_password } = req.body;
 
-  // find user
-  const findUser = await sql`
-  SELECT
-  *
-  FROM users
-  WHERE user_name = ${user_name}
-  `;
-  if (findUser.length === 0) {
-    return res.status(401).json({
-      success: false,
-      msg: "name or password is wrong try again",
+    // find user
+    const findUser = await sql`
+    SELECT
+    *
+    FROM users
+    WHERE user_name = ${user_name}
+    `;
+    if (findUser.length === 0) {
+      return res.status(401).json({
+        success: false,
+        msg: "name or password is wrong try again",
+      });
+    }
+
+    // compare hash password
+    const comparePassword = await bcrypt.compare(
+      user_password,
+      findUser[0].user_password,
+    );
+    if (!comparePassword) {
+      return res.status(401).json({
+        success: false,
+        msg: "name or password is wrong try again",
+      });
+    }
+
+    // generate refresh token and hast it
+    const refreshToken = generateRefreshToken(findUser[0].user_id);
+    const hasdRefreshToken = await bcrypt.hash(refreshToken, 10);
+
+    // update refreshToken in database
+    await sql`
+    UPDATE users
+    SET refresh_token = ${hasdRefreshToken}
+    WHERE user_id = ${findUser[0].user_id}
+    `;
+
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: false,
+      maxAge: 15 * 24 * 60 * 60 * 1000,
     });
+
+    res.status(200).json({ success: true, msg: "login successful" });
+  } catch (error) {
+    res.status(500).json({ msg: "internal server error", error });
   }
-
-  // compare hash password
-  const comparePassword = await bcrypt.compare(
-    user_password,
-    findUser[0].user_password,
-  );
-  if (!comparePassword) {
-    return res.status(401).json({
-      success: false,
-      msg: "name or password is wrong try again",
-    });
-  }
-
-  // generate refresh token and hast it
-  const refreshToken = generateRefreshToken(findUser[0].user_id);
-  const hasdRefreshToken = await bcrypt.hash(refreshToken, 10);
-
-  // update refreshToken in database
-  await sql`
-  UPDATE users
-  SET refresh_token = ${hasdRefreshToken}
-  WHERE user_id = ${findUser[0].user_id}
-  `;
-
-  res.cookie("jwt", refreshToken, {
-    httpOnly: true,
-    sameSite: "Lax",
-    secure: false,
-    maxAge: 15 * 24 * 60 * 60 * 1000,
-  });
-
-  res.status(200).json({ success: true, msg: "login successful" });
 };
 
 // handle log out
 const handleLogout = async (req, res) => {
-  const cookie = req.cookies;
+  try {
+    const cookie = req.cookies;
 
-  if (!cookie?.jwt) {
-    return res.status(404).json({ success: false, msg: "jwt is not fount" });
-  }
+    if (!cookie?.jwt) {
+      return res.status(404).json({ success: false, msg: "jwt is not fount" });
+    }
 
-  // find user
-  const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
+    // find user
+    const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
 
-  const findUser = await sql`
-  SELECT
-  * 
-  FROM users
-  WHERE user_id = ${payload.user_id}
+    const findUser = await sql`
+    SELECT
+    * 
+    FROM users
+    WHERE user_id = ${payload.user_id}
+    `;
+    if (findUser.length === 0) {
+      res.clearCookie("jwt", {
+        httpOnly: true,
+        sameSite: "Lax",
+        secure: false,
+      });
+      res.status(404).json({
+        success: false,
+        msg: "user is not found",
+      });
+    }
+
+    // remove refresh token from database
+    await sql`
+    UPDATE users
+    SET refresh_token = ''
+    WHERE user_id = ${payload.user_id}
   `;
-  if (findUser.length === 0) {
+
     res.clearCookie("jwt", { httpOnly: true, sameSite: "Lax", secure: false });
-    res.status(404).json({
-      success: false,
-      msg: "user is not found",
-    });
+
+    res.status(200).json({ success: true, msg: "log out" });
+  } catch (error) {
+    res.status(500).json({ msg: "internal server error", error });
   }
-
-  // remove refresh token from database
-  await sql`
-  UPDATE users
-  SET refresh_token = ''
-  WHERE user_id = ${payload.user_id}
-  `;
-
-  res.clearCookie("jwt", { httpOnly: true, sameSite: "Lax", secure: false });
-
-  res.status(200).json({ success: true, msg: "log out" });
 };
 
 // this funciton use to check user is already in system
 // if in, will send that user to app page or user refresh token is not expires
 const checkUser = async (req, res) => {
-  const cookie = req.cookies;
+  try {
+    const cookie = req.cookies;
 
-  // check that token jwt is exist
-  if (!cookie?.jwt) {
-    res.clearCookie("jwt", { httpOnly: true });
-    return res
-      .status(401)
-      .json({ success: false, msg: "cookie jwt is not found" });
-  }
+    // check that token jwt is exist
+    if (!cookie?.jwt) {
+      res.clearCookie("jwt", { httpOnly: true });
+      return res
+        .status(401)
+        .json({ success: false, msg: "cookie jwt is not found" });
+    }
 
-  // find user
-  const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
-  const findUser = await sql`
+    // find user
+    const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
+    const findUser = await sql`
   SELECT
   * 
   FROM users
   WHERE user_id = ${payload.user_id}
   `;
-  if (findUser.length === 0) {
-    res.status(404).json({
-      success: false,
-      msg: "user is not found",
-    });
-  }
+    if (findUser.length === 0) {
+      res.status(404).json({
+        success: false,
+        msg: "user is not found",
+      });
+    }
 
-  res.status(200).json({ success: true });
+    res.status(200).json({ success: true });
+  } catch (error) {
+    res.status(500).json({ msg: "internal server error", error });
+  }
 };
 
 const getInfoUser = async (req, res) => {
