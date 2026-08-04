@@ -5,7 +5,7 @@ import { LoadButton } from "../../components/load-button/LoadButton";
 
 import "./VerifyOtpPage.css";
 
-type fetchResult = {
+type FetchResult = {
   success: boolean;
   point?: string;
   msg?: string;
@@ -25,7 +25,7 @@ export function VerifyOtpPage() {
   const [inputOtp, setInputOtp] = useState("");
 
   //this state is store value from server
-  const [fetchResult, setFetchResult] = useState<fetchResult>();
+  const [fetchResult, setFetchResult] = useState<FetchResult>();
 
   // this function will send a otp and user info to a server
   // this will save a user to database if valid success
@@ -56,9 +56,9 @@ export function VerifyOtpPage() {
   };
 
   // this function will lead a user to main app
-  function handleToMainApp(data: fetchResult) {
+  function handleToMainApp(data: FetchResult) {
     if (data.success) {
-      navigate(`/app/${user_name}`);
+      navigate(`/app/indox`);
     }
   }
 

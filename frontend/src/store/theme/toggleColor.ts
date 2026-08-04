@@ -1,3 +1,5 @@
+import { addAndRemoveTransition } from "../../utils/addAndRemoveTransition.ts";
+
 // these function this helper useToggleTheme
 
 // get color color from localstorage
@@ -18,21 +20,6 @@ function appltTheme(theme: string) {
   } else {
     document.documentElement.removeAttribute("data-theme");
   }
-}
-
-// add and remove transition
-function addAndRemoveTransition() {
-  const listEl = document.querySelectorAll<HTMLElement>("*");
-
-  listEl.forEach((el) => {
-    el.style.transition = "all 0.3s ease";
-  });
-
-  setTimeout(() => {
-    listEl.forEach((el) => {
-      el.style.transition = "";
-    });
-  }, 500);
 }
 
 // toggle

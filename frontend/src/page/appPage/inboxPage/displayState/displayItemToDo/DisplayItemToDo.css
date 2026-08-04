@@ -1,0 +1,86 @@
+.item-to-do-list {
+  width: 100%;
+  background-color: var(--card-color);
+  display: flex;
+  padding: 10px;
+  border-radius: 10px;
+  padding-bottom: 15px;
+  border: 1px solid var(--border-card-color);
+  align-items: start;
+  justify-content: space-between;
+}
+
+.item-to-do-list > div:nth-child(1) {
+  width: 8px;
+  height: 8px;
+  border-radius: 50px;
+  flex-shrink: 0;
+}
+
+.item-to-do-list.todo > div:nth-child(1) {
+  background-color: var(--todo-state-color);
+}
+
+.item-to-do-list.doing > div:nth-child(1) {
+  background-color: var(--doing-state-color);
+}
+
+.item-to-do-list.done > div:nth-child(1) {
+  background-color: var(--done-state-color);
+}
+
+.item-to-do-list > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: -4px;
+  min-width: 0;
+  margin-left: 10px;
+  flex-grow: 1;
+}
+
+.item-to-do-list > div:nth-child(2) > span {
+  font-weight: 400;
+  font-family: nunito, sans-serif;
+  color: var(--sub-text-color);
+  font-size: 0.8rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.item-to-do-list > button {
+  border: none;
+  padding: 0;
+  padding: 2px;
+  display: flex;
+  border-radius: 3px;
+  background-color: transparent;
+  cursor: pointer;
+  margin-top: -4px;
+
+  transition: background-color 0.2s ease;
+}
+
+.item-to-do-list > button > img {
+  width: 13px;
+}
+
+.item-to-do-list > button:hover {
+  background-color: rgba(69, 69, 69, 0.5);
+}
+
+.container-display-item-group-list {
+  display: flex;
+  gap: 5px;
+  margin-top: 3px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.item-group-list-in-card {
+  font-size: 0.5rem;
+  font-weight: bold;
+  background-color: rgba(59, 131, 246, 0.7);
+  padding: 1px 10px;
+  border-radius: 50px;
+}

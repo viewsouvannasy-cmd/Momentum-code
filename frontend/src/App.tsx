@@ -13,7 +13,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/sign" element={<SignupPage />} />
       <Route path="/verify-otp/:name" element={<VerifyOtpPage />} />
-      <Route path="/app" element={<AppPage />} />
+      <Route path="/app/:section" element={<AppPage />} />
     </Routes>
   );
 }

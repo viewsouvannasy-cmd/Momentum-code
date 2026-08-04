@@ -1,0 +1,260 @@
+.container-inbox-section-main {
+  margin-left: 240px;
+  padding: 20px;
+  padding-left: 35px;
+  padding-right: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.container-inbox-section-main.close {
+  margin-left: 43px;
+}
+
+.container-inbox-section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-inbox-section-header > div:first-child > h1 {
+  font-weight: 550;
+}
+
+.container-inbox-section-header > div:first-child > span {
+  font-weight: 300;
+  color: #999999;
+  font-size: 0.95rem;
+  font-family: nunito, sans-serif;
+}
+
+.container-inbox-section-header > div:last-child {
+  display: flex;
+  gap: 10px;
+}
+
+.container-inbox-section-header > div:last-child > button:first-child {
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  background-color: transparent;
+  color: var(--hero-text-color);
+  border: 1px solid var(--hero-text-color);
+  cursor: pointer;
+  font-size: 0.8rem;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.container-inbox-section-header > div:last-child > button:last-child {
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  background-color: var(--main-opponent-color);
+  font-weight: 550;
+  cursor: pointer;
+  font-size: 0.8rem;
+
+  transition: background-color 0.2s ease;
+}
+
+.container-inbox-section-header > div:last-child > button:first-child:hover {
+  background-color: var(--main-opponent-color);
+  color: var(--hero-text-color-opponent);
+}
+.container-inbox-section-header > div:last-child > button:last-child:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.container-group-inbox-page {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-card-color);
+}
+
+.container-group-inbox-page > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container-group-inbox-page > div:first-child > h3 {
+  font-weight: 500;
+}
+
+.container-group-inbox-page > div:first-child > button {
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  background-color: var(--main-opponent-color);
+  font-weight: 550;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.2s ease;
+}
+
+.container-group-inbox-page > div:first-child > button:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.container-group-inbox-page > div:last-child {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.container-group-inbox-page > div:last-child > div {
+  background-color: rgba(59, 131, 246, 0.7);
+
+  padding: 6px 75px 6px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+.container-to-do-list-state {
+  gap: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* ---------- popup style ------------ */
+
+.container-background-overlay-popup {
+  background-color: rgba(0, 0, 0, 0.58);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-left: 63px;
+  padding-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-background-overlay-popup.open {
+  animation: appearOpacity 0.2s forwards;
+}
+
+.container-background-overlay-popup.close {
+  animation: disAppearOpacity 0.2s forwards;
+}
+
+.container-popup-create-group-list {
+  background-color: var(--card-color);
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+  border: 1px solid var(--border-card-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 20px 3px rgb(103, 103, 103, 0.2);
+}
+
+.container-popup-create-group-list.open {
+  animation: appearFromBottom 0.2s forwards;
+}
+
+.container-popup-create-group-list.close {
+  animation: goDown 0.2s forwards;
+}
+
+.container-popup-create-group-list > div:nth-child(1) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container-popup-create-group-list > div:nth-child(1) > h2 {
+  font-weight: 550;
+  font-size: 1.4rem;
+}
+
+.container-popup-create-group-list > div:nth-child(1) > button {
+  border: none;
+  display: flex;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 3px;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.container-popup-create-group-list
+  > div:nth-child(1)
+  > button:hover
+  .close-x-button {
+  color: white;
+}
+
+.container-popup-create-group-list > div:nth-child(1) > button:hover {
+  background-color: rgba(69, 69, 69, 0.3);
+}
+
+.container-popup-create-group-list > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container-popup-create-group-list > div:nth-child(2) > label,
+.container-popup-create-group-list > div:nth-child(3) > label {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.container-popup-create-group-list > div:nth-child(2) > input {
+  border: 1px solid var(--border-card-color);
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 13px;
+  color: var(--hero-text-color);
+  font-size: 0.8rem;
+}
+
+.container-popup-create-group-list > div:nth-child(2) > input:focus {
+  outline: 1px solid var(--main-opponent-color);
+}
+
+.container-popup-create-group-list > div:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container-popup-create-group-list > div:nth-child(3) > div {
+  display: flex;
+  gap: 10px;
+}
+
+.container-popup-create-group-list > div:nth-child(3) > div > input {
+  width: 60%;
+  border: none;
+  background-color: var(--border-card-color);
+  height: 40px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.container-popup-create-group-list > div:nth-child(3) > div > button {
+  width: 40%;
+  border: none;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.container-popup-create-group-list > div:nth-child(3) > div > button:hover {
+  background-color: var(--color-hover-button-auth);
+}

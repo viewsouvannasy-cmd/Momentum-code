@@ -1,0 +1,5 @@
+.close-x-button {
+  color: var(--border-card-color);
+  font-weight: bold;
+  transition: color 0.2s ease;
+}

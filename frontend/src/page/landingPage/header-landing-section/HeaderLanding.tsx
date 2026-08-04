@@ -26,7 +26,7 @@ export function HeaderLanding({ isScroll }: prop) {
 
   function handleToPage(data: fetchResult) {
     if (data.success) {
-      navigate("/app");
+      navigate("/app/inbox");
       setIsLoading(false);
       return;
     }

@@ -6,7 +6,7 @@ import { FullLogo } from "../../components/logo/FullLogo";
 import useToggleTheme from "../../store/theme/useToggleTheme";
 import "./authPage.css";
 
-type fetchResult = {
+type FetchResult = {
   success: boolean;
   msg: string;
 };
@@ -25,7 +25,7 @@ export function LoginPage() {
   const [inputPassword, setInputPassword] = useState("");
 
   // state to store result from server
-  const [resultFetch, setResultFetch] = useState<fetchResult>();
+  const [resultFetch, setResultFetch] = useState<FetchResult>();
 
   // function fetch valid login
   const fetchLogin = async () => {
@@ -36,6 +36,7 @@ export function LoginPage() {
           user_name: inputName,
           user_password: inputPassword,
         },
+        { withCredentials: true },
       );
       setIsLading(false);
       handleToMainApp(response.data);
@@ -59,9 +60,9 @@ export function LoginPage() {
     setIsShowPassword(isShowPassword === "close" ? "open" : "close");
   }
 
-  function handleToMainApp(data: fetchResult) {
+  function handleToMainApp(data: FetchResult) {
     if (data.success) {
-      navigate(`/app/${inputName}`);
+      navigate(`/app/indox`);
     }
   }
 

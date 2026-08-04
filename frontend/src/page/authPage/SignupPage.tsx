@@ -49,6 +49,7 @@ export function SignupPage() {
           user_name: inputName,
           user_email: inputEmail,
         },
+        { withCredentials: true },
       );
       setIsLading(false);
       handleToVerifyOtpPage(response.data);

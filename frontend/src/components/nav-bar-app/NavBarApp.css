@@ -1,0 +1,252 @@
+.container-nav-bar-main {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  background-color: var(--card-color);
+  border-right: 1px solid var(--border-card-color);
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  justify-content: space-between;
+}
+
+.container-nav-bar-main > div:first-child {
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  flex-grow: 1;
+}
+
+.container-nav-bar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-nav-bar-logo .container-logo img {
+  display: none;
+}
+
+.container-nav-bar-logo .container-logo p {
+  font-size: 1.2rem;
+}
+
+.container-nav-bar-logo > button {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.2 ease;
+}
+
+.container-nav-bar-logo > button:hover {
+  background-color: rgba(69, 69, 69, 0.5);
+}
+
+.container-nav-bar-logo > button > img {
+  width: 16px;
+}
+
+.container-select-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.today-lists-link,
+.calendar-link,
+.inbox-link {
+  text-decoration: none;
+  color: var(--hero-text-color);
+  font-weight: 450;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  padding: 6px 10px 6px 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  transition: background-color 0.2s ease;
+}
+
+.today-lists-link img,
+.calendar-link img,
+.inbox-link img {
+  width: 12px;
+  height: 12px;
+}
+
+.today-lists-link:hover,
+.calendar-link:hover,
+.inbox-link:hover {
+  background-color: rgba(69, 69, 69, 0.3);
+}
+
+.today-lists-link.active,
+.calendar-link.active,
+.inbox-link.active {
+  background-color: var(--border-card-color);
+}
+
+.container-nav-bar-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.container-nav-bar-group-list > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container-nav-bar-group-list > div:first-child > p {
+  font-family: nunito, sans-serif;
+  font-size: 0.6rem;
+  color: #999999;
+  font-weight: bold;
+}
+
+.container-nav-bar-group-list > div:first-child > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+  padding: 1px;
+}
+.container-nav-bar-group-list > div:first-child > button > img {
+  width: 16px;
+}
+
+.container-nav-bar-group-list > div:first-child > button:hover {
+  background-color: rgba(69, 69, 69, 0.5);
+}
+
+.container-group-list-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group-list-item {
+  background-color: rgba(59, 131, 246, 0.7);
+  padding: 8px 10px;
+  border-radius: 5px;
+  font-weight: 550;
+  font-size: 0.95rem;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.container-nav-bar-main > div:last-child {
+  display: flex;
+  padding: 18px;
+  gap: 10px;
+  width: 100%;
+  border-top: 1px solid var(--border-card-color);
+  align-items: center;
+}
+.container-nav-bar-main > div:last-child > img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.container-nav-bar-main > div:last-child > div {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.container-nav-bar-main > div:last-child > div > p {
+  font-weight: 550;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.container-nav-bar-main > div:last-child > div > span {
+  font-family: nunito, sans-serif;
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: #999999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* -------  style from closeing navbar  ---------- */
+.container-nav-bar-main.close {
+  width: 43px;
+}
+
+.container-nav-bar-main.close .container-nav-bar-logo .container-logo p,
+.container-nav-bar-main.close .container-select-section > * > span,
+.container-nav-bar-main.close
+  .container-nav-bar-group-list
+  > div:first-child
+  > p,
+.container-nav-bar-main.close .container-group-list-item,
+.container-nav-bar-main.close > div:last-child > div {
+  display: none;
+}
+
+.container-nav-bar-main.close > div:first-child,
+.container-nav-bar-main.close > div:last-child {
+  padding: 5px;
+}
+
+.container-nav-bar-main.close > div:first-child {
+  padding-top: 20px;
+}
+
+.container-nav-bar-main.close > div:last-child {
+  border-top: none;
+  padding-bottom: 20px;
+}
+
+.container-nav-bar-main.close
+  .container-nav-bar-group-list
+  > div:first-child
+  > button
+  > img,
+.container-nav-bar-main.close .container-nav-bar-logo > button > img {
+  width: 18px;
+}
+
+.container-nav-bar-main.close .container-nav-bar-logo,
+.container-nav-bar-main.close .container-nav-bar-group-list > div:first-child {
+  justify-content: center;
+}
+
+.container-nav-bar-main.close .today-lists-link,
+.container-nav-bar-main.close .calendar-link,
+.container-nav-bar-main.close .inbox-link {
+  justify-content: center;
+  padding: 10px 0px;
+}
+
+.container-nav-bar-main.close .today-lists-link > img,
+.container-nav-bar-main.close .calendar-link > img,
+.container-nav-bar-main.close .inbox-link > img {
+  width: 13.5px;
+  height: 13.5px;
+}
+.container-nav-bar-main.close > div:last-child > img {
+  width: 33px;
+  height: 33px;
+}

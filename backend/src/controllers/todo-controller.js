@@ -219,6 +219,39 @@ const moveToComplete = async (req, res) => {
   }
 };
 
+// this function is use to get to-do date
+const getDate = async (req, res) => {
+  try {
+    const user = req.user;
+
+    const results = await sql`
+    SELECT
+    gl.group_id,
+    gl.group_name,
+    td.todo_id,
+    td.todo_name,
+    tdd.date_id,
+    tdd.todo_date,
+    tdd.start_time,
+    tdd.end_time
+    FROM group_list as gl
+    INNER JOIN to_do as td
+    ON gl.group_id = td.group_id
+    INNER JOIN to_do_date as tdd
+    ON td.todo_id = tdd.todo_id
+    WHERE user_id = ${user.user_id}
+    AND todo_status = 'doing'
+    `;
+    if (results.length === 0) {
+      return res.sendStatus(404);
+    }
+
+    res.status(200).json({ results });
+  } catch (error) {
+    res.status(500).json({ msg: "internal server error", error });
+  }
+};
+
 // this function use add date to to-do list
 const addDate = async (req, res) => {
   try {
@@ -320,6 +353,7 @@ export {
   undoList,
   moveToProcess,
   moveToComplete,
+  getDate,
   addDate,
   editDateTime,
   deleteDate,
