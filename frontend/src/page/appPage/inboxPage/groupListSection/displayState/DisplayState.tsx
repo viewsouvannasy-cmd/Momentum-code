@@ -7,14 +7,14 @@ interface DisplaystateProp {
 
 export function DisplayState({ state }: DisplaystateProp) {
   return (
-    <div className={`container-todo-state todo`}>
+    <div className="container-todo-state">
       <div>
         <div>
-          <h3>
+          <h4>
             {state === "todo" && "To Do"}
             {state === "doing" && "In Process"}
             {state === "done" && "Completed"}
-          </h3>
+          </h4>
           <span>1 items</span>
         </div>
       </div>

@@ -11,6 +11,7 @@ type prop = {
 
 type fetchResult = {
   success: boolean;
+  results: { user_name: string; user_email: string }[];
   msg?: string;
 };
 
@@ -26,7 +27,12 @@ export function HeaderLanding({ isScroll }: prop) {
 
   function handleToPage(data: fetchResult) {
     if (data.success) {
-      navigate("/app/inbox");
+      navigate("/app/inbox", {
+        state: {
+          user_name: data.results[0].user_name,
+          user_email: data.results[0].user_email,
+        },
+      });
       setIsLoading(false);
       return;
     }

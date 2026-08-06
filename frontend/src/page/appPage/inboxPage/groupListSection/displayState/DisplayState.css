@@ -1,7 +1,7 @@
 .container-todo-state {
   display: flex;
   flex-direction: column;
-  width: 250px;
+  flex: 1;
   gap: 15px;
 }
 
@@ -17,12 +17,12 @@
   gap: 10px;
 }
 
-.container-todo-state > div:first-child > div > h3 {
+.container-todo-state > div:first-child > div > h4 {
   font-weight: 550;
 }
 .container-todo-state > div:first-child > div > span {
   font-size: 0.8rem;
-  margin-bottom: -7px;
+  margin-bottom: -4px;
   font-family: nunito, sans-serif;
   font-weight: 300;
   color: #999999;
@@ -53,4 +53,10 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+@media (max-width: 510px) {
+  .container-todo-state > div:first-child > div > h4 {
+    font-size: 0.95rem;
+  }
 }

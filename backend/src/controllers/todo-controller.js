@@ -18,11 +18,8 @@ const getGroupList = async (req, res) => {
     FROM group_list
     WHERE user_id = ${user.user_id}
     `;
-    if (results.length === 0) {
-      return res.sendStatus(404);
-    }
 
-    res.status(200).json({ results: results });
+    res.status(202).json({ results: results });
   } catch (error) {
     res.status(500).json({ msg: "internal server error", error });
   }
@@ -46,7 +43,7 @@ const createGroupList = async (req, res) => {
     ${group_name},
     ${group_color}
     )
-  `;
+     `;
 
     res.sendStatus(201);
   } catch (error) {
@@ -90,9 +87,6 @@ const getToDoList = async (req, res) => {
     ON gl.group_id = td.group_id
     WHERE gl.user_id = ${user.user_id}
     `;
-    if (results.length === 0) {
-      return res.sendStatus(404);
-    }
 
     res.status(200).json({ results });
   } catch (error) {

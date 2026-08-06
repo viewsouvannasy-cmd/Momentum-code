@@ -4,6 +4,9 @@ import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth-route.js";
 import refreshTokenRoute from "./routes/refreshToken-route.js";
 import toDoRoute from "./routes/todo-route.js";
+import userRoute from "./routes/user-route.js";
+
+// this middleware use to verify jwt token
 import verifyJwt from "./middleware/verifyJWT.js";
 
 const app = express();
@@ -22,5 +25,6 @@ app.use("/api/refresh-token", refreshTokenRoute);
 
 app.use(verifyJwt);
 app.use("/api/todo", toDoRoute);
+app.use("/api/user", userRoute);
 
 export default app;

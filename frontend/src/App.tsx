@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router";
+
 import { LoginPage } from "./page/authPage/LoginPage";
 import { SignupPage } from "./page/authPage/SignupPage";
 import { VerifyOtpPage } from "./page/verifyOtpPage/VerifyOtpPage";

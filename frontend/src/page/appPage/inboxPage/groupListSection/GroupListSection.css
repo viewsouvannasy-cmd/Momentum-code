@@ -1,0 +1,75 @@
+.container-group-inbox-page {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-card-color);
+}
+
+.container-group-inbox-page > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container-group-inbox-page > div:first-child > h3 {
+  font-weight: 500;
+}
+
+.container-group-inbox-page > div:first-child > button {
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  background-color: var(--main-opponent-color);
+  font-weight: 550;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.2s ease;
+}
+
+.container-group-inbox-page > div:first-child > button:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.container-group-list-item-inbox-page {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.container-group-list-item-inbox-page > p {
+  color: #999999;
+  font-family: nunito, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+}
+
+.container-group-list-item-inbox-page > div {
+  padding: 6px 75px 6px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+.container-group-list-item-inbox-page.loading > div {
+  background-color: rgba(69, 69, 69, 0.5);
+  height: 30px;
+  min-width: 120px;
+}
+
+@media (max-width: 510px) {
+  .container-group-inbox-page > div:first-child > h3 {
+    font-size: 1.1rem;
+  }
+
+  .container-group-inbox-page > div:first-child > button {
+    padding: 6px 8px;
+    font-size: 0.7rem;
+  }
+
+  .container-group-list-item-inbox-page > div {
+    padding: 6px 60px 6px 8px;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 0.8rem;
+  }
+}

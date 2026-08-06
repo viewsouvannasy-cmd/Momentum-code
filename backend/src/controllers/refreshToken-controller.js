@@ -9,7 +9,9 @@ const refreshToken = async (req, res) => {
 
     // check that token jwt is exist
     if (!cookie?.jwt) {
-      return res.status(401).json({ msg: "cookie jwt is not found" });
+      return res
+        .status(401)
+        .json({ success: false, msg: "cookie jwt is not found" });
     }
 
     // find user
@@ -21,7 +23,7 @@ const refreshToken = async (req, res) => {
     WHERE user_id = ${payload.user_id}
     `;
     if (findUser.length === 0) {
-      return res.status(401).json({ msg: "user is not exist" });
+      return res.status(401).json({ success: false, msg: "user is not exist" });
     }
 
     const refreshToken = cookie.jwt;
@@ -31,13 +33,15 @@ const refreshToken = async (req, res) => {
       findUser[0].refresh_token,
     );
     if (!checkRefreshToken) {
-      return res.status(401).json({ msg: "refresh token is invalid" });
+      return res
+        .status(401)
+        .json({ success: false, msg: "refresh token is invalid" });
     }
 
     // generate access token and send to client
     const accessToken = generateAccessToken(payload.user_id);
 
-    res.status(200).json({ accessToken: accessToken });
+    res.status(200).json({ success: true, accessToken: accessToken });
   } catch (error) {
     res.status(500).json({ msg: "internal server error", error });
   }

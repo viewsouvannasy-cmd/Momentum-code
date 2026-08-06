@@ -1,0 +1,81 @@
+.container-to-do-list-state {
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-to-do-list-state > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-to-do-list-state > div:first-child > h3 {
+  font-weight: 550;
+}
+
+.container-to-do-list-state > div:first-child > div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.container-to-do-list-state > div:first-child > div > button:first-child {
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  background-color: transparent;
+  color: var(--hero-text-color);
+  outline: 1px solid var(--hero-text-color);
+  outline-offset: -1px;
+  cursor: pointer;
+  font-size: 0.8rem;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.container-to-do-list-state > div:first-child > div > button:first-child:hover {
+  background-color: var(--main-opponent-color);
+  color: var(--hero-text-color-opponent);
+}
+
+.container-to-do-list-state > div:first-child > div > button:last-child {
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  background-color: var(--main-opponent-color);
+  font-weight: 550;
+  cursor: pointer;
+  font-size: 0.8rem;
+
+  transition: background-color 0.2s ease;
+}
+
+.container-to-do-list-state > div:first-child > div > button:last-child:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.container-to-do-list-state > div:last-child {
+  display: flex;
+  gap: 30px;
+}
+
+@media (max-width: 670px) {
+  .container-to-do-list-state > div:last-child {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 510px) {
+  .container-to-do-list-state > div:first-child > h3 {
+    font-size: 1.1rem;
+  }
+
+  .container-to-do-list-state > div:first-child > div > button:first-child,
+  .container-to-do-list-state > div:first-child > div > button:last-child {
+    padding: 6px 8px;
+    font-size: 0.7rem;
+  }
+}

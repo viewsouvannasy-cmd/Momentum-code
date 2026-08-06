@@ -84,3 +84,9 @@
   padding: 1px 10px;
   border-radius: 50px;
 }
+
+@media (max-width: 510px) {
+  .item-to-do-list > div:nth-child(2) > p {
+    font-size: 0.9rem;
+  }
+}

@@ -79,3 +79,23 @@
     transform: translateY(0px);
   }
 }
+
+@keyframes closeNavBarMb {
+  0% {
+    width: 210px;
+  }
+
+  100% {
+    width: 0px;
+  }
+}
+
+@keyframes openNavBarMb {
+  0% {
+    width: 0px;
+  }
+
+  100% {
+    width: 210px;
+  }
+}

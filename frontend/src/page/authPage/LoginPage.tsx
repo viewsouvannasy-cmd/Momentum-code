@@ -9,6 +9,7 @@ import "./authPage.css";
 type FetchResult = {
   success: boolean;
   msg: string;
+  results?: { user_name: string; user_email: string };
 };
 
 export function LoginPage() {
@@ -62,7 +63,12 @@ export function LoginPage() {
 
   function handleToMainApp(data: FetchResult) {
     if (data.success) {
-      navigate(`/app/indox`);
+      navigate(`/app/inbox,`, {
+        state: {
+          user_name: data.results?.user_name,
+          user_email: data.results?.user_email,
+        },
+      });
     }
   }
 

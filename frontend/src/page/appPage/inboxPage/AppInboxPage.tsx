@@ -1,13 +1,23 @@
 import { useState, useEffect } from "react";
-import { DisplayState } from "./displayState/DisplayState";
+import useGropList from "../../../api/group-lists/useGroupList.ts";
 import { PopUpCreateGroupList } from "../../../components/popup-create-group-list/PopUpCreateGroupList.tsx";
-import "./AppInboxPage.css";
+import { InboxHeader } from "./inboxHeader/InboxHeader.tsx";
+import { GroupListSection } from "./groupListSection/GroupListSection.tsx";
+import { StateSection } from "./stateSection/StateSection.tsx";
 
 interface AppInboxProp {
   isOpenNavBar: string;
+  setIsOpenNavBarMB: (param: string) => void;
+  setIsBackgroundOverlyMB: (param: string) => void;
 }
 
-export function AppInboxPage({ isOpenNavBar }: AppInboxProp) {
+export function AppInboxPage({
+  isOpenNavBar,
+  setIsOpenNavBarMB,
+  setIsBackgroundOverlyMB,
+}: AppInboxProp) {
+  const { data, isLoading } = useGropList();
+
   // this is use to controll popup
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [isAnimation, setIsAnimation] = useState("close");
@@ -24,50 +34,26 @@ export function AppInboxPage({ isOpenNavBar }: AppInboxProp) {
     };
   }, [isOpenPopup]);
 
-  function handleOpenPopup() {
-    document.body.style.overflow = "hidden";
-    setIsAnimation("open");
-    setIsOpenPopup(true);
-  }
-
   return (
     <>
-      <div className={`container-inbox-section-main ${isOpenNavBar}`}>
-        <div className="container-inbox-section-header">
-          <div>
-            <h1>Inbox, view</h1>
-            <span>what do you want to update today</span>
-          </div>
-          <div>
-            <button>Undo</button>
-            <button>+ Add task</button>
-          </div>
-        </div>
-        {isOpenNavBar === "close" && (
-          <div className="container-group-inbox-page">
-            <div>
-              <h3>Group List</h3>
-              <button onClick={handleOpenPopup}>+ Create</button>
-            </div>
-            <div>
-              <div>Learing</div>
-              <div>Learing</div>
-              <div>Learing</div>
-              <div>Learing</div>
-              <div>Learing</div>
-              <div>Learing</div>
-            </div>
-          </div>
-        )}
+      <InboxHeader
+        setIsBackgroundOverlyMB={setIsBackgroundOverlyMB}
+        setIsOpenNavBarMB={setIsOpenNavBarMB}
+      />
 
-        <div className="container-to-do-list-state">
-          <DisplayState state="todo" />
-          <DisplayState state="doing" />
-          <DisplayState state="done" />
-        </div>
-      </div>
+      {isOpenNavBar === "close" && (
+        <GroupListSection
+          setIsAnimation={setIsAnimation}
+          setIsOpenPopup={setIsOpenPopup}
+          isLoading={isLoading}
+          data={data}
+        />
+      )}
+
+      <StateSection />
 
       <PopUpCreateGroupList
+        isOpenNavBar={isOpenNavBar}
         isAnimation={isAnimation}
         setIsAnimation={setIsAnimation}
         isOpenPopup={isOpenPopup}

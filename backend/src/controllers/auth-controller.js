@@ -224,7 +224,14 @@ const handleLogin = async (req, res) => {
       maxAge: 15 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({ success: true, msg: "login successful" });
+    res.status(200).json({
+      success: true,
+      msg: "login successful",
+      results: {
+        user_name: findUser[0].user_name,
+        user_email: findUser[0].user_email,
+      },
+    });
   } catch (error) {
     res.status(500).json({ msg: "internal server error", error });
   }
@@ -292,11 +299,12 @@ const checkUser = async (req, res) => {
     // find user
     const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
     const findUser = await sql`
-  SELECT
-  * 
-  FROM users
-  WHERE user_id = ${payload.user_id}
-  `;
+    SELECT
+    user_name,
+    user_email
+    FROM users
+    WHERE user_id = ${payload.user_id}
+    `;
     if (findUser.length === 0) {
       res.status(404).json({
         success: false,
@@ -304,22 +312,12 @@ const checkUser = async (req, res) => {
       });
     }
 
-    res.status(200).json({ success: true });
+    res.status(202).json({ success: true, results: findUser });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    res
+      .status(500)
+      .json({ success: false, msg: `internal server error ${error}` });
   }
 };
 
-const getInfoUser = async (req, res) => {
-  const { user_name } = req.params;
-  res.status(200).json({ msg: `hello ${user_name}` });
-};
-
-export {
-  createAccount,
-  verifyUserOTP,
-  handleLogin,
-  handleLogout,
-  checkUser,
-  getInfoUser,
-};
+export { createAccount, verifyUserOTP, handleLogin, handleLogout, checkUser };

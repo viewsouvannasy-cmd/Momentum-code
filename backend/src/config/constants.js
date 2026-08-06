@@ -1,1 +1,1 @@
-export const DB_NAME = "momentumDB";
+export const DB_NAME = "momentumdb";

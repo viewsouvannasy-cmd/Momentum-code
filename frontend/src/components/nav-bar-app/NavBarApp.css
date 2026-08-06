@@ -14,7 +14,8 @@
   gap: 20px;
   display: flex;
   flex-direction: column;
-  padding: 18px;
+  padding: 13px;
+  padding-top: 20px;
   flex-grow: 1;
 }
 
@@ -93,20 +94,23 @@
   background-color: var(--border-card-color);
 }
 
-.container-nav-bar-group-list {
+.container-nav-bar-group-list,
+.container-nav-bar-group-list-mb {
   display: flex;
   flex-direction: column;
   gap: 10px;
   flex-grow: 1;
 }
 
-.container-nav-bar-group-list > div:first-child {
+.container-nav-bar-group-list > div:first-child,
+.container-nav-bar-group-list-mb > div:first-child {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.container-nav-bar-group-list > div:first-child > p {
+.container-nav-bar-group-list > div:first-child > p,
+.container-nav-bar-group-list-mb > div:first-child > p {
   font-family: nunito, sans-serif;
   font-size: 0.6rem;
   color: #999999;
@@ -133,6 +137,13 @@
   background-color: rgba(69, 69, 69, 0.5);
 }
 
+.container-group-list-item > p {
+  font-family: nunito, sans-serif;
+  color: #999999;
+  font-weight: 300;
+  font-size: 0.7rem;
+}
+
 .container-group-list-item {
   display: flex;
   flex-direction: column;
@@ -143,42 +154,91 @@
   background-color: rgba(59, 131, 246, 0.7);
   padding: 8px 10px;
   border-radius: 5px;
-  font-weight: 550;
-  font-size: 0.95rem;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.group-list-item > p {
+  font-size: 0.95rem;
+  font-weight: 550;
+  flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.container-nav-bar-main > div:last-child {
+.group-list-item > button {
+  border: none;
+  padding: 0;
   display: flex;
-  padding: 18px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.group-list-item > button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.group-list-item > button > svg {
+  color: white;
+  opacity: 0;
+
+  transition: opacity 0.2s ease;
+}
+
+.group-list-item:hover > button > svg {
+  opacity: 1;
+}
+
+.group-list-item.loading {
+  height: 35px;
+  background-color: rgba(69, 69, 69, 0.5);
+}
+
+.container-user-name-and-email {
+  display: flex;
+  padding: 13px 13px;
   gap: 10px;
   width: 100%;
   border-top: 1px solid var(--border-card-color);
   align-items: center;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
 }
-.container-nav-bar-main > div:last-child > img {
+
+.container-user-name-and-email:hover {
+  background-color: rgba(69, 69, 69, 0.5);
+}
+
+.container-user-name-and-email > img {
   width: 35px;
   height: 35px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.container-nav-bar-main > div:last-child > div {
+.container-user-name-and-email > div:last-child {
   min-width: 0;
   flex: 1;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.container-nav-bar-main > div:last-child > div > p {
+.container-user-name-and-email > div:last-child > p {
   font-weight: 550;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.container-nav-bar-main > div:last-child > div > span {
+.container-user-name-and-email > div:last-child > span {
   font-family: nunito, sans-serif;
   display: block;
   font-size: 0.8rem;
@@ -188,6 +248,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* -------- style loading --------- */
 
 /* -------  style from closeing navbar  ---------- */
 .container-nav-bar-main.close {
@@ -216,7 +278,7 @@
 
 .container-nav-bar-main.close > div:last-child {
   border-top: none;
-  padding-bottom: 20px;
+  padding-bottom: 13px;
 }
 
 .container-nav-bar-main.close
@@ -249,4 +311,67 @@
 .container-nav-bar-main.close > div:last-child > img {
   width: 33px;
   height: 33px;
+}
+
+/* -------- this style for mb --------  */
+
+.container-background-overlay-mb {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.58);
+}
+
+.container-background-overlay-mb.open {
+  animation: appearOpacity 0.2s forwards ease;
+}
+
+.container-background-overlay-mb.close {
+  animation: disAppearOpacity 0.2s forwards ease;
+}
+
+.container-nav-bar-main-mb {
+  width: 0;
+  background-color: var(--card-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+
+  box-shadow: 0px 0px 10px 0px rgba(103, 103, 103, 0.5);
+}
+
+.container-nav-bar-main-mb.open {
+  animation: openNavBarMb 0.2s forwards ease;
+}
+
+.container-nav-bar-main-mb.close {
+  animation: closeNavBarMb 0.2s forwards ease;
+}
+
+.container-nav-bar-main-mb > div:first-child {
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 13px;
+  padding-top: 20px;
+  flex-grow: 1;
+}
+
+.container-nav-bar-group-list-mb > div:first-child > button {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .container-nav-bar-main {
+    display: none;
+  }
+}
+
+@media (min-width: 820px) {
+  .container-background-overlay-mb {
+    display: none;
+  }
 }
