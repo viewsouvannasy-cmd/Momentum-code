@@ -1,21 +1,20 @@
 import React, { useState } from "react";
-import { CloseXButton } from "../close-x-button/CloseXButton";
-import { rbgaFormot } from "../../utils/rgbaFormart.ts";
-import { LoadButton } from "../load-button/LoadButton.tsx";
-import useGropList from "../../api/group-lists/useGroupList.ts";
+import { CloseXButton } from "../../../close-x-button/CloseXButton.tsx";
+import { rbgaFormot } from "../../../../utils/rgbaFormart.ts";
+import { LoadButton } from "../../../load-button/LoadButton.tsx";
+import useGropList from "../../../../api/group-lists/useGroupList.ts";
 
+import "../../BackOverlay.css";
 import "./PopUpCreateGroupList.css";
 
 interface PopCreateGroupListProp {
-  isOpenNavBar: string;
   isAnimation: string;
   setIsAnimation: (value: string) => void;
-  isOpenPopup: boolean;
-  setIsOpenPopup: (value: boolean) => void;
+  isOpenPopup: string | null;
+  setIsOpenPopup: (value: string | null) => void;
 }
 
 export function PopUpCreateGroupList({
-  isOpenNavBar,
   isAnimation,
   setIsAnimation,
   isOpenPopup,
@@ -30,7 +29,7 @@ export function PopUpCreateGroupList({
     document.body.style.overflow = "unset";
     setIsAnimation("close");
     setTimeout(() => {
-      setIsOpenPopup(false);
+      setIsOpenPopup(null);
       setInputNameGroupList("");
     }, 200);
   }
@@ -38,8 +37,10 @@ export function PopUpCreateGroupList({
   const handleCreateGroupList = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const rgba = rbgaFormot(isPickColor);
-    await createGroup(inputNameGroupList, rgba);
-    handleClosePopup();
+    if (rgba) {
+      await createGroup(inputNameGroupList, rgba);
+      handleClosePopup();
+    }
   };
 
   return (
@@ -47,7 +48,6 @@ export function PopUpCreateGroupList({
       className={`container-background-overlay-popup ${isAnimation}`}
       style={{
         display: isOpenPopup ? "flex" : "none",
-        paddingLeft: isOpenNavBar === "open" ? "263px" : "43px",
       }}
     >
       <form

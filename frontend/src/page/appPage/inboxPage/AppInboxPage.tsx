@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import useGropList from "../../../api/group-lists/useGroupList.ts";
-import { PopUpCreateGroupList } from "../../../components/popup-create-group-list/PopUpCreateGroupList.tsx";
+import { PopUpCreateGroupList } from "../../../components/popup/popupGroupList/popup-create-group-list/PopUpCreateGroupList.tsx";
+import { PopupAddTask } from "../../../components/popup/popupTask/popup-add-test/PopupAddTask.tsx";
 import { InboxHeader } from "./inboxHeader/InboxHeader.tsx";
 import { GroupListSection } from "./groupListSection/GroupListSection.tsx";
 import { StateSection } from "./stateSection/StateSection.tsx";
+import { useMediaQuery } from "../../../hook/useMediaQuery.ts";
 
 interface AppInboxProp {
   isOpenNavBar: string;
@@ -16,10 +17,8 @@ export function AppInboxPage({
   setIsOpenNavBarMB,
   setIsBackgroundOverlyMB,
 }: AppInboxProp) {
-  const { data, isLoading } = useGropList();
-
   // this is use to controll popup
-  const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [isOpenPopup, setIsOpenPopup] = useState<string | null>(null);
   const [isAnimation, setIsAnimation] = useState("close");
 
   useEffect(() => {
@@ -34,6 +33,9 @@ export function AppInboxPage({
     };
   }, [isOpenPopup]);
 
+  const wideScreen = useMediaQuery("(min-width: 821px)");
+  const maxWideScreen = useMediaQuery("(max-width: 821px)");
+
   return (
     <>
       <InboxHeader
@@ -41,24 +43,42 @@ export function AppInboxPage({
         setIsOpenNavBarMB={setIsOpenNavBarMB}
       />
 
-      {isOpenNavBar === "close" && (
+      {isOpenNavBar === "close" && wideScreen && (
         <GroupListSection
           setIsAnimation={setIsAnimation}
           setIsOpenPopup={setIsOpenPopup}
-          isLoading={isLoading}
-          data={data}
         />
       )}
 
-      <StateSection />
+      {maxWideScreen && (
+        <GroupListSection
+          setIsAnimation={setIsAnimation}
+          setIsOpenPopup={setIsOpenPopup}
+        />
+      )}
 
-      <PopUpCreateGroupList
-        isOpenNavBar={isOpenNavBar}
-        isAnimation={isAnimation}
+      <StateSection
         setIsAnimation={setIsAnimation}
-        isOpenPopup={isOpenPopup}
         setIsOpenPopup={setIsOpenPopup}
       />
+
+      {isOpenPopup === "create" && (
+        <PopUpCreateGroupList
+          isAnimation={isAnimation}
+          setIsAnimation={setIsAnimation}
+          isOpenPopup={isOpenPopup}
+          setIsOpenPopup={setIsOpenPopup}
+        />
+      )}
+
+      {isOpenPopup === "add-task" && (
+        <PopupAddTask
+          isAnimation={isAnimation}
+          setIsAnimation={setIsAnimation}
+          isOpenPopup={isOpenPopup}
+          setIsOpenPopup={setIsOpenPopup}
+        />
+      )}
     </>
   );
 }

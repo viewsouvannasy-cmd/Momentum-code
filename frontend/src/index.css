@@ -34,6 +34,8 @@
   --doing-state-color: #3b82f6;
   --done-state-color: #22c55e;
 
+  --delete-color: #d94045;
+
   /* ----- */
   --hero-text-color-opponent: #ffffff;
   --color-hover-button-auth: rgba(17, 17, 17, 0.7);

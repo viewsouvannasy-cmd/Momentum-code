@@ -27,12 +27,7 @@ export function HeaderLanding({ isScroll }: prop) {
 
   function handleToPage(data: fetchResult) {
     if (data.success) {
-      navigate("/app/inbox", {
-        state: {
-          user_name: data.results[0].user_name,
-          user_email: data.results[0].user_email,
-        },
-      });
+      navigate("/app/inbox");
       setIsLoading(false);
       return;
     }

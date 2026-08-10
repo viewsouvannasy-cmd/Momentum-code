@@ -1,0 +1,114 @@
+.container-popup-rename-group-list {
+  background-color: var(--card-color);
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+  border: 1px solid var(--border-card-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 20px 3px rgb(103, 103, 103, 0.2);
+}
+
+.container-popup-rename-group-list.open {
+  animation: appearFromBottom 0.2s forwards;
+}
+
+.container-popup-rename-group-list.close {
+  animation: goDown 0.2s forwards;
+}
+
+.container-popup-rename-group-list > div:nth-child(1) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-popup-rename-group-list > div:nth-child(1) > h2 {
+  font-weight: 550;
+  font-size: 1.4rem;
+}
+
+.container-popup-rename-group-list > div:nth-child(1) > button {
+  border: none;
+  display: flex;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 3px;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.container-popup-rename-group-list
+  > div:nth-child(1)
+  > button:hover
+  .close-x-button {
+  color: var(--hero-text-color);
+}
+
+.container-popup-rename-group-list > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container-popup-rename-group-list > div:nth-child(2) > label {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.container-popup-rename-group-list > div:nth-child(2) > input {
+  border: 1px solid var(--border-card-color);
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 13px;
+  color: var(--hero-text-color);
+  font-size: 0.8rem;
+}
+
+.container-popup-rename-group-list > div:nth-child(2) > input:focus {
+  outline: 1px solid var(--main-opponent-color);
+}
+
+.rename-group-list-btn,
+.rename-group-list-btn-load {
+  border: none;
+  padding: 11px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background-color 0.2s;
+}
+
+.rename-group-list-btn-load {
+  cursor: none;
+}
+
+.rename-group-list-btn-load .spinner-load {
+  margin: 0;
+  height: 25px;
+  width: 25px;
+  border: 3px solid var(--main-background-color);
+  border-top-color: var(--main-opponent-color);
+}
+
+.rename-group-list-btn:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+@media (max-width: 510px) {
+  .container-popup-rename-group-list > div:nth-child(1) > h2 {
+    font-size: 1.2rem;
+  }
+
+  .container-popup-rename-group-list > div:nth-child(2) > label {
+    font-weight: 400;
+    font-size: 1rem;
+  }
+}

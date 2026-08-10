@@ -1,0 +1,82 @@
+.container-group-list-state-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container-group-list-state-section > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-group-list-state-section > div:first-child > div:first-child > p {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.container-group-list-state-section > div:first-child > div:first-child > span {
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  color: #999999;
+  font-size: 0.8rem;
+}
+
+.container-group-list-state-section > div:first-child > div:last-child {
+  display: flex;
+  gap: 10px;
+}
+
+.container-group-list-state-section
+  > div:first-child
+  > div:last-child
+  > button {
+  border: none;
+  padding: 8px 10px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.container-group-list-state-section
+  > div:first-child
+  > div:last-child
+  > button {
+  font-weight: 600;
+}
+
+.container-group-list-state-section
+  > div:first-child
+  > div:last-child
+  > button:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.container-group-list-state-section > div:last-child {
+  display: flex;
+  gap: 30px;
+}
+
+@media (max-width: 670px) {
+  .container-group-list-state-section > div:last-child {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 510px) {
+  .container-group-list-state-section > div:first-child > div:first-child > p {
+    font-size: 1.1rem;
+  }
+
+  .container-group-list-state-section
+    > div:first-child
+    > div:last-child
+    > button {
+    font-size: 0.7rem;
+  }
+}

@@ -1,13 +1,22 @@
-import { getGroupList, createGroupList } from "./groupList-helper.ts";
+import {
+  getGroupList,
+  createGroupList,
+  renameGroupList,
+  changeColorGroupList,
+  deleteGroupList,
+} from "./groupList-helper.ts";
 import { create } from "zustand";
 
 interface UseGroupList {
-  data: GroupList[] | [];
-  isLoading: boolean;
+  groupListData: GroupList[] | [];
+  isLoadingGroup: boolean;
   isLoadingPost: boolean;
   error: unknown;
   getGroup: () => void;
   createGroup: (name: string, color: string) => void;
+  renameGroup: (newName: string, id: string) => void;
+  changeColorGroup: (newColor: string, id: string) => void;
+  deleteGroup: (id: string) => void;
 }
 
 interface GroupList {
@@ -17,8 +26,8 @@ interface GroupList {
 }
 
 const useGropList = create<UseGroupList>((set) => ({
-  data: [],
-  isLoading: true,
+  groupListData: [],
+  isLoadingGroup: true,
   isLoadingPost: false,
   error: null,
 
@@ -26,9 +35,9 @@ const useGropList = create<UseGroupList>((set) => ({
   getGroup: async () => {
     try {
       const response = await getGroupList();
-      set({ data: response.results, isLoading: false });
+      set({ groupListData: response.results, isLoadingGroup: false });
     } catch (error: unknown) {
-      set({ isLoading: false, error: error });
+      set({ isLoadingGroup: false, error: error });
     }
   },
 
@@ -38,9 +47,45 @@ const useGropList = create<UseGroupList>((set) => ({
       set({ isLoadingPost: true });
       await createGroupList(group_name, group_color);
       const response = await getGroupList();
-      set({ data: response.results, isLoadingPost: false });
+      set({ groupListData: response.results, isLoadingPost: false });
     } catch (error: unknown) {
-      set({ isLoading: false, error: error });
+      set({ isLoadingPost: false, error: error });
+    }
+  },
+
+  // rename group list
+  renameGroup: async (group_new_name, group_id) => {
+    try {
+      set({ isLoadingPost: true });
+      await renameGroupList(group_new_name, group_id);
+      const response = await getGroupList();
+      set({ groupListData: response.results, isLoadingPost: false });
+    } catch (error: unknown) {
+      set({ isLoadingPost: false, error: error });
+    }
+  },
+
+  // change color group list
+  changeColorGroup: async (group_new_color, group_id) => {
+    try {
+      set({ isLoadingPost: true });
+      await changeColorGroupList(group_new_color, group_id);
+      const response = await getGroupList();
+      set({ groupListData: response.results, isLoadingPost: false });
+    } catch (error: unknown) {
+      set({ isLoadingPost: false, error: error });
+    }
+  },
+
+  // delete group list
+  deleteGroup: async (group_id) => {
+    try {
+      set({ isLoadingPost: true });
+      await deleteGroupList(group_id);
+      const response = await getGroupList();
+      set({ groupListData: response.results, isLoadingPost: false });
+    } catch (error: unknown) {
+      set({ isLoadingPost: false, error: error });
     }
   },
 }));

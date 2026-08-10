@@ -1,0 +1,92 @@
+.container-delete-group-list-popup {
+  background-color: var(--card-color);
+  padding: 20px;
+  width: 100%;
+  max-width: 380px;
+  border-radius: 10px;
+  border: 1px solid var(--border-card-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 20px 3px rgb(103, 103, 103, 0.2);
+}
+
+.container-delete-group-list-popup.open {
+  animation: appearFromBottom 0.2s forwards;
+}
+
+.container-delete-group-list-popup.close {
+  animation: goDown 0.2s forwards;
+}
+
+.container-delete-group-list-popup > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.container-delete-group-list-popup > div:first-child > p {
+  font-weight: 500;
+}
+
+.container-delete-group-list-popup > div:first-child > span {
+  font-size: 0.85rem;
+  color: #999999;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+}
+
+.container-delete-group-list-popup > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.container-delete-group-list-popup > div:last-child > button {
+  flex: 1;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  transition: all 0.2s;
+}
+
+.container-delete-group-list-popup > div:last-child > button:first-child {
+  background-color: transparent;
+  border: 1px solid var(--border-card-color);
+  color: var(--hero-text-color);
+}
+
+.container-delete-group-list-popup > div:last-child > button:first-child:hover {
+  background-color: var(--main-opponent-color);
+  color: var(--hero-text-color-opponent);
+}
+
+.btn-delete-group-list,
+.btn-delete-group-list-load {
+  color: var(--hero-text-color);
+  background-color: #d94045;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete-group-list-load {
+  cursor: not-allowed;
+}
+
+.btn-delete-group-list:hover {
+  background-color: rgba(217, 64, 69, 0.7);
+}
+
+.btn-delete-group-list-load .spinner-load {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 2px solid var(--main-opponent-color);
+  border-top-color: #d94045;
+}

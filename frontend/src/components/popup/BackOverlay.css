@@ -1,0 +1,28 @@
+.container-background-overlay-popup {
+  background-color: rgba(0, 0, 0, 0.58);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-left: 63px;
+  padding-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.container-background-overlay-popup.open {
+  animation: appearOpacity 0.2s forwards;
+}
+
+.container-background-overlay-popup.close {
+  animation: disAppearOpacity 0.2s forwards;
+}
+
+@media (max-width: 820px) {
+  .container-background-overlay-popup {
+    padding: 20px;
+  }
+}

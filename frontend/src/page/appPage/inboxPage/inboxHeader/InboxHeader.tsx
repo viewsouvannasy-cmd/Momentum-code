@@ -1,3 +1,4 @@
+import { BtnOpenNavBarMB } from "../../../../components/button-open-navber-mp/BtnOpenNavBarMB";
 import "./InboxHeader.css";
 
 interface InboxHeaderProp {
@@ -9,16 +10,12 @@ export function InboxHeader({
   setIsBackgroundOverlyMB,
   setIsOpenNavBarMB,
 }: InboxHeaderProp) {
-  function handleOpenNavBarMB() {
-    setIsBackgroundOverlyMB("open");
-    setIsOpenNavBarMB("open");
-  }
-
   return (
     <div className="container-inbox-section-header">
-      <button onClick={handleOpenNavBarMB}>
-        <img src="/icon/sidebar.png" />
-      </button>
+      <BtnOpenNavBarMB
+        setIsBackgroundOverlyMB={setIsBackgroundOverlyMB}
+        setIsOpenNavBarMB={setIsOpenNavBarMB}
+      />
       <div>
         <h1>Inbox, view</h1>
         <span>what do you want to update today</span>

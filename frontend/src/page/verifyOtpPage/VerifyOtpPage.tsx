@@ -58,7 +58,7 @@ export function VerifyOtpPage() {
   // this function will lead a user to main app
   function handleToMainApp(data: FetchResult) {
     if (data.success) {
-      navigate(`/app/inbox`, { state: { user_name, user_email } });
+      navigate(`/app/inbox`);
     }
   }
 

@@ -63,12 +63,7 @@ export function LoginPage() {
 
   function handleToMainApp(data: FetchResult) {
     if (data.success) {
-      navigate(`/app/inbox,`, {
-        state: {
-          user_name: data.results?.user_name,
-          user_email: data.results?.user_email,
-        },
-      });
+      navigate(`/app/inbox`);
     }
   }
 

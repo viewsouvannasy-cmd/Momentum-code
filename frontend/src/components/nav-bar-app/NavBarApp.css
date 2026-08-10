@@ -71,6 +71,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 
   transition: background-color 0.2s ease;
 }
@@ -151,48 +154,14 @@
 }
 
 .group-list-item {
-  background-color: rgba(59, 131, 246, 0.7);
+  cursor: pointer;
   padding: 8px 10px;
   border-radius: 5px;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.group-list-item > p {
   font-size: 0.95rem;
   font-weight: 550;
-  flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.group-list-item > button {
-  border: none;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 3px;
-  cursor: pointer;
-  background-color: transparent;
-  transition: background-color 0.2s ease;
-}
-
-.group-list-item > button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.group-list-item > button > svg {
-  color: white;
-  opacity: 0;
-
-  transition: opacity 0.2s ease;
-}
-
-.group-list-item:hover > button > svg {
-  opacity: 1;
 }
 
 .group-list-item.loading {
@@ -248,8 +217,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-/* -------- style loading --------- */
 
 /* -------  style from closeing navbar  ---------- */
 .container-nav-bar-main.close {
@@ -322,6 +289,7 @@
   left: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.58);
+  z-index: 999;
 }
 
 .container-background-overlay-mb.open {
@@ -330,6 +298,7 @@
 
 .container-background-overlay-mb.close {
   animation: disAppearOpacity 0.2s forwards ease;
+  display: none;
 }
 
 .container-nav-bar-main-mb {
@@ -371,7 +340,9 @@
 }
 
 @media (min-width: 820px) {
-  .container-background-overlay-mb {
+  .container-background-overlay-mb,
+  .container-background-overlay-mb.open,
+  .container-background-overlay-mb.close {
     display: none;
   }
 }

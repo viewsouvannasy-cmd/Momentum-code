@@ -1,16 +1,15 @@
-import { Link, useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { useState } from "react";
 import { addAndRemoveTransition } from "../../utils/addAndRemoveTransition.ts";
-import { PopUpCreateGroupList } from "../popup-create-group-list/PopUpCreateGroupList.tsx";
+import { PopUpCreateGroupList } from "../popup/popupGroupList/popup-create-group-list/PopUpCreateGroupList.tsx";
 import { FullLogo } from "../logo/FullLogo";
 import useGropList from "../../api/group-lists/useGroupList.ts";
+import useUser from "../../api/user-data/useUser.ts";
 import "./NavBarApp.css";
 
 interface NavBarProp {
   isOpenNavBar: string;
   setIsOpenNavBar: (param: string) => void;
-  user_name: string;
-  user_email: string;
   isOpenNavBarMB: string;
   setIsOpenNavBarMB: (param: string) => void;
   isBackgroundOverlyMB: string;
@@ -20,19 +19,19 @@ interface NavBarProp {
 export function NavBarApp({
   isOpenNavBar,
   setIsOpenNavBar,
-  user_name,
-  user_email,
   isOpenNavBarMB,
   setIsOpenNavBarMB,
   isBackgroundOverlyMB,
   setIsBackgroundOverlyMB,
 }: NavBarProp) {
+  const navigate = useNavigate();
   const { section } = useParams();
 
-  const { data, isLoading } = useGropList();
+  const { userData } = useUser();
+  const { groupListData, isLoadingGroup } = useGropList();
 
   // this is use to controll popup
-  const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [isOpenPopup, setIsOpenPopup] = useState<string | null>(null);
   const [isAnimation, setIsAnimation] = useState("close");
 
   function handleToggleNavBar() {
@@ -45,7 +44,7 @@ export function NavBarApp({
   function handleOpenPopup() {
     document.body.style.overflow = "hidden";
     setIsAnimation("open");
-    setIsOpenPopup(true);
+    setIsOpenPopup("create");
   }
 
   function handleCloseNavBarMB() {
@@ -53,6 +52,31 @@ export function NavBarApp({
     setTimeout(() => {
       setIsBackgroundOverlyMB("close");
     }, 200);
+  }
+
+  function handleChangeSectionPage(sectionName: string, navType: string) {
+    navigate(`/app/${sectionName}`);
+    if (navType === "mb") {
+      handleCloseNavBarMB();
+    }
+  }
+
+  function handleToGroupListPage(
+    id: number,
+    name: string,
+    color: string,
+    navType: string,
+  ) {
+    navigate(`/app/group/${id}`, {
+      state: {
+        group_id: id,
+        group_name: name,
+        group_color: color,
+      },
+    });
+    if (navType === "mb") {
+      handleCloseNavBarMB();
+    }
   }
 
   return (
@@ -66,27 +90,27 @@ export function NavBarApp({
             </button>
           </div>
           <div className="container-select-section">
-            <Link
+            <button
+              onClick={() => handleChangeSectionPage("today-list", "dt")}
               className={`today-lists-link ${section === "today-lists" ? "active" : ""}`}
-              to="/app/today-lists"
             >
               <img src="/icon/today-list.png" />
               <span>Today lists</span>
-            </Link>
-            <Link
+            </button>
+            <button
+              onClick={() => handleChangeSectionPage("calendar", "dt")}
               className={`calendar-link ${section === "calendar" ? "active" : ""}`}
-              to="/app/calendar"
             >
               <img src="/icon/calendar.png" />
               <span>Calendar</span>
-            </Link>
-            <Link
+            </button>
+            <button
+              onClick={() => handleChangeSectionPage("inbox", "dt")}
               className={`inbox-link ${section === "inbox" ? "active" : ""}`}
-              to="/app/inbox"
             >
               <img src="/icon/inbox.png" />
               <span>Inbox</span>
-            </Link>
+            </button>
           </div>
           <div className="container-nav-bar-group-list">
             <div>
@@ -96,7 +120,7 @@ export function NavBarApp({
               </button>
             </div>
             <div className="container-group-list-item">
-              {isLoading &&
+              {isLoadingGroup &&
                 new Array(3).fill("a").map((name, index) => {
                   return (
                     <div
@@ -106,30 +130,28 @@ export function NavBarApp({
                     ></div>
                   );
                 })}
-              {!isLoading && data?.length === 0 && <p>No Have Group List.</p>}
-              {!isLoading &&
-                data?.length > 0 &&
-                data?.map((group) => {
+              {!isLoadingGroup && groupListData?.length === 0 && (
+                <p>No Have Group List.</p>
+              )}
+              {!isLoadingGroup &&
+                groupListData?.length > 0 &&
+                groupListData?.map((group) => {
                   return (
                     <div
                       className="group-list-item"
+                      role="button"
+                      onClick={() =>
+                        handleToGroupListPage(
+                          group.group_id,
+                          group.group_name,
+                          group.group_color,
+                          "dt",
+                        )
+                      }
                       key={group.group_id}
                       style={{ backgroundColor: group.group_color }}
                     >
-                      <p>{group.group_name}</p>
-                      <button>
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle cx="12" cy="5" r="2" fill="currentColor" />
-                          <circle cx="12" cy="12" r="2" fill="currentColor" />
-                          <circle cx="12" cy="19" r="2" fill="currentColor" />
-                        </svg>
-                      </button>
+                      {group.group_name}
                     </div>
                   );
                 })}
@@ -139,15 +161,14 @@ export function NavBarApp({
         <div className={`container-user-name-and-email`} role="button">
           <img src="/profile.jpg" />
           <div>
-            <p>{user_name}</p>
-            <span>{user_email}</span>
+            <p>{userData[0]?.user_name}</p>
+            <span>{userData[0]?.user_email}</span>
           </div>
         </div>
       </nav>
 
       <div
         className={`container-background-overlay-mb ${isBackgroundOverlyMB}`}
-        style={{ display: isBackgroundOverlyMB === "close" ? "none" : "unset" }}
       >
         <nav className={`container-nav-bar-main-mb ${isOpenNavBarMB}`}>
           <div>
@@ -158,27 +179,27 @@ export function NavBarApp({
               </button>
             </div>
             <div className="container-select-section">
-              <Link
+              <button
+                onClick={() => handleChangeSectionPage("today-list", "mb")}
                 className={`today-lists-link ${section === "today-lists" ? "active" : ""}`}
-                to="/app/today-lists"
               >
                 <img src="/icon/today-list.png" />
                 <span>Today lists</span>
-              </Link>
-              <Link
+              </button>
+              <button
+                onClick={() => handleChangeSectionPage("calendar", "mb")}
                 className={`calendar-link ${section === "calendar" ? "active" : ""}`}
-                to="/app/calendar"
               >
                 <img src="/icon/calendar.png" />
                 <span>Calendar</span>
-              </Link>
-              <Link
+              </button>
+              <button
+                onClick={() => handleChangeSectionPage("inbox", "mb")}
                 className={`inbox-link ${section === "inbox" ? "active" : ""}`}
-                to="/app/inbox"
               >
                 <img src="/icon/inbox.png" />
                 <span>Inbox</span>
-              </Link>
+              </button>
             </div>
             <div className="container-nav-bar-group-list-mb">
               <div>
@@ -188,7 +209,7 @@ export function NavBarApp({
                 </button>
               </div>
               <div className="container-group-list-item">
-                {isLoading &&
+                {isLoadingGroup &&
                   new Array(3).fill("a").map((name, index) => {
                     return (
                       <div
@@ -198,30 +219,28 @@ export function NavBarApp({
                       ></div>
                     );
                   })}
-                {!isLoading && data?.length === 0 && <p>No Have Group List.</p>}
-                {!isLoading &&
-                  data?.length > 0 &&
-                  data?.map((group) => {
+                {!isLoadingGroup && groupListData?.length === 0 && (
+                  <p>No Have Group List.</p>
+                )}
+                {!isLoadingGroup &&
+                  groupListData?.length > 0 &&
+                  groupListData?.map((group) => {
                     return (
                       <div
+                        role="button"
+                        onClick={() =>
+                          handleToGroupListPage(
+                            group.group_id,
+                            group.group_name,
+                            group.group_color,
+                            "mb",
+                          )
+                        }
                         className="group-list-item"
                         key={group.group_id}
                         style={{ backgroundColor: group.group_color }}
                       >
-                        <p>{group.group_name}</p>
-                        <button>
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <circle cx="12" cy="5" r="2" fill="currentColor" />
-                            <circle cx="12" cy="12" r="2" fill="currentColor" />
-                            <circle cx="12" cy="19" r="2" fill="currentColor" />
-                          </svg>
-                        </button>
+                        {group.group_name}
                       </div>
                     );
                   })}
@@ -231,15 +250,14 @@ export function NavBarApp({
           <div className={`container-user-name-and-email`} role="button">
             <img src="/profile.jpg" />
             <div>
-              <p>{user_name}</p>
-              <span>{user_email}</span>
+              <p>{userData[0]?.user_name}</p>
+              <span>{userData[0]?.user_email}</span>
             </div>
           </div>
         </nav>
       </div>
 
       <PopUpCreateGroupList
-        isOpenNavBar={isOpenNavBar}
         isAnimation={isAnimation}
         setIsAnimation={setIsAnimation}
         isOpenPopup={isOpenPopup}

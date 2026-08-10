@@ -15,6 +15,7 @@ function App() {
       <Route path="/sign" element={<SignupPage />} />
       <Route path="/verify-otp/:name" element={<VerifyOtpPage />} />
       <Route path="/app/:section" element={<AppPage />} />
+      <Route path="/app/group/:groupId" element={<AppPage />} />
     </Routes>
   );
 }

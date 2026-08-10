@@ -13,16 +13,16 @@ const checkOwner = async (group_id, user_id) => {
 
 // this function it use to check that to do list is inside
 // a group list that have that user be a owner
-const checkListInGroupOwner = async (group_id, user_id, todo_id) => {
+const checkListInGroupOwner = async (group_id, user_id, task_id) => {
   return await sql`
     SELECT
     *
     FROM group_list as gl
-    INNER JOIN to_do as td
-    ON gl.group_id = td.group_id
+    INNER JOIN tasks as t
+    ON gl.group_id = t.group_id
     WHERE gl.group_id = ${group_id}
     AND gl.user_id = ${user_id}
-    AND td.todo_id = ${todo_id}
+    AND t.task_id = ${task_id}
     `;
 };
 
@@ -31,20 +31,20 @@ const checkListInGroupOwner = async (group_id, user_id, todo_id) => {
 const checkDateInListInGroupOwner = async (
   group_id,
   user_id,
-  todo_id,
+  task_id,
   date_id,
 ) => {
   return await sql`
     SELECT
     *
     FROM group_list as gl
-    INNER JOIN to_do as td
-    ON gl.group_id = td.group_id
+    INNER JOIN task as t
+    ON gl.group_id = t.group_id
     INNER JOIN to_do_date as tdd
-    ON td.todo_id = tdd.todo_id
+    ON t.task_id = tdd.task_id
     WHERE gl.group_id = ${group_id}
     AND gl.user_id =${user_id}
-    AND td.todo_id = ${todo_id}
+    AND t.task_id = ${task_id}
     AND tdd.date_id = ${date_id}
     `;
 };

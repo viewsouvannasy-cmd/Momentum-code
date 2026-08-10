@@ -1,0 +1,127 @@
+.container-change-color-group-popup {
+  background-color: var(--card-color);
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+  border: 1px solid var(--border-card-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 20px 3px rgb(103, 103, 103, 0.2);
+}
+
+.container-change-color-group-popup.open {
+  animation: appearFromBottom 0.2s forwards;
+}
+
+.container-change-color-group-popup.close {
+  animation: goDown 0.2s forwards;
+}
+
+.container-change-color-group-popup > button {
+  align-self: end;
+  border: none;
+  display: flex;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 3px;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.container-change-color-group-popup > button:hover .close-x-button {
+  color: var(--hero-text-color);
+}
+
+.container-show-example-change-color {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.container-show-example-change-color > div {
+  display: flex;
+  align-items: start;
+  min-width: 200px;
+  padding: 10px;
+  background-color: rgba(0, 119, 255, 0.811);
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  box-shadow: 0px 10px 30px 5px rgba(103, 103, 103, 0.2);
+}
+
+.container-show-example-change-color > span {
+  font-size: 0.8rem;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  color: #999999;
+}
+
+.container-input-color-and-save-btn {
+  display: flex;
+  gap: 10px;
+}
+
+.container-input-color-and-save-btn > div {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-input-color-and-save-btn > div > p {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.container-input-color-and-save-btn > div > span {
+  font-size: 0.8rem;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  color: #999999;
+}
+
+.container-input-color-and-save-btn > div > input {
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--border-card-color);
+  height: 35px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.btn-save-change-color-group-list,
+.btn-save-change-color-group-list-load {
+  align-self: end;
+  flex: 1;
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--main-opponent-color);
+  font-weight: 550;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-save-change-color-group-list-load {
+  cursor: not-allowed;
+}
+
+.btn-save-change-color-group-list:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.btn-save-change-color-group-list-load .spinner-load {
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--main-background-color);
+  border-top-color: var(--main-opponent-color);
+}

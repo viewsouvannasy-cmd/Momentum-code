@@ -1,18 +1,18 @@
+import { checkAccessToken } from "../../store/token/accessToken";
 import axios from "axios";
-import { checkAccessToken } from "../store/token/accessToken.ts";
 
-const getUserInfo = async () => {
+const getData = async () => {
   try {
     const accessToken = await checkAccessToken();
-    const response = await axios("http://localhost:4000/api/user/info", {
+    const response = await axios.get("http://localhost:4000/api/todo/get", {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     return response.data;
-  } catch (error: unknown) {
+  } catch (error) {
     if (axios.isAxiosError(error)) {
       console.log(error);
     }
   }
 };
 
-export { getUserInfo };
+export { getData };

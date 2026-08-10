@@ -1,0 +1,73 @@
+.container-todo-state {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 15px;
+}
+
+.container-state-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-state-section-header > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.container-state-section-header > div > h4 {
+  font-weight: 550;
+}
+.container-state-section-header > div > span {
+  font-size: 0.8rem;
+  margin-bottom: -4px;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  color: #999999;
+}
+
+.container-todo-state-item-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container-add-task {
+  padding: 6px;
+  border: 1px dashed var(--border-card-color);
+  font-family: nunito, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 300;
+  color: var(--border-card-color);
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.container-add-task:hover {
+  border-color: var(--hero-text-color);
+  color: var(--hero-text-color);
+}
+
+.container-loadnig-task {
+  height: 120px;
+  background-color: rgba(69, 69, 69, 0.3);
+}
+
+.container-no-have-task {
+  font-family: nunito, sans-serif;
+  color: var(--border-card-color);
+  border: 1px dashed var(--border-card-color);
+  padding: 30px;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 510px) {
+  .container-state-section-header > div > h4 {
+    font-size: 0.95rem;
+  }
+}
