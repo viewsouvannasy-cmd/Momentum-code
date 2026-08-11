@@ -5,6 +5,9 @@ import { InboxHeader } from "./inboxHeader/InboxHeader.tsx";
 import { GroupListSection } from "./groupListSection/GroupListSection.tsx";
 import { StateSection } from "./stateSection/StateSection.tsx";
 import { useMediaQuery } from "../../../hook/useMediaQuery.ts";
+import useGropList from "../../../api/group-lists/useGroupList.ts";
+import useTask from "../../../api/task/useTask.ts";
+import useUser from "../../../api/user-data/useUser.ts";
 
 interface AppInboxProp {
   isOpenNavBar: string;
@@ -32,6 +35,16 @@ export function AppInboxPage({
       document.body.style.overflow = "unset";
     };
   }, [isOpenPopup]);
+
+  const { getTask } = useTask();
+  const { getGroup } = useGropList();
+  const { getUserInfo } = useUser();
+
+  useEffect(() => {
+    getGroup();
+    getTask();
+    getUserInfo();
+  }, [getGroup, getTask, getUserInfo]);
 
   const wideScreen = useMediaQuery("(min-width: 821px)");
   const maxWideScreen = useMediaQuery("(max-width: 821px)");

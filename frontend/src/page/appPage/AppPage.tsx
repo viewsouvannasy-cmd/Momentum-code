@@ -1,20 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router";
 import { NavBarApp } from "../../components/nav-bar-app/NavBarApp";
 import { AppInboxPage } from "./inboxPage/AppInboxPage";
 import { GroupListPage } from "./gropListPage/GroupListPage.tsx";
 import useGropList from "../../api/group-lists/useGroupList.ts";
-import useTask from "../../api/task/useTask.ts";
-import useUser from "../../api/user-data/useUser.ts";
 
 import "./AppPage.css";
 
 export function AppPage() {
   const { section, groupId } = useParams();
 
-  const { getTask } = useTask();
-  const { groupListData, getGroup } = useGropList();
-  const { userData, getUserInfo } = useUser();
+  const { groupListData } = useGropList();
 
   const [isOpenNavBar, setIsOpenNavBar] = useState<string>(() => {
     return localStorage.getItem("navbar") || "open";
@@ -22,13 +18,6 @@ export function AppPage() {
 
   const [isOpenNavBarMB, setIsOpenNavBarMB] = useState("close");
   const [isBackgroundOverlyMB, setIsBackgroundOverlyMB] = useState("close");
-
-  useEffect(() => {
-    getGroup();
-    getTask();
-    getUserInfo();
-  }, [getGroup, getTask, getUserInfo]);
-  console.log(userData);
 
   return (
     <>

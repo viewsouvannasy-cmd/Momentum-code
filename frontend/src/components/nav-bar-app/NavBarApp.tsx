@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { addAndRemoveTransition } from "../../utils/addAndRemoveTransition.ts";
 import { PopUpCreateGroupList } from "../popup/popupGroupList/popup-create-group-list/PopUpCreateGroupList.tsx";
 import { FullLogo } from "../logo/FullLogo";
@@ -27,8 +27,8 @@ export function NavBarApp({
   const navigate = useNavigate();
   const { section } = useParams();
 
-  const { userData } = useUser();
-  const { groupListData, isLoadingGroup } = useGropList();
+  const { userData, getUserInfo } = useUser();
+  const { groupListData, isLoadingGroup, getGroup } = useGropList();
 
   // this is use to controll popup
   const [isOpenPopup, setIsOpenPopup] = useState<string | null>(null);
@@ -78,6 +78,11 @@ export function NavBarApp({
       handleCloseNavBarMB();
     }
   }
+
+  useEffect(() => {
+    getGroup();
+    getUserInfo();
+  }, [getGroup, getUserInfo]);
 
   return (
     <>

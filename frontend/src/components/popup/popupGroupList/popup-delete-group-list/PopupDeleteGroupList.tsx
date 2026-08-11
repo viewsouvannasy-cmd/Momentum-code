@@ -1,5 +1,5 @@
 import useGropList from "../../../../api/group-lists/useGroupList.ts";
-
+import { useNavigate } from "react-router";
 import { LoadButton } from "../../../load-button/LoadButton.tsx";
 import useGetData from "../../../../api/todo-data/useGetData.ts";
 import "./PopupDeleteGroupList.css";
@@ -24,6 +24,8 @@ export function PopupDeleteGroupList({
   const { isLoadingPost, deleteGroup } = useGropList();
   const { getDataTodo } = useGetData();
 
+  const navigate = useNavigate();
+
   function handleClosePopup() {
     setIsAnimation("close");
     setTimeout(() => {
@@ -35,6 +37,7 @@ export function PopupDeleteGroupList({
     if (groupId) {
       await deleteGroup(groupId);
       await getDataTodo();
+      navigate("/app/inbox");
     }
   };
 

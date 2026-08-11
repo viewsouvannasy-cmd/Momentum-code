@@ -20,18 +20,8 @@ export function GroupListSection({
     setIsOpenPopup("create");
   }
 
-  function handleToGroupListPage(
-    group_id: number,
-    group_name: string,
-    group_color: string,
-  ) {
-    navigate(`/app/group/${group_id}`, {
-      state: {
-        group_id,
-        group_name,
-        group_color,
-      },
-    });
+  function handleToGroupListPage(group_id: number) {
+    navigate(`/app/group/${group_id}`);
   }
 
   return (
@@ -60,13 +50,7 @@ export function GroupListSection({
             return (
               <div
                 role="button"
-                onClick={() =>
-                  handleToGroupListPage(
-                    group.group_id,
-                    group.group_name,
-                    group.group_color,
-                  )
-                }
+                onClick={() => handleToGroupListPage(group.group_id)}
                 key={group.group_id}
                 style={{ backgroundColor: group.group_color }}
               >

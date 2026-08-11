@@ -6,6 +6,7 @@ import { PopupRenameGroupList } from "../../../components/popup/popupGroupList/p
 import { PopupChangeColorGroup } from "../../../components/popup/popupGroupList/popup-change-color-group-list/PopupChangeColorGroup";
 import { PopupDeleteGroupList } from "../../../components/popup/popupGroupList/popup-delete-group-list/PopupDeleteGroupList";
 import useGropList from "../../../api/group-lists/useGroupList.ts";
+import useTask from "../../../api/task/useTask.ts";
 
 interface GroupListPageProp {
   setIsBackgroundOverlyMB: (param: string) => void;
@@ -24,7 +25,8 @@ export function GroupListPage({
 }: GroupListPageProp) {
   const { groupId } = useParams();
 
-  const { groupListData } = useGropList();
+  const { getTask } = useTask();
+  const { getGroup, groupListData } = useGropList();
 
   // this is use to controll popup
   const [isOpenPopup, setIsOpenPopup] = useState<string | null>(null);
@@ -41,6 +43,11 @@ export function GroupListPage({
       document.body.style.overflow = "unset";
     };
   }, [isOpenPopup]);
+
+  useEffect(() => {
+    getGroup();
+    getTask();
+  }, [getGroup, getTask]);
 
   const currentGroupList: GroupList | undefined = groupListData.find(
     (group) => group.group_id === Number(groupId),
