@@ -1,5 +1,6 @@
 import { DisplayItemToDo } from "./displayItemToDo/DisplayItemToDo";
 import { getLoadingStateEl } from "../../../../../utils/loadingEl.ts";
+import { NotHaveTask } from "../../../../../components/not-have-task/NotHaveTask.tsx";
 import useTask from "../../../../../api/task/useTask";
 import useGropList from "../../../../../api/group-lists/useGroupList.ts";
 
@@ -74,9 +75,7 @@ export function DisplayState({
             );
           })}
 
-        {!isLoadingTask && filterState.length === 0 && (
-          <div className="container-no-have-task">No have Task On Here.</div>
-        )}
+        {!isLoadingTask && filterState.length === 0 && <NotHaveTask />}
       </div>
 
       <div

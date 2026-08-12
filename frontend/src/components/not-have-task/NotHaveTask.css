@@ -1,0 +1,9 @@
+.container-no-have-task {
+  font-family: nunito, sans-serif;
+  color: var(--border-card-color);
+  border: 1px dashed var(--border-card-color);
+  padding: 30px;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: center;
+}

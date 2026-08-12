@@ -159,6 +159,12 @@ const verifyUserOTP = async (req, res) => {
     WHERE user_id = ${user_id}
     `;
 
+    res.clearCookie("jwt_otp", {
+      httpOnly: true,
+      sameSite: "Lax",
+      secure: false,
+    });
+
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       sameSite: "Lax",
@@ -261,7 +267,7 @@ const handleLogout = async (req, res) => {
         sameSite: "Lax",
         secure: false,
       });
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         msg: "user is not found",
       });

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useState } from "react";
 import axios from "axios";
 import { LoadButton } from "../../components/load-button/LoadButton";
@@ -13,8 +13,6 @@ type FetchResult = {
 };
 
 export function LoginPage() {
-  const navigate = useNavigate();
-
   // this is use to change color of image
   const { themeColor } = useToggleTheme();
 
@@ -53,17 +51,17 @@ export function LoginPage() {
 
   function handleLogin(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     fetchLogin();
     setIsLading(true);
   }
+
   function handleShowPassword() {
     setIsShowPassword(isShowPassword === "close" ? "open" : "close");
   }
 
   function handleToMainApp(data: FetchResult) {
     if (data.success) {
-      navigate(`/app/inbox`);
+      window.open("/app/inbox", "_blank", "noopener,noreferrer");
     }
   }
 

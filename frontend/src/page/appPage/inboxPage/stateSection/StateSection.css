@@ -40,6 +40,12 @@
   gap: 30px;
 }
 
+@media (max-width: 820px) {
+  .container-to-do-list-state {
+    display: none;
+  }
+}
+
 @media (max-width: 670px) {
   .container-to-do-list-state > div:last-child {
     flex-direction: column;

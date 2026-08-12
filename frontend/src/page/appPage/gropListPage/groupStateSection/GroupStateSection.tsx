@@ -1,4 +1,5 @@
 import { DisplayState } from "../../inboxPage/stateSection/displayState/DisplayState";
+import { StateSectionMb } from "../../../../components/state-section-mb/StateSectionMb";
 import useTask from "../../../../api/task/useTask";
 import "./GroupStateSection.css";
 
@@ -19,36 +20,40 @@ export function GroupStateSection({
     (task) => task.group_id === Number(groupId),
   );
   return (
-    <div className="container-group-list-state-section">
-      <div>
+    <>
+      <div className="container-group-list-state-section">
         <div>
-          <p>My Momentum</p>
-          <span>In learing group</span>
+          <div>
+            <p>My Momentum</p>
+            <span>In learing group</span>
+          </div>
+          <div>
+            <button>+ Add New</button>
+          </div>
         </div>
         <div>
-          <button>+ Add New</button>
+          <DisplayState
+            state="todo"
+            taskData={filterTask}
+            setIsOpenPopup={setIsOpenPopup}
+            setIsAnimation={setIsAnimation}
+          />
+          <DisplayState
+            state="doing"
+            taskData={filterTask}
+            setIsOpenPopup={setIsOpenPopup}
+            setIsAnimation={setIsAnimation}
+          />
+          <DisplayState
+            state="done"
+            taskData={filterTask}
+            setIsOpenPopup={setIsOpenPopup}
+            setIsAnimation={setIsAnimation}
+          />
         </div>
       </div>
-      <div>
-        <DisplayState
-          state="todo"
-          taskData={filterTask}
-          setIsOpenPopup={setIsOpenPopup}
-          setIsAnimation={setIsAnimation}
-        />
-        <DisplayState
-          state="doing"
-          taskData={filterTask}
-          setIsOpenPopup={setIsOpenPopup}
-          setIsAnimation={setIsAnimation}
-        />
-        <DisplayState
-          state="done"
-          taskData={filterTask}
-          setIsOpenPopup={setIsOpenPopup}
-          setIsAnimation={setIsAnimation}
-        />
-      </div>
-    </div>
+
+      <StateSectionMb taskData={filterTask} />
+    </>
   );
 }

@@ -1,0 +1,81 @@
+.container-state-section-mb {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container-state-section-mb > h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.state-section-mb-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.state-section-mb-header.todo > button:nth-child(1),
+.state-section-mb-header.doing > button:nth-child(2),
+.state-section-mb-header.done > button:nth-child(3) {
+  position: relative;
+  color: var(--hero-text-color);
+}
+
+.state-section-mb-header.todo > button:nth-child(1)::after,
+.state-section-mb-header.doing > button:nth-child(2)::after,
+.state-section-mb-header.done > button:nth-child(3)::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.state-section-mb-header.todo > button:nth-child(1)::after {
+  background-color: var(--todo-state-color);
+}
+
+.state-section-mb-header.doing > button:nth-child(2)::after {
+  background-color: var(--doing-state-color);
+}
+
+.state-section-mb-header.done > button:nth-child(3)::after {
+  background-color: var(--done-state-color);
+}
+
+.state-section-mb-header > button {
+  flex: 1;
+  border: none;
+  padding: 15px;
+  font-weight: 500;
+  background-color: transparent;
+  color: var(--hero-text-color);
+  font-size: 0.8rem;
+  cursor: pointer;
+  background-color: #232323;
+  color: #999999;
+}
+
+.state-section-mb-header > button > span {
+  font-size: 0.69rem;
+  font-weight: 600;
+}
+
+.container-display-todo-item-mb {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.container-loading-todo-item {
+  height: 100px;
+  background-color: #232323;
+}
+
+@media (max-width: 820px) {
+  .container-state-section-mb {
+    display: flex;
+  }
+}

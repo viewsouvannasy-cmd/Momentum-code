@@ -3,14 +3,11 @@ import { useParams } from "react-router";
 import { NavBarApp } from "../../components/nav-bar-app/NavBarApp";
 import { AppInboxPage } from "./inboxPage/AppInboxPage";
 import { GroupListPage } from "./gropListPage/GroupListPage.tsx";
-import useGropList from "../../api/group-lists/useGroupList.ts";
 
 import "./AppPage.css";
 
 export function AppPage() {
   const { section, groupId } = useParams();
-
-  const { groupListData } = useGropList();
 
   const [isOpenNavBar, setIsOpenNavBar] = useState<string>(() => {
     return localStorage.getItem("navbar") || "open";
@@ -39,8 +36,7 @@ export function AppPage() {
           />
         )}
 
-        {groupListData.filter((item) => item.group_id === Number(groupId))
-          .length > 0 && (
+        {groupId && (
           <GroupListPage
             setIsBackgroundOverlyMB={setIsBackgroundOverlyMB}
             setIsOpenNavBarMB={setIsOpenNavBarMB}

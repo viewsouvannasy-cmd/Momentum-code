@@ -5,6 +5,11 @@
   gap: 20px;
 }
 
+.container-inbox-section-header > div {
+  display: flex;
+  flex-direction: column;
+}
+
 .container-inbox-section-header > div > h1 {
   font-weight: 550;
 }
@@ -17,11 +22,11 @@
 }
 
 @media (max-width: 510px) {
-  .container-inbox-section-header > div:first-child > h1 {
-    font-size: 1.6rem;
+  .container-inbox-section-header > div > h1 {
+    font-size: 1.4rem;
   }
 
   .container-inbox-section-header > div > span {
-    display: none;
+    font-size: 0.7rem;
   }
 }

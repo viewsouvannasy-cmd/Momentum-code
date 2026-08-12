@@ -1,6 +1,7 @@
 import { DisplayState } from "./displayState/DisplayState";
 import useGropList from "../../../../api/group-lists/useGroupList.ts";
 import useTask from "../../../../api/task/useTask.ts";
+import { StateSectionMb } from "../../../../components/state-section-mb/StateSectionMb.tsx";
 import "./StateSection.css";
 
 interface StateSectionProp {
@@ -27,33 +28,38 @@ export function StateSection({
   }
 
   return (
-    <div className="container-to-do-list-state">
-      <div>
-        <h3>My Momentum</h3>
+    <>
+      <div className="container-to-do-list-state">
         <div>
-          <button onClick={handleOpenPopup}>+ Add task</button>
+          <h3>My Momentum</h3>
+          <div>
+            <button onClick={handleOpenPopup}>+ Add task</button>
+          </div>
+        </div>
+        <div>
+          <DisplayState
+            state="todo"
+            taskData={taskData}
+            setIsAnimation={setIsAnimation}
+            setIsOpenPopup={setIsOpenPopup}
+          />
+          <DisplayState
+            state="doing"
+            taskData={taskData}
+            setIsAnimation={setIsAnimation}
+            setIsOpenPopup={setIsOpenPopup}
+          />
+          <DisplayState
+            state="done"
+            taskData={taskData}
+            setIsAnimation={setIsAnimation}
+            setIsOpenPopup={setIsOpenPopup}
+          />
         </div>
       </div>
-      <div>
-        <DisplayState
-          state="todo"
-          taskData={taskData}
-          setIsAnimation={setIsAnimation}
-          setIsOpenPopup={setIsOpenPopup}
-        />
-        <DisplayState
-          state="doing"
-          taskData={taskData}
-          setIsAnimation={setIsAnimation}
-          setIsOpenPopup={setIsOpenPopup}
-        />
-        <DisplayState
-          state="done"
-          taskData={taskData}
-          setIsAnimation={setIsAnimation}
-          setIsOpenPopup={setIsOpenPopup}
-        />
-      </div>
-    </div>
+
+      {/* this component use for mobile screen */}
+      <StateSectionMb taskData={taskData} />
+    </>
   );
 }

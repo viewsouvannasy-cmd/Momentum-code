@@ -1,8 +1,8 @@
 export function ButtonArrow() {
   return (
     <svg
-      width="15"
-      height="15"
+      width="13"
+      height="13"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

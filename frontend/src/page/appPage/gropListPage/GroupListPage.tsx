@@ -1,4 +1,5 @@
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
+
 import { useState, useEffect } from "react";
 import { GroupHeader } from "./groupHeader/GroupHeader";
 import { GroupStateSection } from "./groupStateSection/GroupStateSection";
@@ -23,6 +24,8 @@ export function GroupListPage({
   setIsBackgroundOverlyMB,
   setIsOpenNavBarMB,
 }: GroupListPageProp) {
+  const navigate = useNavigate();
+
   const { groupId } = useParams();
 
   const { getTask } = useTask();
@@ -52,6 +55,16 @@ export function GroupListPage({
   const currentGroupList: GroupList | undefined = groupListData.find(
     (group) => group.group_id === Number(groupId),
   );
+
+  if (!currentGroupList) {
+    navigate("/error");
+  }
+
+  useEffect(() => {
+    if (currentGroupList?.group_id) {
+      document.title = currentGroupList?.group_name;
+    }
+  });
 
   return (
     <>

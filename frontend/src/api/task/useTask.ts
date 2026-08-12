@@ -56,6 +56,7 @@ const useTask = create<UseTask>((set) => ({
   moveTo: async (group_id, task_id, toState) => {
     try {
       set({ isLoadingPost: true });
+
       await moveToState(group_id, task_id, toState);
       const response = await getTaskData();
       set({ isLoadingPost: false, taskData: response.results });
