@@ -22,9 +22,9 @@ interface UseTask {
   error: unknown;
 
   getTask: () => void;
-  addTask: (group_id: string, task_name: string) => void;
-  moveTo: (group_id: string, task_id: string, toState: string) => void;
-  deleteTask: (group_id: string, task_id: string) => void;
+  addTask: (group_id: number, task_name: string) => void;
+  moveTo: (group_id: number, task_id: number, toState: string) => void;
+  deleteTask: (group_id: number, task_id: number) => void;
 }
 
 const useTask = create<UseTask>((set) => ({

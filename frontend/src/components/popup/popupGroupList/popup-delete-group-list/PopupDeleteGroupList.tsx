@@ -5,7 +5,7 @@ import useGetData from "../../../../api/todo-data/useGetData.ts";
 import "./PopupDeleteGroupList.css";
 
 interface PopupDeleteGroupListprop {
-  groupId: string | undefined;
+  groupId: number | undefined;
   group_name: string | undefined;
   isOpenPopup: string | null;
   isAnimation: string;

@@ -1,18 +1,26 @@
+import { Request, Response } from "express";
+import { checkPayload } from "../../utils/checkPayload.js";
 import { sql } from "../../config/database.js";
 
-// this function get group list
-const getGroupList = async (req, res) => {
-  try {
-    const user = req.user;
+interface GroupType {
+  group_id: number;
+  group_name: string;
+  group_color: string;
+}
 
-    const results = await sql`
+// this function get group list
+const getGroupList = async (req: Request, res: Response) => {
+  try {
+    const user_id = checkPayload(req.user?.user_id);
+
+    const results = (await sql`
     SELECT
     group_id,
     group_name,
     group_color
     FROM group_list
-    WHERE user_id = ${user.user_id}
-    `;
+    WHERE user_id = ${user_id}
+    `) as GroupType[];
 
     res.status(202).json({ results: results });
   } catch (error) {
@@ -21,10 +29,10 @@ const getGroupList = async (req, res) => {
 };
 
 // this function create group list
-const createGroupList = async (req, res) => {
+const createGroupList = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
-    const { group_name, group_color } = req.body;
+    const user_id = checkPayload(req.user?.user_id);
+    const { group_name, group_color }: GroupType = req.body;
 
     // check required
     if (!group_name || !group_color) {
@@ -34,7 +42,7 @@ const createGroupList = async (req, res) => {
     await sql`
     INSERT INTO group_list(user_id,group_name,group_color)
     VALUES (
-    ${user.user_id},
+    ${user_id},
     ${group_name},
     ${group_color}
     )
@@ -47,15 +55,15 @@ const createGroupList = async (req, res) => {
 };
 
 // this function delete group list
-const deleteGroupList = async (req, res) => {
+const deleteGroupList = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
+    const user_id = checkPayload(req.user?.user_id);
     const { group_id } = req.params;
 
     const results = await sql`
     DELETE FROM group_list
     WHERE group_id = ${group_id} 
-    AND user_id = ${user.user_id}
+    AND user_id = ${user_id}
     RETURNING *
     `;
     if (results.length === 0) {
@@ -69,16 +77,16 @@ const deleteGroupList = async (req, res) => {
 };
 
 // this function use to rename group list
-const renameGroupList = async (req, res) => {
+const renameGroupList = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
+    const user_id = checkPayload(req.user?.user_id);
     const { group_new_name } = req.body;
     const { group_id } = req.params;
 
     const results = await sql`
     UPDATE group_list
     SET group_name = ${group_new_name}
-    WHERE group_id = ${group_id} AND user_id = ${user.user_id}
+    WHERE group_id = ${group_id} AND user_id = ${user_id}
     RETURNING *
     `;
     if (results.length === 0) {
@@ -92,16 +100,16 @@ const renameGroupList = async (req, res) => {
 };
 
 // this function use to change color of group list
-const changeColorGroupList = async (req, res) => {
+const changeColorGroupList = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
+    const user_id = checkPayload(req.user?.user_id);
     const { group_id } = req.params;
     const { group_new_color } = req.body;
 
     const results = await sql`
     UPDATE group_list
     SET group_color = ${group_new_color}
-    WHERE group_id = ${group_id} AND user_id = ${user.user_id}
+    WHERE group_id = ${group_id} AND user_id = ${user_id}
     RETURNING *
     `;
     if (results.length === 0) {

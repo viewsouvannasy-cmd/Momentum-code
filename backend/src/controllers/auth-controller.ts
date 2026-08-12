@@ -1,18 +1,39 @@
 import bcrypt from "bcrypt";
+import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { vaildateFormatEamil, checkDomainEamil } from "../utils/validation.js";
+import { vaildateFormatEmail, checkDomainEamil } from "../utils/validation.js";
 import { sentOtpEmail, genrateOtp } from "../service/emailService.js";
 import { sql } from "../config/database.js";
 import {
   generateAccessToken,
   generateRefreshToken,
 } from "../utils/generateToken.js";
+import {
+  getAccessTokenSecret,
+  getRefreshTokenSecret,
+  getOtpTokenSecret,
+} from "../utils/getEnv.js";
+
+interface UserInfoType {
+  user_name: string;
+  user_email: string;
+  user_password: string;
+}
+
+interface VerifyOtpType extends UserInfoType {
+  otp_code: string;
+}
+
+interface OtpPayLoad {
+  user_name: string;
+  otp_code_hash: string;
+}
 
 // this function is use to check valid info of user
 // and check that user email is truly have
-const createAccount = async (req, res) => {
+const createAccount = async (req: Request, res: Response) => {
   try {
-    const { user_name, user_email } = req.body;
+    const { user_name, user_email }: UserInfoType = req.body;
 
     // check provide info
     if (!user_name || !user_email) {
@@ -37,7 +58,7 @@ const createAccount = async (req, res) => {
     }
 
     // check valid email format
-    const checkForrmatEmail = vaildateFormatEamil(user_email);
+    const checkForrmatEmail = vaildateFormatEmail(user_email);
     if (!checkForrmatEmail) {
       return res.status(401).json({ msg: "Invilid email format" });
     }
@@ -80,15 +101,16 @@ const createAccount = async (req, res) => {
     const otpHash = await bcrypt.hash(otp, 10);
 
     // generate otp token
+    const otpTokenSecret = getOtpTokenSecret();
     const otpToken = jwt.sign(
       { user_name: user_name, otp_code_hash: otpHash },
-      process.env.OTP_TOKEN_SECRET,
+      otpTokenSecret,
       { expiresIn: "5m" },
     );
 
     res.cookie("jwt_otp", otpToken, {
       httpOnly: true,
-      sameSite: "Lax",
+      sameSite: "lax",
       secure: false,
       maxAge: 5 * 60 * 1000,
     });
@@ -103,9 +125,10 @@ const createAccount = async (req, res) => {
 
 // this actucl function that use to store a user to
 // datebase after verify otp code
-const verifyUserOTP = async (req, res) => {
+const verifyUserOTP = async (req: Request, res: Response) => {
   try {
-    const { user_name, user_email, user_password, otp_code } = req.body;
+    const { user_name, user_email, user_password, otp_code }: VerifyOtpType =
+      req.body;
 
     const cookieOtp = req.cookies.jwt_otp;
 
@@ -119,7 +142,7 @@ const verifyUserOTP = async (req, res) => {
     }
 
     // check valid otp code
-    const payload = jwt.verify(cookieOtp, process.env.OTP_TOKEN_SECRET);
+    const payload = jwt.verify(cookieOtp, getOtpTokenSecret()) as OtpPayLoad;
     const compareOtp = await bcrypt.compare(otp_code, payload.otp_code_hash);
     if (payload.user_name !== user_name || !compareOtp) {
       return res.status(401).json({
@@ -161,13 +184,13 @@ const verifyUserOTP = async (req, res) => {
 
     res.clearCookie("jwt_otp", {
       httpOnly: true,
-      sameSite: "Lax",
+      sameSite: "lax",
       secure: false,
     });
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "Lax",
+      sameSite: "lax",
       secure: false,
       maxAge: 15 * 24 * 60 * 60 * 1000,
     });
@@ -182,9 +205,9 @@ const verifyUserOTP = async (req, res) => {
 };
 
 // validate user login
-const handleLogin = async (req, res) => {
+const handleLogin = async (req: Request, res: Response) => {
   try {
-    const { user_name, user_password } = req.body;
+    const { user_name, user_password }: UserInfoType = req.body;
 
     // find user
     const findUser = await sql`
@@ -225,7 +248,7 @@ const handleLogin = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "Lax",
+      sameSite: "lax",
       secure: false,
       maxAge: 15 * 24 * 60 * 60 * 1000,
     });
@@ -244,7 +267,7 @@ const handleLogin = async (req, res) => {
 };
 
 // handle log out
-const handleLogout = async (req, res) => {
+const handleLogout = async (req: Request, res: Response) => {
   try {
     const cookie = req.cookies;
 
@@ -253,7 +276,9 @@ const handleLogout = async (req, res) => {
     }
 
     // find user
-    const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
+    const payload = jwt.verify(cookie.jwt, getRefreshTokenSecret()) as {
+      user_id: number;
+    };
 
     const findUser = await sql`
     SELECT
@@ -264,7 +289,7 @@ const handleLogout = async (req, res) => {
     if (findUser.length === 0) {
       res.clearCookie("jwt", {
         httpOnly: true,
-        sameSite: "Lax",
+        sameSite: "lax",
         secure: false,
       });
       return res.status(404).json({
@@ -280,7 +305,7 @@ const handleLogout = async (req, res) => {
     WHERE user_id = ${payload.user_id}
   `;
 
-    res.clearCookie("jwt", { httpOnly: true, sameSite: "Lax", secure: false });
+    res.clearCookie("jwt", { httpOnly: true, sameSite: "lax", secure: false });
 
     res.status(200).json({ success: true, msg: "log out" });
   } catch (error) {
@@ -290,7 +315,7 @@ const handleLogout = async (req, res) => {
 
 // this funciton use to check user is already in system
 // if in, will send that user to app page or user refresh token is not expires
-const checkUser = async (req, res) => {
+const checkUser = async (req: Request, res: Response) => {
   try {
     const cookie = req.cookies;
 
@@ -303,7 +328,9 @@ const checkUser = async (req, res) => {
     }
 
     // find user
-    const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
+    const payload = jwt.verify(cookie.jwt, getRefreshTokenSecret()) as {
+      user_id: number;
+    };
     const findUser = await sql`
     SELECT
     user_name,

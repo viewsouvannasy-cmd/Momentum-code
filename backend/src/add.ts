@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth-route.js";
@@ -10,9 +10,9 @@ import todoDateRoute from "./routes/todo/todo-date-route.js";
 import dataRoute from "./routes/todo/todo-data-route.js";
 
 // this middleware use to verify jwt token
-import verifyJwt from "./middleware/verifyJWT.js";
+import verifyJwt from "./middleware/verifyJwt.js";
 
-const app = express();
+const app: Express = express();
 
 app.use(
   cors({

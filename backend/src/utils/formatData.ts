@@ -1,4 +1,17 @@
-export function formatData(data) {
+interface DataType {
+  group_id: number;
+  group_name: string;
+  group_color: string;
+  task_id: number;
+  task_name: string;
+  task_status: string;
+  date_id: number;
+  task_date: string;
+  start_time: string;
+  end_time: string;
+}
+
+export function formatData(data: DataType[]) {
   const groups = new Map();
 
   for (const row of data) {

@@ -14,9 +14,9 @@ interface UseGroupList {
   error: unknown;
   getGroup: () => void;
   createGroup: (name: string, color: string) => void;
-  renameGroup: (newName: string, id: string) => void;
-  changeColorGroup: (newColor: string, id: string) => void;
-  deleteGroup: (id: string) => void;
+  renameGroup: (newName: string, id: number) => void;
+  changeColorGroup: (newColor: string, id: number) => void;
+  deleteGroup: (id: number) => void;
 }
 
 interface GroupList {

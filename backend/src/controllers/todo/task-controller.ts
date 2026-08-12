@@ -1,11 +1,27 @@
+import { checkPayload } from "../../utils/checkPayload.js";
+import { Request, Response } from "express";
 import { sql } from "../../config/database.js";
 import { checkOwner, checkListInGroupOwner } from "../../utils/checkOwner.js";
 
-const getTaskList = async (req, res) => {
-  try {
-    const user = req.user;
+interface TaskType {
+  group_id: number;
+  group_name: string;
+  group_color: string;
+  task_id: number;
+  task_name: string;
+  task_status: string;
+}
 
-    const results = await sql`
+interface TaskType {
+  toState: string;
+}
+
+// this function use to get task data
+const getTaskList = async (req: Request, res: Response) => {
+  try {
+    const user_id = checkPayload(req.user?.user_id);
+
+    const results = (await sql`
     SELECT
     gl.group_id,
     gl.group_name,
@@ -16,8 +32,8 @@ const getTaskList = async (req, res) => {
     FROM group_list as gl
     INNER JOIN tasks as t
     ON gl.group_id = t.group_id
-    WHERE gl.user_id = ${user.user_id}
-    `;
+    WHERE gl.user_id = ${user_id}
+    `) as TaskType[];
 
     res.status(200).json({ results });
   } catch (error) {
@@ -26,10 +42,10 @@ const getTaskList = async (req, res) => {
 };
 
 // this function add to do list to group list
-const addTaskList = async (req, res) => {
+const addTaskList = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
-    const { group_id, task_name, task_status } = req.body;
+    const user_id = checkPayload(req.user?.user_id);
+    const { group_id, task_name, task_status }: TaskType = req.body;
 
     // check required
     if (!group_id || !task_name || !task_status) {
@@ -37,7 +53,7 @@ const addTaskList = async (req, res) => {
     }
 
     // check that user is owner of  group list
-    const results = await checkOwner(group_id, user.user_id);
+    const results = await checkOwner(group_id, user_id);
     if (results.length === 0) {
       return res.sendStatus(404);
     }
@@ -54,17 +70,17 @@ const addTaskList = async (req, res) => {
 };
 
 // this function undo list inside group list
-const deleteTask = async (req, res) => {
+const deleteTask = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
+    const user_id = checkPayload(req.user?.user_id);
     const { group_id, task_id } = req.params;
 
     // check that to do inside group that have
     // that user be owner
     const results = await checkListInGroupOwner(
-      group_id,
-      user.user_id,
-      task_id,
+      Number(group_id),
+      user_id,
+      Number(task_id),
     );
     if (results.length === 0) {
       return res.sendStatus(404);
@@ -82,18 +98,14 @@ const deleteTask = async (req, res) => {
 };
 
 // this function move to do state to doing state
-const moveTo = async (req, res) => {
+const moveTo = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
-    const { group_id, task_id, toState } = req.body;
+    const user_id = checkPayload(req.user?.user_id);
+    const { group_id, task_id, toState }: TaskType = req.body;
 
     // check that to do inside group that have
     // that user be owner
-    const results = await checkListInGroupOwner(
-      group_id,
-      user.user_id,
-      task_id,
-    );
+    const results = await checkListInGroupOwner(group_id, user_id, task_id);
     if (results.length === 0) {
       return res.sendStatus(404);
     }

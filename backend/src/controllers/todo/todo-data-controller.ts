@@ -1,11 +1,26 @@
+import { Request, Response } from "express";
 import { formatData } from "../../utils/formatData.js";
 import { sql } from "../../config/database.js";
+import { checkPayload } from "../../utils/checkPayload.js";
 
-const getTodoData = async (req, res) => {
+interface DataType {
+  group_id: number;
+  group_name: string;
+  group_color: string;
+  task_id: number;
+  task_name: string;
+  task_status: string;
+  date_id: number;
+  task_date: string;
+  start_time: string;
+  end_time: string;
+}
+
+const getTodoData = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
+    const user_id = checkPayload(req.user?.user_id);
 
-    const results = await sql`
+    const results = (await sql`
     SELECT
     gl.group_id,
     gl.group_name,
@@ -22,8 +37,8 @@ const getTodoData = async (req, res) => {
     on gl.group_id  = t.group_id
     LEFT JOIN task_dates as td
     on td.task_id = t.task_id
-    WHERE user_id = ${user.user_id}
-    `;
+    WHERE user_id = ${user_id}
+    `) as DataType[];
 
     const newFomat = formatData(results);
 

@@ -6,7 +6,7 @@ import { LoadButton } from "../../../load-button/LoadButton.tsx";
 import "./PopupRenameGroupList.css";
 
 interface PopupRenameGroupListProp {
-  groupId: string | undefined;
+  groupId: number | undefined;
   isOpenPopup: string | null;
   isAnimation: string;
   setIsOpenPopup: (param: string | null) => void;

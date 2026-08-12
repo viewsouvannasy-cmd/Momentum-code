@@ -1,19 +1,21 @@
 import nodemailer from "nodemailer";
 import path from "path";
 import { fileURLToPath } from "url";
+import { getAppPassword } from "../utils/getEnv.js";
 
-function genrateOtp() {
+function genrateOtp(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-const sentOtpEmail = async (email, otpCode) => {
+const sentOtpEmail = async (email: string, otpCode: string) => {
   try {
     //email that use to send
+    const appPassword = getAppPassword();
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: "momentum.v0@gmail.com",
-        pass: process.env.APP_PASSWORD,
+        pass: appPassword,
       },
     });
 

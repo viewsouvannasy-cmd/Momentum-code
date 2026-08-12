@@ -6,6 +6,7 @@ export const checkUser = async () => {
       "http://localhost:4000/api/auth/check-user",
       { withCredentials: true },
     );
+    console.log(response.data);
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {

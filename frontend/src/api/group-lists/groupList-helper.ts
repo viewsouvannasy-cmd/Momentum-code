@@ -35,7 +35,7 @@ const createGroupList = async (group_name: string, group_color: string) => {
   }
 };
 
-const renameGroupList = async (group_new_name: string, group_id: string) => {
+const renameGroupList = async (group_new_name: string, group_id: number) => {
   try {
     const accessToken = await checkAccessToken();
     await axios.put(
@@ -54,7 +54,7 @@ const renameGroupList = async (group_new_name: string, group_id: string) => {
 
 const changeColorGroupList = async (
   group_new_color: string,
-  group_id: string,
+  group_id: number,
 ) => {
   try {
     const accessToken = await checkAccessToken();
@@ -72,7 +72,7 @@ const changeColorGroupList = async (
   }
 };
 
-const deleteGroupList = async (group_id: string) => {
+const deleteGroupList = async (group_id: number) => {
   try {
     const accessToken = await checkAccessToken();
     await axios.delete(`http://localhost:4000/api/group/delete/${group_id}`, {

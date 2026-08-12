@@ -1,9 +1,18 @@
 import jwt from "jsonwebtoken";
+import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { generateAccessToken } from "../utils/generateToken.js";
+import { getRefreshTokenSecret } from "../utils/getEnv.js";
 import { sql } from "../config/database.js";
+import { findUserById } from "../utils/findUserById.js";
 
-const refreshToken = async (req, res) => {
+interface PayloadType {
+  user_id: number;
+  iat: number;
+  exp: number;
+}
+
+const refreshToken = async (req: Request, res: Response) => {
   try {
     const cookie = req.cookies;
 
@@ -15,18 +24,14 @@ const refreshToken = async (req, res) => {
     }
 
     // find user
-    const payload = jwt.verify(cookie.jwt, process.env.REFRESH_TOKEN_SECRET);
-    const findUser = await sql`
-    SELECT
-    *
-    FROM users
-    WHERE user_id = ${payload.user_id}
-    `;
+    const refreshTokenSecret = getRefreshTokenSecret();
+    const payload = jwt.verify(cookie.jwt, refreshTokenSecret) as PayloadType;
+    const findUser = await findUserById(payload.user_id);
     if (findUser.length === 0) {
       return res.status(401).json({ success: false, msg: "user is not exist" });
     }
 
-    const refreshToken = cookie.jwt;
+    const refreshToken: string = cookie.jwt;
     // check refresh token
     const checkRefreshToken = await bcrypt.compare(
       refreshToken,
@@ -43,7 +48,7 @@ const refreshToken = async (req, res) => {
 
     res.status(200).json({ success: true, accessToken: accessToken });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    res.status(500).json({ msg: `internal server error ${error}` });
   }
 };
 

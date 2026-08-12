@@ -64,7 +64,7 @@ export function PopupAddTask({
       setIsNotSelectGroup(true);
       return;
     }
-    await addTask(String(selectGroup?.group_id), inputNameTask);
+    await addTask(selectGroup?.group_id, inputNameTask);
     handleClosePopup();
   };
 

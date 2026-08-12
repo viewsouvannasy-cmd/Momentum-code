@@ -1,11 +1,13 @@
 import { neon } from "@neondatabase/serverless";
+import { getNeonUrl } from "../utils/getEnv.js";
 import dotenv from "dotenv";
 
 dotenv.config({
   path: "./.env",
 });
 
-const sql = neon(process.env.NEONDB_URL);
+const neonUrl = getNeonUrl();
+const sql = neon(neonUrl);
 
 const connectDB = async () => {
   try {

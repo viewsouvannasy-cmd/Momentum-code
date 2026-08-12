@@ -1,13 +1,15 @@
 import { sql } from "../../config/database.js";
+import { Request, Response } from "express";
+import { checkPayload } from "../../utils/checkPayload.js";
 import {
   checkListInGroupOwner,
   checkDateInListInGroupOwner,
 } from "../../utils/checkOwner.js";
 
 // this function is use to get to-do date
-const getDate = async (req, res) => {
+const getDate = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
+    const user_id = checkPayload(req.user?.user_id);
 
     const results = await sql`
     SELECT
@@ -24,7 +26,7 @@ const getDate = async (req, res) => {
     ON gl.group_id = td.group_id
     INNER JOIN to_do_date as tdd
     ON td.todo_id = tdd.todo_id
-    WHERE user_id = ${user.user_id}
+    WHERE user_id = ${user_id}
     AND todo_status = 'doing'
     `;
     if (results.length === 0) {
@@ -38,9 +40,9 @@ const getDate = async (req, res) => {
 };
 
 // this function use add date to to-do list
-const addDate = async (req, res) => {
+const addDate = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
+    const user_id = checkPayload(req.user?.user_id);
     const { group_id, todo_id } = req.params;
 
     // date it will be a array
@@ -49,9 +51,9 @@ const addDate = async (req, res) => {
     // check that to-do inside group that have
     // that user be owner
     const results = await checkListInGroupOwner(
-      group_id,
-      user.user_id,
-      todo_id,
+      Number(group_id),
+      user_id,
+      Number(todo_id),
     );
     if (results.length === 0) {
       return res.sendStatus(404);
@@ -71,18 +73,18 @@ const addDate = async (req, res) => {
 };
 
 // this function is use to edit date
-const editDateTime = async (req, res) => {
+const editDateTime = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
+    const user_id = checkPayload(req.user?.user_id);
     const { group_id, todo_id, date_id } = req.params;
     const { start_time, end_time } = req.body;
 
     // check user owner
     const results = await checkDateInListInGroupOwner(
-      group_id,
-      user.user_id,
-      todo_id,
-      date_id,
+      Number(group_id),
+      user_id,
+      Number(todo_id),
+      Number(date_id),
     );
     if (results.length === 0) {
       return res.sendStatus(404);
@@ -102,17 +104,17 @@ const editDateTime = async (req, res) => {
 };
 
 // this function is use to delete date to-do
-const deleteDate = async (req, res) => {
+const deleteDate = async (req: Request, res: Response) => {
   try {
-    const user = req.user;
+    const user_id = checkPayload(req.user?.user_id);
     const { group_id, todo_id, date_id } = req.params;
 
     // check user owner
     const results = await checkDateInListInGroupOwner(
-      group_id,
-      user.user_id,
-      todo_id,
-      date_id,
+      Number(group_id),
+      user_id,
+      Number(todo_id),
+      Number(date_id),
     );
     if (results.length === 0) {
       return res.sendStatus(404);

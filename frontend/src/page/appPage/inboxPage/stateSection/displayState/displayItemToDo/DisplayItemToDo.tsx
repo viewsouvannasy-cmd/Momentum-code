@@ -25,12 +25,12 @@ export function DisplayItemToDo({ task }: DisplayItemToDoProp) {
   const [isFocus, setIsFocus] = useState(false);
 
   function handleMoveState(toState: string) {
-    moveTo(String(task.group_id), String(task.task_id), toState);
+    moveTo(task.group_id, task.task_id, toState);
     setIsFocus(false);
   }
 
   function handleDeleteTesk() {
-    deleteTask(String(task.group_id), String(task.task_id));
+    deleteTask(task.group_id, task.task_id);
     setIsFocus(false);
   }
 

@@ -1,16 +1,23 @@
+import { Request, Response } from "express";
+import { checkPayload } from "../utils/checkPayload.js";
 import { sql } from "../config/database.js";
 
-const getUserInfo = async (req, res) => {
-  try {
-    const user = req.user;
+interface findUserType {
+  user_name: string;
+  user_email: string;
+}
 
-    const findUser = await sql`
+const getUserInfo = async (req: Request, res: Response) => {
+  try {
+    const user_id = checkPayload(req.user?.user_id);
+
+    const findUser = (await sql`
     SELECT
     user_name,
     user_email
     FROM users
-    WHERE user_id = ${user.user_id}
-    `;
+    WHERE user_id = ${user_id}
+    `) as findUserType[];
 
     if (findUser.length === 0) {
       return res.status(404).json({ success: false, msg: "user it not found" });

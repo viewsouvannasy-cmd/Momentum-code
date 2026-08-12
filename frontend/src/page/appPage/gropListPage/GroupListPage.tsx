@@ -84,7 +84,7 @@ export function GroupListPage({
 
       {isOpenPopup === "rename" && (
         <PopupRenameGroupList
-          groupId={groupId}
+          groupId={Number(groupId)}
           isOpenPopup={isOpenPopup}
           isAnimation={isAnimation}
           setIsOpenPopup={setIsOpenPopup}
@@ -93,7 +93,7 @@ export function GroupListPage({
       )}
       {isOpenPopup === "change-color" && (
         <PopupChangeColorGroup
-          groupId={groupId}
+          groupId={Number(groupId)}
           group_name={currentGroupList?.group_name}
           group_color={currentGroupList?.group_color}
           isOpenPopup={isOpenPopup}
@@ -104,7 +104,7 @@ export function GroupListPage({
       )}
       {isOpenPopup === "delete" && (
         <PopupDeleteGroupList
-          groupId={groupId}
+          groupId={Number(groupId)}
           group_name={currentGroupList?.group_name}
           isOpenPopup={isOpenPopup}
           isAnimation={isAnimation}

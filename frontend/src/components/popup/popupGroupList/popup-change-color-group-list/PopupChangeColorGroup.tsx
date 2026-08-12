@@ -9,7 +9,7 @@ import useGetData from "../../../../api/todo-data/useGetData.ts";
 import "./PopupChangeColorGroup.css";
 
 interface PopupChangeColorGroupProp {
-  groupId: string | undefined;
+  groupId: number | undefined;
   group_name: string | undefined;
   group_color: string | undefined;
   isOpenPopup: string | null;

@@ -1,5 +1,5 @@
-import express from "express";
-const route = express.Router();
+import express, { Router } from "express";
+const route: Router = express.Router();
 
 import {
   getTaskList,

@@ -15,7 +15,7 @@ const getTaskData = async () => {
   }
 };
 
-const addNewTask = async (group_id: string, taks_name: string) => {
+const addNewTask = async (group_id: number, taks_name: string) => {
   try {
     const accessToken = await checkAccessToken();
     await axios.post(
@@ -37,8 +37,8 @@ const addNewTask = async (group_id: string, taks_name: string) => {
 };
 
 const moveToState = async (
-  group_id: string,
-  task_id: string,
+  group_id: number,
+  task_id: number,
   toState: string,
 ) => {
   try {
@@ -59,7 +59,7 @@ const moveToState = async (
   }
 };
 
-const deleteTask = async (group_id: string, task_id: string) => {
+const deleteTask = async (group_id: number, task_id: number) => {
   try {
     const accessToken = await checkAccessToken();
     await axios.delete(

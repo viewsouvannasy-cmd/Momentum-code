@@ -1,7 +1,8 @@
+import { StringDecoder } from "string_decoder";
 import { sql } from "../config/database.js";
 
 // this function is use to check that use it owner of group list
-const checkOwner = async (group_id, user_id) => {
+const checkOwner = async (group_id: number, user_id: number) => {
   return await sql`
     SELECT
     *
@@ -13,7 +14,11 @@ const checkOwner = async (group_id, user_id) => {
 
 // this function it use to check that to do list is inside
 // a group list that have that user be a owner
-const checkListInGroupOwner = async (group_id, user_id, task_id) => {
+const checkListInGroupOwner = async (
+  group_id: number,
+  user_id: number,
+  task_id: number,
+) => {
   return await sql`
     SELECT
     *
@@ -29,10 +34,10 @@ const checkListInGroupOwner = async (group_id, user_id, task_id) => {
 // this function is use to check that user is try to edit
 // is date of to-do list of group that user be owner
 const checkDateInListInGroupOwner = async (
-  group_id,
-  user_id,
-  task_id,
-  date_id,
+  group_id: number,
+  user_id: number,
+  task_id: number,
+  date_id: number,
 ) => {
   return await sql`
     SELECT
