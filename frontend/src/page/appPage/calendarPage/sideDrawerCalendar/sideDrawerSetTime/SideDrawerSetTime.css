@@ -1,0 +1,101 @@
+.container-side-drawer-set-time {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 10px;
+}
+
+.container-side-drawer-set-time > p {
+  font-size: 0.9rem;
+  font-weight: 550;
+}
+
+.container-set-time-date {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.box-input-start-time,
+.box-input-end-time {
+  flex: 1;
+  position: relative;
+}
+
+.box-input-start-time > div:first-child,
+.box-input-end-time > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--main-background-color);
+  border-radius: 7px;
+  border: 1px solid var(--border-card-color);
+  font-family: nunito, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+
+  transition: border-color 0.2s ease;
+}
+
+.box-input-start-time > div:first-child:hover,
+.box-input-end-time > div:first-child:hover {
+  border-color: var(--main-opponent-color);
+}
+
+.container-set-time-date > p {
+  font-size: 0.8rem;
+  font-family: nunito, sans-serif;
+}
+
+.container-set-time-date > div:nth-child(4) {
+  border: 1px solid var(--border-card-color);
+  padding: 5px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  flex-shrink: 0;
+
+  font-family: nunito, sans-serif;
+}
+
+.container-set-time-for-each-date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-set-time-for-each-date > span {
+  font-family: nunito, sans-serif;
+  font-size: 0.7rem;
+  color: #999999;
+}
+
+.container-set-time-for-each-date > button {
+  border: 1px dashed var(--border-card-color);
+  background-color: transparent;
+  color: var(--hero-text-color);
+  font-family: nunito, sans-serif;
+  padding: 5px 8px;
+  font-size: 0.6rem;
+  color: #999999;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.container-set-time-for-each-date > button:hover {
+  border-color: var(--main-opponent-color);
+  color: var(--hero-text-color);
+}
+
+.container-display-set-date-different-time {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

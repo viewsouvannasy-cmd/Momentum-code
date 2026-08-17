@@ -1,0 +1,97 @@
+.container-select-task-to-add-date {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 5px;
+}
+
+.container-select-task-to-add-date > p {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.container-select-task-to-add-date > div:nth-child(2) > input {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid var(--border-card-color);
+  padding: 10px;
+  background-color: var(--main-background-color);
+  font-size: 0.85rem;
+  font-weight: 300;
+  font-family: nunito, sans-serif;
+  color: var(--hero-text-color);
+}
+
+.container-select-task-to-add-date > div:nth-child(2) > input:focus {
+  outline: 1px solid var(--main-opponent-color);
+}
+
+.container-select-task {
+  height: 200px;
+  width: 100%;
+  border: 1px solid var(--border-card-color);
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  overflow: scroll;
+}
+
+.container-select-task.selected {
+  overflow: unset;
+  height: unset;
+}
+
+.task-item-not-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.task-item-not-select > div {
+  font-size: 0.8rem;
+
+  border-radius: 5px;
+  padding: 2px 7px;
+  font-weight: 500;
+}
+
+.container-select-task > div:hover {
+  background-color: rgb(69, 69, 69, 0.5);
+}
+
+.task-item-not-select > p {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+}
+
+.item-task-selected {
+  display: flex;
+  gap: 10px;
+  border-radius: 5px;
+  padding: 7px;
+  align-items: start;
+  cursor: pointer;
+}
+
+.item-task-selected > div {
+  font-size: 0.8rem;
+
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-weight: 500;
+  background-color: rgb(225, 165, 74);
+}
+
+.item-task-selected > p {
+  flex: 1;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+}

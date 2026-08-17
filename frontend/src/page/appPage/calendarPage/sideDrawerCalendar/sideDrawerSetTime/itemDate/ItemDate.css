@@ -1,0 +1,86 @@
+.item-set-different-date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.item-set-different-date > p {
+  font-family: nunito, sans-serif;
+  color: #999999;
+  font-size: 0.6rem;
+}
+
+.item-set-different-date > button {
+  border: 1px dashed var(--border-card-color);
+  background-color: transparent;
+  color: #999999;
+  flex: 1;
+  padding: 6px;
+  font-size: 0.7rem;
+  cursor: pointer;
+
+  transition: border-color 0.2s ease;
+}
+
+.item-set-different-date > button:hover {
+  border-color: var(--main-opponent-color);
+}
+
+.container-input-time-diffrent {
+  flex: 1;
+  display: flex;
+  gap: 10px;
+  border: 1px dashed var(--border-card-color);
+  padding: 5px;
+  align-items: center;
+}
+
+.container-input-time-diffrent > p {
+  font-size: 0.75rem;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+}
+
+.container-input-time-diffrent > span {
+  font-size: 0.75rem;
+  font-family: nunito, sans-serif;
+  font-weight: 500;
+}
+
+.container-input-time-diffrent > button {
+  border: 1px dashed transparent;
+  font-size: 0.75rem;
+  background-color: transparent;
+  font-family: nunito, sans-serif;
+  color: var(--hero-text-color);
+  cursor: pointer;
+  font-weight: 400;
+  padding: 3px;
+}
+
+.container-input-time-diffrent > button:hover {
+  border-color: var(--main-opponent-color);
+}
+
+.box-input-start-time-different {
+  flex: 1;
+  position: relative;
+}
+
+.box-input-start-time-different > div:first-child {
+  background-color: var(--main-background-color);
+  padding: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  border: 1px solid var(--main-background-color);
+  cursor: pointer;
+
+  transition: border-color 0.2s ease;
+}
+
+.box-input-start-time-different > div:first-child:hover {
+  border-color: var(--main-opponent-color);
+}

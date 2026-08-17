@@ -1,4 +1,5 @@
 import axios from "axios";
+import { fetchRefreshToken } from "../auth.ts";
 import { checkAccessToken } from "../../store/token/accessToken.ts";
 
 const getUserInfo = async () => {
@@ -11,7 +12,15 @@ const getUserInfo = async () => {
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
+      if (
+        error.response?.status === 401 &&
+        !error.response.data.success_verify_token
+      ) {
+        await fetchRefreshToken();
+        return getUserInfo();
+      }
       console.log(error);
+      window.open("/error");
     }
   }
 };

@@ -5,27 +5,20 @@ import { PopUpCreateGroupList } from "../popup/popupGroupList/popup-create-group
 import { FullLogo } from "../logo/FullLogo";
 import useGropList from "../../api/group-lists/useGroupList.ts";
 import useUser from "../../api/user-data/useUser.ts";
+import useSideBarMb from "../../context/useSideBarMb.ts";
 import "./NavBarApp.css";
 
 interface NavBarProp {
   isOpenNavBar: string;
   setIsOpenNavBar: (param: string) => void;
-  isOpenNavBarMB: string;
-  setIsOpenNavBarMB: (param: string) => void;
-  isBackgroundOverlyMB: string;
-  setIsBackgroundOverlyMB: (param: string) => void;
 }
 
-export function NavBarApp({
-  isOpenNavBar,
-  setIsOpenNavBar,
-  isOpenNavBarMB,
-  setIsOpenNavBarMB,
-  isBackgroundOverlyMB,
-  setIsBackgroundOverlyMB,
-}: NavBarProp) {
+export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
   const navigate = useNavigate();
   const { section } = useParams();
+
+  const { isOpenSideBarMb, isBackgroundOverlayMb, closeSideBarMb } =
+    useSideBarMb();
 
   const { userData, getUserInfo } = useUser();
   const { groupListData, isLoadingGroup, getGroup } = useGropList();
@@ -47,17 +40,10 @@ export function NavBarApp({
     setIsOpenPopup("create");
   }
 
-  function handleCloseNavBarMB() {
-    setIsOpenNavBarMB("close");
-    setTimeout(() => {
-      setIsBackgroundOverlyMB("close");
-    }, 200);
-  }
-
   function handleChangeSectionPage(sectionName: string, navType: string) {
     navigate(`/app/${sectionName}`);
     if (navType === "mb") {
-      handleCloseNavBarMB();
+      closeSideBarMb();
     }
   }
 
@@ -75,7 +61,7 @@ export function NavBarApp({
       },
     });
     if (navType === "mb") {
-      handleCloseNavBarMB();
+      closeSideBarMb();
     }
   }
 
@@ -173,19 +159,19 @@ export function NavBarApp({
       </nav>
 
       <div
-        className={`container-background-overlay-mb ${isBackgroundOverlyMB}`}
+        className={`container-background-overlay-mb ${isBackgroundOverlayMb}`}
       >
-        <nav className={`container-nav-bar-main-mb ${isOpenNavBarMB}`}>
+        <nav className={`container-nav-bar-main-mb ${isOpenSideBarMb}`}>
           <div>
             <div className="container-nav-bar-logo">
               <FullLogo />
-              <button onClick={handleCloseNavBarMB}>
+              <button onClick={closeSideBarMb}>
                 <img src="/icon/sidebar.png" />
               </button>
             </div>
             <div className="container-select-section">
               <button
-                onClick={() => handleChangeSectionPage("today-list", "mb")}
+                onClick={() => handleChangeSectionPage("today-lists", "mb")}
                 className={`today-lists-link ${section === "today-lists" ? "active" : ""}`}
               >
                 <img src="/icon/today-list.png" />

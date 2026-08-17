@@ -1,0 +1,44 @@
+.container-side-drawer-footer {
+  padding: 15px;
+  border-top: 1px solid var(--border-card-color);
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+}
+
+.container-side-drawer-footer > button {
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+  padding: 8px 15px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.container-side-drawer-footer > button:first-child {
+  background-color: transparent;
+  outline: 1px solid var(--border-card-color);
+  outline-offset: -1px;
+  color: #999999;
+  font-weight: 400;
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.container-side-drawer-footer > button:first-child:hover {
+  color: var(--hero-text-color);
+}
+
+.schedule-date-btn {
+  cursor: pointer;
+}
+
+.schedule-date-btn:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.schedule-date-btn-not-allow {
+  cursor: not-allowed;
+}

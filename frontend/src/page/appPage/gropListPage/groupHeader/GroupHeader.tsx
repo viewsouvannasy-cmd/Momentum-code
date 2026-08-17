@@ -8,16 +8,12 @@ interface GroupList {
 }
 
 interface GroupHeaderProp {
-  setIsBackgroundOverlyMB: (param: string) => void;
-  setIsOpenNavBarMB: (param: string) => void;
   currentGroupList: GroupList | undefined;
   setIsOpenPopup: (param: string | null) => void;
   setIsAnimation: (param: string) => void;
 }
 
 export function GroupHeader({
-  setIsBackgroundOverlyMB,
-  setIsOpenNavBarMB,
   currentGroupList,
   setIsOpenPopup,
   setIsAnimation,
@@ -31,10 +27,7 @@ export function GroupHeader({
   return (
     <div className="container-group-list-header-page">
       <div>
-        <BtnOpenNavBarMB
-          setIsOpenNavBarMB={setIsOpenNavBarMB}
-          setIsBackgroundOverlyMB={setIsBackgroundOverlyMB}
-        />
+        <BtnOpenNavBarMB />
         <p>In {currentGroupList?.group_name} Group List</p>
       </div>
       <div>

@@ -32,7 +32,10 @@ const verifyJwt = (req: Request, res: Response, next: NextFunction) => {
     next();
   } catch (error) {
     console.log(error);
-    res.status(403).json({ msg: `verify token error ${error}` });
+    res.status(401).json({
+      success_verify_token: false,
+      msg: `verify token error ${error}`,
+    });
   }
 };
 

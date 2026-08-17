@@ -1,0 +1,41 @@
+.container-date-of-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 10px;
+}
+
+.container-date-of-week > p {
+  text-align: end;
+  color: #999999;
+  font-size: 0.9rem;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+}
+
+.container-display-date-of-calendar {
+  grid-template-columns: repeat(7, 1fr);
+  display: grid;
+  gap: 1px;
+  background-color: var(--border-card-color);
+  border: 1px solid var(--border-card-color);
+  position: relative;
+}
+
+.cell-calendar-empty-top {
+  background-color: var(--main-background-color);
+  width: 103%;
+  height: 103%;
+  transform: translate(-3%, -3%);
+}
+
+.cell-calendar-empty-bottom {
+  background-color: var(--main-background-color);
+  width: 103%;
+  height: 103%;
+}
+
+@media (max-width: 510px) {
+  .container-date-of-week > p {
+    font-size: 0.7rem;
+  }
+}

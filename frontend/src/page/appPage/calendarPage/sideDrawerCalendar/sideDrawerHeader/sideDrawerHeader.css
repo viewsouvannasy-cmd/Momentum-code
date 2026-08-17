@@ -1,0 +1,49 @@
+.container-set-date-for-task-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid var(--border-card-color);
+  align-items: center;
+}
+
+.container-set-date-for-task-header > div:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-set-date-for-task-header > div:first-child > p {
+  font-size: 1.2rem;
+  font-weight: 550;
+}
+
+.container-set-date-for-task-header > div:first-child > span {
+  font-family: nunito, sans-serif;
+  font-size: 0.8rem;
+  color: #aaaaaa;
+  font-weight: 300;
+}
+
+.container-set-date-for-task-header > button {
+  border: none;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.container-set-date-for-task-header > button > svg {
+  color: #999999;
+}
+
+.container-set-date-for-task-header > button:hover {
+  background-color: rgba(69, 69, 69, 0.3);
+}
+
+.container-set-date-for-task-header > button:hover svg {
+  color: var(--hero-text-color);
+}

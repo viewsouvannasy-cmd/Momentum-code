@@ -1,0 +1,184 @@
+.container-select-date-for-task {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 10px;
+}
+
+.container-select-date-fot-task-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-select-date-fot-task-header > p {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.container-select-date-fot-task-header > span {
+  font-family: nunito, sans-serif;
+
+  font-size: 0.7rem;
+  color: #999999;
+}
+
+.container-mini-vistual-calendar {
+  background-color: var(--main-background-color);
+  border: 1px solid var(--border-card-color);
+  border-radius: 10px;
+  padding: 13px;
+}
+
+.mini-vistual-calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mini-vistual-calendar-header > button {
+  border: none;
+  padding: 2px;
+  display: flex;
+  border-radius: 2px;
+  background-color: transparent;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.mini-vistual-calendar-header > button:hover {
+  background-color: rgb(69, 69, 69, 0.5);
+}
+
+.mini-vistual-calendar-header > button:nth-child(4),
+.mini-vistual-calendar-header > button:nth-child(5) {
+  transform: rotate(180deg);
+}
+
+.mini-vistual-calendar-header > button > svg {
+  color: var(--hero-text-color);
+}
+.mini-vistual-calendar-header > p {
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 33%;
+  text-align: center;
+}
+
+.mini-vistual-calendar-header > p > span {
+  color: #999999;
+  font-size: 0.7rem;
+  margin-left: 5px;
+}
+
+.mini-vistual-calendar-header > div {
+  display: flex;
+  gap: 10px;
+}
+
+.mini-vistual-calendar-header > div > button {
+  border: none;
+  font-size: 0.7rem;
+  padding: 5px 7px;
+  border-radius: 4px;
+  font-weight: 500;
+  color: #999999;
+  border: 1px solid var(--border-card-color);
+  background-color: transparent;
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.mini-vistual-calendar-header > div > button:hover {
+  color: var(--hero-text-color);
+}
+
+.container-display-day-of-week-mini-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 15px;
+}
+
+.container-display-day-of-week-mini-calendar > p {
+  text-align: center;
+  color: #999999;
+  font-weight: 550;
+  font-size: 0.55rem;
+}
+
+.container-display-cell-mini-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 10px;
+  gap: 3px;
+}
+
+.cell-mini-calendar {
+  text-align: center;
+  border-radius: 5px;
+  padding: 6px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 550;
+}
+
+.cell-mini-calendar-past {
+  text-align: center;
+  border-radius: 5px;
+  padding: 6px;
+  pointer-events: none;
+  font-size: 0.7rem;
+  font-weight: 550;
+  color: var(--border-card-color);
+}
+
+.cell-mini-calendar-selected {
+  background-color: var(--main-opponent-color);
+  color: var(--hero-text-color-opponent);
+  text-align: center;
+  border-radius: 5px;
+  padding: 6px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 550;
+}
+
+.cell-mini-calendar:hover {
+  background-color: rgb(69, 69, 69, 0.5);
+}
+
+.mini-vistual-calendar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid var(--border-card-color);
+}
+
+.mini-vistual-calendar-footer > button {
+  border: none;
+  font-size: 0.7rem;
+  padding: 5px 7px;
+  border-radius: 4px;
+  font-weight: 500;
+  color: #999999;
+  border: 1px solid var(--border-card-color);
+  background-color: transparent;
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.mini-vistual-calendar-footer > button:hover {
+  color: var(--hero-text-color);
+}
+
+.mini-vistual-calendar-footer > span {
+  font-size: 0.6rem;
+  font-family: nunito, sans-serif;
+  color: #999999;
+  font-weight: 300;
+}

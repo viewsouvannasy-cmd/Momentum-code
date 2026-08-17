@@ -4,6 +4,7 @@ import { getUserInfo } from "./user.ts";
 interface UserType {
   user_name: string;
   user_email: string;
+  created_at: string;
 }
 
 interface UseUserProp {

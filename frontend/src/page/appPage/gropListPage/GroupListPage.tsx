@@ -9,21 +9,13 @@ import { PopupDeleteGroupList } from "../../../components/popup/popupGroupList/p
 import useGropList from "../../../api/group-lists/useGroupList.ts";
 import useTask from "../../../api/task/useTask.ts";
 
-interface GroupListPageProp {
-  setIsBackgroundOverlyMB: (param: string) => void;
-  setIsOpenNavBarMB: (param: string) => void;
-}
-
 interface GroupList {
   group_id: number;
   group_name: string;
   group_color: string;
 }
 
-export function GroupListPage({
-  setIsBackgroundOverlyMB,
-  setIsOpenNavBarMB,
-}: GroupListPageProp) {
+export function GroupListPage() {
   const navigate = useNavigate();
 
   const { groupId } = useParams();
@@ -69,8 +61,6 @@ export function GroupListPage({
   return (
     <>
       <GroupHeader
-        setIsOpenNavBarMB={setIsOpenNavBarMB}
-        setIsBackgroundOverlyMB={setIsBackgroundOverlyMB}
         currentGroupList={currentGroupList}
         setIsOpenPopup={setIsOpenPopup}
         setIsAnimation={setIsAnimation}

@@ -1,21 +1,11 @@
 import "./BtnOpenNavBarMB.css";
+import useSideBarMb from "../../context/useSideBarMb";
 
-interface BtnOpenNavBarMBProp {
-  setIsBackgroundOverlyMB: (param: string) => void;
-  setIsOpenNavBarMB: (param: string) => void;
-}
-
-export function BtnOpenNavBarMB({
-  setIsBackgroundOverlyMB,
-  setIsOpenNavBarMB,
-}: BtnOpenNavBarMBProp) {
-  function handleOpenNavBarMB() {
-    setIsBackgroundOverlyMB("open");
-    setIsOpenNavBarMB("open");
-  }
+export function BtnOpenNavBarMB() {
+  const { openSideBarMb } = useSideBarMb();
 
   return (
-    <button className="btn-open-nav-bar-mp" onClick={handleOpenNavBarMB}>
+    <button className="btn-open-nav-bar-mp" onClick={openSideBarMb}>
       <img src="/icon/sidebar.png" />
     </button>
   );

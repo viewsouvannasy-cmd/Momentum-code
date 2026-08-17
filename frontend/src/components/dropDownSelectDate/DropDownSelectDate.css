@@ -1,0 +1,59 @@
+.container-drop-down-select-date {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  display: flex;
+  border: 1px solid var(--border-card-color);
+  gap: 1px;
+  width: 100%;
+  min-width: 100px;
+  background-color: var(--border-card-color);
+  height: 200px;
+  box-shadow: 0 10px 20px 3px rgb(103, 103, 103, 0.2);
+  z-index: 999;
+}
+
+.container-drop-down-select-date > div:first-child,
+.container-drop-down-select-date > div:last-child {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.container-drop-down-select-date > div > p {
+  font-family: nunito, sans-serif;
+  padding: 8px;
+  font-size: 0.7rem;
+  background-color: var(--main-background-color);
+  text-align: center;
+}
+
+.container-select-hour,
+.container-select-min {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: none;
+}
+
+.button-select-hour,
+.button-select-minutes {
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  background-color: var(--card-color);
+
+  color: var(--hero-text-color);
+  font-size: 0.7rem;
+}
+
+.button-select-hour.selected,
+.button-select-minutes.selected {
+  background-color: var(--main-opponent-color);
+  color: var(--hero-text-color-opponent);
+}
+
+.button-select-hour:hover,
+.button-select-minutes:hover {
+  background-color: rgba(250, 250, 250, 0.2);
+}

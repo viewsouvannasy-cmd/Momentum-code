@@ -1,0 +1,47 @@
+.container-background-overlay-side-drawer {
+  justify-content: end;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  transition: all 0.2s ease;
+}
+
+.container-background-overlay-side-drawer.open {
+  animation: appearOpacity 0.2s forwards ease;
+}
+
+.container-background-overlay-side-drawer.close {
+  animation: disAppearOpacity 0.8s forwards ease;
+}
+
+.container-set-date-for-task-main {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-color);
+  width: 400px;
+  border-left: 1px solid var(--border-card-color);
+  transform: translateX(100%);
+}
+
+.container-set-date-for-task-main.open {
+  animation: appearFromRight 0.2s forwards ease;
+}
+
+.container-set-date-for-task-main.close {
+  animation: disappearFromRight 0.2s forwards ease;
+}
+
+.container-set-date-for-task-main > div:nth-child(2) {
+  scrollbar-width: none;
+  overflow-y: scroll;
+}
+
+@media (max-width: 510px) {
+  .container-set-date-for-task-main {
+    width: 100%;
+  }
+}

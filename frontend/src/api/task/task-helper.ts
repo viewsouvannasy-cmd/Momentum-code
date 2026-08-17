@@ -1,3 +1,4 @@
+import { fetchRefreshToken } from "../auth.ts";
 import axios from "axios";
 import { checkAccessToken } from "../../store/token/accessToken.ts";
 
@@ -10,19 +11,27 @@ const getTaskData = async () => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      if (
+        error.response?.status === 401 &&
+        !error.response.data.success_verify_token
+      ) {
+        await fetchRefreshToken();
+        return getTaskData();
+      }
       console.log(error);
+      window.open("/error");
     }
   }
 };
 
-const addNewTask = async (group_id: number, taks_name: string) => {
+const addNewTask = async (group_id: number, task_name: string) => {
   try {
     const accessToken = await checkAccessToken();
     await axios.post(
       "http://localhost:4000/api/task/add",
       {
         group_id: group_id,
-        task_name: taks_name,
+        task_name: task_name,
         task_status: "todo",
       },
       {
@@ -31,7 +40,15 @@ const addNewTask = async (group_id: number, taks_name: string) => {
     );
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      if (
+        error.response?.status === 401 &&
+        !error.response.data.success_verify_token
+      ) {
+        await fetchRefreshToken();
+        return addNewTask(group_id, task_name);
+      }
       console.log(error);
+      window.open("/error");
     }
   }
 };
@@ -54,7 +71,15 @@ const moveToState = async (
     );
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      if (
+        error.response?.status === 401 &&
+        !error.response.data.success_verify_token
+      ) {
+        await fetchRefreshToken();
+        return moveToState(group_id, task_id, toState);
+      }
       console.log(error);
+      window.open("/error");
     }
   }
 };
@@ -68,7 +93,15 @@ const deleteTask = async (group_id: number, task_id: number) => {
     );
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      if (
+        error.response?.status === 401 &&
+        !error.response.data.success_verify_token
+      ) {
+        await fetchRefreshToken();
+        return deleteTask(group_id, task_id);
+      }
       console.log(error);
+      window.open("/error");
     }
   }
 };

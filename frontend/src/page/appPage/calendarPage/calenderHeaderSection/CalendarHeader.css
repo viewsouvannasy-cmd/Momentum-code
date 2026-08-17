@@ -1,0 +1,117 @@
+.container-calendar-header-section-page {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-card-color);
+  padding-bottom: 15px;
+}
+
+.container-calendar-header-section-page > div:nth-child(1) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.container-calendar-header-section-page > div:nth-child(1) > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-calendar-header-section-page > div:nth-child(1) > div > h1 {
+  font-weight: 550;
+  font-size: 1.8rem;
+}
+
+.container-calendar-header-section-page > div:nth-child(1) > div > span {
+  color: #999999;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  font-size: 0.95rem;
+}
+
+.container-calendar-header-section-page > div:nth-child(2) {
+  width: 200px;
+  border: 1px dashed var(--border-card-color);
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.container-calendar-header-section-page > div:nth-child(2) > .row1 {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+}
+
+.container-calendar-header-section-page > div:nth-child(2) > .row2 {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+}
+
+.container-calendar-header-section-page > div:nth-child(2) > .row3 {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+}
+
+.container-calendar-header-section-page > div:nth-child(2) > .row1 > div,
+.container-calendar-header-section-page > div:nth-child(2) > .row2 > div,
+.container-calendar-header-section-page > div:nth-child(2) > .row3 > div {
+  border-radius: 50px;
+  width: 100%;
+}
+
+.container-calendar-header-section-page
+  > div:nth-child(2)
+  > .row3
+  > div:first-child {
+  background-color: rgb(173, 33, 33);
+  width: 130%;
+}
+
+.container-calendar-header-section-page
+  > div:nth-child(2)
+  > .row3
+  > div:last-child {
+  background-color: rgb(73, 14, 14);
+  width: 70%;
+}
+
+.container-calendar-header-section-page > div:nth-child(2) .container-logo {
+  position: absolute;
+}
+
+@media (max-width: 510px) {
+  .container-calendar-header-section-page > div:nth-child(1) > div > h1 {
+    font-size: 1.4rem;
+  }
+
+  .container-calendar-header-section-page > div:nth-child(1) > div > span {
+    font-size: 0.7rem;
+  }
+
+  .container-calendar-header-section-page > div:nth-child(2) {
+    width: 30%;
+  }
+
+  .container-calendar-header-section-page
+    > div:nth-child(2)
+    .container-logo
+    > img {
+    width: 15px;
+  }
+
+  .container-calendar-header-section-page
+    > div:nth-child(2)
+    .container-logo
+    > p {
+    font-size: 0.8rem;
+  }
+}

@@ -14,11 +14,11 @@ const getUserInfo = async (req: Request, res: Response) => {
     const findUser = (await sql`
     SELECT
     user_name,
-    user_email
+    user_email,
+    created_at
     FROM users
     WHERE user_id = ${user_id}
     `) as findUserType[];
-
     if (findUser.length === 0) {
       return res.status(404).json({ success: false, msg: "user it not found" });
     }

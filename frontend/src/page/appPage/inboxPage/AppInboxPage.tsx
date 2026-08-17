@@ -11,15 +11,9 @@ import useUser from "../../../api/user-data/useUser.ts";
 
 interface AppInboxProp {
   isOpenNavBar: string;
-  setIsOpenNavBarMB: (param: string) => void;
-  setIsBackgroundOverlyMB: (param: string) => void;
 }
 
-export function AppInboxPage({
-  isOpenNavBar,
-  setIsOpenNavBarMB,
-  setIsBackgroundOverlyMB,
-}: AppInboxProp) {
+export function AppInboxPage({ isOpenNavBar }: AppInboxProp) {
   // this is use to controll popup
   const [isOpenPopup, setIsOpenPopup] = useState<string | null>(null);
   const [isAnimation, setIsAnimation] = useState("close");
@@ -51,10 +45,7 @@ export function AppInboxPage({
 
   return (
     <>
-      <InboxHeader
-        setIsBackgroundOverlyMB={setIsBackgroundOverlyMB}
-        setIsOpenNavBarMB={setIsOpenNavBarMB}
-      />
+      <InboxHeader />
 
       {isOpenNavBar === "close" && wideScreen && (
         <GroupListSection
