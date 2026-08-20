@@ -3,6 +3,8 @@ import { create } from "zustand";
 interface SeletcTaskType {
   task_id: number;
   task_name: string;
+  task_status: string;
+  group_id: number;
   group_name: string;
   group_color: string;
 }

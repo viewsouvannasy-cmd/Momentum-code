@@ -2,36 +2,25 @@ import useGropList from "../../../../api/group-lists/useGroupList.ts";
 import { useNavigate } from "react-router";
 import { LoadButton } from "../../../load-button/LoadButton.tsx";
 import useGetData from "../../../../api/todo-data/useGetData.ts";
+import usePopup from "../../../../context/usePopup.ts";
+
 import "./PopupDeleteGroupList.css";
 
 interface PopupDeleteGroupListprop {
   groupId: number | undefined;
   group_name: string | undefined;
-  isOpenPopup: string | null;
-  isAnimation: string;
-  setIsOpenPopup: (param: string | null) => void;
-  setIsAnimation: (param: string) => void;
 }
 
 export function PopupDeleteGroupList({
   groupId,
   group_name,
-  isOpenPopup,
-  isAnimation,
-  setIsOpenPopup,
-  setIsAnimation,
 }: PopupDeleteGroupListprop) {
   const { isLoadingPost, deleteGroup } = useGropList();
   const { getDataTodo } = useGetData();
 
   const navigate = useNavigate();
 
-  function handleClosePopup() {
-    setIsAnimation("close");
-    setTimeout(() => {
-      setIsOpenPopup(null);
-    }, 200);
-  }
+  const { isAnimation, isOpenPopup, closePopup } = usePopup();
 
   const handleDeleteGroupList = async () => {
     if (groupId) {
@@ -45,7 +34,7 @@ export function PopupDeleteGroupList({
     <div
       className={`container-background-overlay-popup ${isAnimation}`}
       style={{
-        display: isOpenPopup ? "flex" : "none",
+        display: isOpenPopup === "delete" ? "flex" : "none",
       }}
     >
       <div className={`container-delete-group-list-popup ${isAnimation}`}>
@@ -54,7 +43,7 @@ export function PopupDeleteGroupList({
           <span>Click confirm to delete</span>
         </div>
         <div>
-          <button onClick={handleClosePopup}>Cancel</button>
+          <button onClick={closePopup}>Cancel</button>
           <button
             onClick={handleDeleteGroupList}
             className={

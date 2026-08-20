@@ -22,8 +22,8 @@ const checkListInGroupOwner = async (
   return await sql`
     SELECT
     *
-    FROM group_list as gl
-    INNER JOIN tasks as t
+    FROM group_list AS gl
+    INNER JOIN tasks As t
     ON gl.group_id = t.group_id
     WHERE gl.group_id = ${group_id}
     AND gl.user_id = ${user_id}
@@ -43,14 +43,14 @@ const checkDateInListInGroupOwner = async (
     SELECT
     *
     FROM group_list as gl
-    INNER JOIN task as t
-    ON gl.group_id = t.group_id
-    INNER JOIN to_do_date as tdd
-    ON t.task_id = tdd.task_id
+    INNER JOIN tasks as t
+      ON gl.group_id = t.group_id
+    INNER JOIN task_dates as td
+      ON t.task_id = td.task_id
     WHERE gl.group_id = ${group_id}
     AND gl.user_id =${user_id}
     AND t.task_id = ${task_id}
-    AND tdd.date_id = ${date_id}
+    AND td.date_id = ${date_id}
     `;
 };
 

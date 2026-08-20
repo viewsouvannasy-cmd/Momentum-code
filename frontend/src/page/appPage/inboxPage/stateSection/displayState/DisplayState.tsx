@@ -3,6 +3,7 @@ import { getLoadingStateEl } from "../../../../../utils/loadingEl.ts";
 import { NotHaveTask } from "../../../../../components/not-have-task/NotHaveTask.tsx";
 import useTask from "../../../../../api/task/useTask";
 import useGropList from "../../../../../api/group-lists/useGroupList.ts";
+import usePopup from "../../../../../context/usePopup.ts";
 
 import "./DisplayState.css";
 
@@ -18,16 +19,9 @@ interface TaskType {
 interface DisplaystateProp {
   taskData: TaskType[] | [];
   state: "todo" | "doing" | "done";
-  setIsAnimation: (param: string) => void;
-  setIsOpenPopup: (param: string) => void;
 }
 
-export function DisplayState({
-  taskData,
-  state,
-  setIsAnimation,
-  setIsOpenPopup,
-}: DisplaystateProp) {
+export function DisplayState({ taskData, state }: DisplaystateProp) {
   // this state use for loading
   const loadingEl = new Array(getLoadingStateEl(state)).fill("");
 
@@ -36,14 +30,14 @@ export function DisplayState({
   const { isLoadingTask } = useTask();
   const { groupListData } = useGropList();
 
+  const { openPopup } = usePopup();
+
   function handleOpenPopup() {
-    document.body.style.overflow = "hidden";
-    setIsAnimation("open");
     if (groupListData.length === 0) {
-      setIsOpenPopup("create");
+      openPopup("create");
       return;
     }
-    setIsOpenPopup("add-task");
+    openPopup("add-task");
   }
 
   return (

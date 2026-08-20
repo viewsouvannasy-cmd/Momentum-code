@@ -1,24 +1,13 @@
 import useGropList from "../../../../api/group-lists/useGroupList.ts";
 import { useNavigate } from "react-router";
+import usePopup from "../../../../context/usePopup.ts";
 import "./GroupListSection.css";
 
-interface GroupListSectionProp {
-  setIsAnimation: (param: string) => void;
-  setIsOpenPopup: (param: string) => void;
-}
-
-export function GroupListSection({
-  setIsAnimation,
-  setIsOpenPopup,
-}: GroupListSectionProp) {
+export function GroupListSection() {
   const navigate = useNavigate();
   const { groupListData, isLoadingGroup } = useGropList();
 
-  function handleOpenPopup() {
-    document.body.style.overflow = "hidden";
-    setIsAnimation("open");
-    setIsOpenPopup("create");
-  }
+  const { openPopup } = usePopup();
 
   function handleToGroupListPage(group_id: number) {
     navigate(`/app/group/${group_id}`);
@@ -28,7 +17,7 @@ export function GroupListSection({
     <div className="container-group-inbox-page">
       <div>
         <h3>Group List</h3>
-        <button onClick={handleOpenPopup}>+ Create</button>
+        <button onClick={() => openPopup("create")}>+ Create</button>
       </div>
       <div
         className={`container-group-list-item-inbox-page ${isLoadingGroup && "loading"}`}

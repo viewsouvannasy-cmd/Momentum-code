@@ -2,29 +2,22 @@ import { DisplayState } from "./displayState/DisplayState";
 import useGropList from "../../../../api/group-lists/useGroupList.ts";
 import useTask from "../../../../api/task/useTask.ts";
 import { StateSectionMb } from "../../../../components/state-section-mb/StateSectionMb.tsx";
+import usePopup from "../../../../context/usePopup.ts";
 import "./StateSection.css";
 
-interface StateSectionProp {
-  setIsAnimation: (param: string) => void;
-  setIsOpenPopup: (param: string) => void;
-}
-
-export function StateSection({
-  setIsAnimation,
-  setIsOpenPopup,
-}: StateSectionProp) {
+export function StateSection() {
   const { groupListData } = useGropList();
 
   const { taskData } = useTask();
 
+  const { openPopup } = usePopup();
+
   function handleOpenPopup() {
-    document.body.style.overflow = "hidden";
-    setIsAnimation("open");
     if (groupListData.length === 0) {
-      setIsOpenPopup("create");
+      openPopup("create");
       return;
     }
-    setIsOpenPopup("add-task");
+    openPopup("add-task");
   }
 
   return (
@@ -37,24 +30,9 @@ export function StateSection({
           </div>
         </div>
         <div>
-          <DisplayState
-            state="todo"
-            taskData={taskData}
-            setIsAnimation={setIsAnimation}
-            setIsOpenPopup={setIsOpenPopup}
-          />
-          <DisplayState
-            state="doing"
-            taskData={taskData}
-            setIsAnimation={setIsAnimation}
-            setIsOpenPopup={setIsOpenPopup}
-          />
-          <DisplayState
-            state="done"
-            taskData={taskData}
-            setIsAnimation={setIsAnimation}
-            setIsOpenPopup={setIsOpenPopup}
-          />
+          <DisplayState state="todo" taskData={taskData} />
+          <DisplayState state="doing" taskData={taskData} />
+          <DisplayState state="done" taskData={taskData} />
         </div>
       </div>
 

@@ -91,7 +91,7 @@
   font-weight: 500;
   padding-left: 10px;
   border-left: 1px dashed#999999;
-  margin-left: 2px;
+  margin-left: 2.5px;
 }
 
 .contanier-group-item-and-btn-controll {
@@ -118,48 +118,50 @@
 .container-control-state-todo-list {
   display: flex;
   gap: 5px;
+  margin-top: 5px;
 }
 
 .container-control-state-todo-list > button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent;
-  border-radius: 6px;
-  padding: 4px;
+  border-radius: 4px;
   transition: all 0.2s ease;
   cursor: pointer;
 }
 
-.container-control-state-todo-list > button > svg {
-  color: var(--border-card-color);
-}
-
 .move-forward-btn {
-  transform: rotate(180deg);
-  border: 1px solid var(--border-card-color);
+  font-weight: 500;
+  font-size: 0.8rem;
+  background-color: transparent;
+  color: var(--border-card-color);
+  border: none;
+  padding: 0;
 }
 
 .move-forward-btn:hover {
-  background-color: var(--main-opponent-color);
-}
-
-.move-forward-btn:hover > svg {
-  color: var(--hero-text-color-opponent);
+  color: var(--hero-text-color);
+  text-decoration: underline;
 }
 
 .btn-open-option-task-item {
   border: 1px solid transparent;
+  background-color: transparent;
+  padding: 0px 3px;
 }
 
-.btn-open-option-task-item:hover {
-  border: 1px solid var(--border-card-color);
+.btn-open-option-task-item > svg {
+  color: var(--border-card-color);
+}
+
+.btn-open-option-task-item:hover > svg {
+  color: var(--main-opponent-color);
 }
 
 .container-option-task-item {
   position: absolute;
   bottom: 10px;
-  right: 10px;
+  right: 35px;
   padding: 5px;
   background-color: var(--card-color);
   box-shadow: 0 0 2px 0 gray;
@@ -184,6 +186,15 @@
 
 .move-back-btn {
   color: var(--hero-text-color);
+  display: flex;
+  align-items: center;
+}
+
+.move-back-btn > .spinner-load {
+  margin: 0;
+  width: 10px;
+  height: 10px;
+  border-width: 1.5px;
 }
 
 .move-back-btn > img {
@@ -210,6 +221,14 @@
 .delete-task-btn {
   color: #d94045;
   width: 100%;
+}
+
+.delete-task-btn > .spinner-load {
+  margin: 0;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid #d94045;
+  border-top-color: transparent;
 }
 
 .delete-task-btn:hover {

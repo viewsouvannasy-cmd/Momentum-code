@@ -1,24 +1,30 @@
 import { DisplayState } from "../../inboxPage/stateSection/displayState/DisplayState";
 import { StateSectionMb } from "../../../../components/state-section-mb/StateSectionMb";
 import useTask from "../../../../api/task/useTask";
+import usePopup from "../../../../context/usePopup";
 import "./GroupStateSection.css";
 
 interface GroupStateSectionProp {
   groupId: string | undefined;
-  setIsOpenPopup: (param: string) => void;
-  setIsAnimation: (param: string) => void;
 }
 
-export function GroupStateSection({
-  groupId,
-  setIsAnimation,
-  setIsOpenPopup,
-}: GroupStateSectionProp) {
+export function GroupStateSection({ groupId }: GroupStateSectionProp) {
   const { taskData } = useTask();
+
+  const { openPopup } = usePopup();
 
   const filterTask = taskData.filter(
     (task) => task.group_id === Number(groupId),
   );
+
+  function handleAddTask() {
+    if (filterTask.length === 0) {
+      openPopup("create");
+      return;
+    }
+    openPopup("add-task");
+  }
+
   return (
     <>
       <div className="container-group-list-state-section">
@@ -28,28 +34,13 @@ export function GroupStateSection({
             <span>In learing group</span>
           </div>
           <div>
-            <button>+ Add New</button>
+            <button onClick={() => handleAddTask()}>+ Add New</button>
           </div>
         </div>
         <div>
-          <DisplayState
-            state="todo"
-            taskData={filterTask}
-            setIsOpenPopup={setIsOpenPopup}
-            setIsAnimation={setIsAnimation}
-          />
-          <DisplayState
-            state="doing"
-            taskData={filterTask}
-            setIsOpenPopup={setIsOpenPopup}
-            setIsAnimation={setIsAnimation}
-          />
-          <DisplayState
-            state="done"
-            taskData={filterTask}
-            setIsOpenPopup={setIsOpenPopup}
-            setIsAnimation={setIsAnimation}
-          />
+          <DisplayState state="todo" taskData={filterTask} />
+          <DisplayState state="doing" taskData={filterTask} />
+          <DisplayState state="done" taskData={filterTask} />
         </div>
       </div>
 

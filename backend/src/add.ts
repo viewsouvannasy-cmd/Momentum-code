@@ -6,7 +6,7 @@ import refreshTokenRoute from "./routes/refreshToken-route.js";
 import userRoute from "./routes/user-route.js";
 import groupRoute from "./routes/todo/group-route.js";
 import taskRoute from "./routes/todo/task-route.js";
-import todoDateRoute from "./routes/todo/todo-date-route.js";
+import taskDateRoute from "./routes/todo/task-date-route.js";
 import dataRoute from "./routes/todo/todo-data-route.js";
 
 // this middleware use to verify jwt token
@@ -29,7 +29,7 @@ app.use("/api/refresh-token", refreshTokenRoute);
 app.use(verifyJwt);
 app.use("/api/group", groupRoute);
 app.use("/api/task", taskRoute);
-app.use("/api/todo-date", todoDateRoute);
+app.use("/api/task-date", taskDateRoute);
 app.use("/api/user", userRoute);
 app.use("/api/todo", dataRoute);
 

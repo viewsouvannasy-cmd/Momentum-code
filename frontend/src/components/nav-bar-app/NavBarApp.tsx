@@ -1,11 +1,12 @@
 import { useParams, useNavigate } from "react-router";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { addAndRemoveTransition } from "../../utils/addAndRemoveTransition.ts";
 import { PopUpCreateGroupList } from "../popup/popupGroupList/popup-create-group-list/PopUpCreateGroupList.tsx";
 import { FullLogo } from "../logo/FullLogo";
 import useGropList from "../../api/group-lists/useGroupList.ts";
 import useUser from "../../api/user-data/useUser.ts";
 import useSideBarMb from "../../context/useSideBarMb.ts";
+import usePopup from "../../context/usePopup.ts";
 import "./NavBarApp.css";
 
 interface NavBarProp {
@@ -23,21 +24,13 @@ export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
   const { userData, getUserInfo } = useUser();
   const { groupListData, isLoadingGroup, getGroup } = useGropList();
 
-  // this is use to controll popup
-  const [isOpenPopup, setIsOpenPopup] = useState<string | null>(null);
-  const [isAnimation, setIsAnimation] = useState("close");
+  const { openPopup } = usePopup();
 
   function handleToggleNavBar() {
     addAndRemoveTransition();
     const next = isOpenNavBar === "open" ? "close" : "open";
     setIsOpenNavBar(next);
     localStorage.setItem("navbar", next);
-  }
-
-  function handleOpenPopup() {
-    document.body.style.overflow = "hidden";
-    setIsAnimation("open");
-    setIsOpenPopup("create");
   }
 
   function handleChangeSectionPage(sectionName: string, navType: string) {
@@ -82,7 +75,7 @@ export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
           </div>
           <div className="container-select-section">
             <button
-              onClick={() => handleChangeSectionPage("today-list", "dt")}
+              onClick={() => handleChangeSectionPage("today-lists", "dt")}
               className={`today-lists-link ${section === "today-lists" ? "active" : ""}`}
             >
               <img src="/icon/today-list.png" />
@@ -106,7 +99,7 @@ export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
           <div className="container-nav-bar-group-list">
             <div>
               <p>GROUP LIST</p>
-              <button onClick={handleOpenPopup}>
+              <button onClick={() => openPopup("create")}>
                 <img src="/icon/add.png" />
               </button>
             </div>
@@ -195,7 +188,7 @@ export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
             <div className="container-nav-bar-group-list-mb">
               <div>
                 <p>GROUP LIST</p>
-                <button onClick={handleOpenPopup}>
+                <button onClick={() => openPopup("create")}>
                   <img src="/icon/add.png" />
                 </button>
               </div>
@@ -248,12 +241,7 @@ export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
         </nav>
       </div>
 
-      <PopUpCreateGroupList
-        isAnimation={isAnimation}
-        setIsAnimation={setIsAnimation}
-        isOpenPopup={isOpenPopup}
-        setIsOpenPopup={setIsOpenPopup}
-      />
+      <PopUpCreateGroupList />
     </>
   );
 }

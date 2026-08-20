@@ -1,0 +1,145 @@
+.item-task-date-cell-outer {
+  position: relative;
+}
+
+.item-task-date-cell {
+  padding: 5px;
+  border-radius: 5px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.item-task-date-cell > div:first-child {
+  width: 8px;
+  height: 8px;
+  border-radius: 50px;
+  flex-shrink: 0;
+}
+
+.item-task-date-cell > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.item-task-date-cell > div:last-child > p {
+  font-size: 0.85rem;
+  font-weight: 500;
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-task-date-cell > div:last-child > span {
+  font-size: 0.75rem;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  overflow: hidden;
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.container-option-task-date-item-cell {
+  position: absolute;
+  background-color: var(--card-color);
+  padding: 5px;
+  border-radius: 5px;
+  min-width: 130px;
+  box-shadow: 0 0 2px 0 gray;
+  top: 50px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 1;
+
+  transform-origin: top center;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0.18s;
+  pointer-events: none;
+}
+
+.container-option-task-date-item-cell.open {
+  opacity: 1;
+  transform: scaleY(1) translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.container-option-task-date-item-cell.close {
+  opacity: 0;
+  transform: scaleY(0.9) translateY(-4px);
+  visibility: hidden;
+}
+
+.container-option-task-date-item-cell > button {
+  border: none;
+  color: var(--hero-text-color);
+  border-radius: 5px;
+  font-size: 0.7rem;
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: nunito, sans-serif;
+  font-weight: 500;
+
+  transition: background-color 0.2s ease;
+}
+
+.container-option-task-date-item-cell > button:hover {
+  background-color: rgba(69, 69, 69, 0.5);
+}
+
+.container-option-task-date-item-cell > button:first-child > svg {
+  width: 11px;
+  height: 11px;
+}
+
+.container-option-task-date-item-cell > button:first-child > svg > line,
+.container-option-task-date-item-cell > button:first-child > svg > circle {
+  stroke: var(--hero-text-color);
+}
+
+.container-option-task-date-item-cell > button:last-child {
+  color: #d94045;
+  display: flex;
+  align-items: center;
+}
+
+.container-option-task-date-item-cell > button:last-child > svg {
+  margin-left: -1px;
+}
+
+.container-option-task-date-item-cell > button:last-child > .spinner-load {
+  margin: 0;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid #d94045;
+  border-top-color: transparent;
+}
+
+@media (max-width: 510px) {
+  .item-task-date-cell > div {
+    display: none;
+  }
+
+  .item-task-date-cell > div > p,
+  .item-task-date-cell > div > span {
+    display: none;
+  }
+
+  .container-option-task-date-item-cell {
+    top: 15px;
+  }
+}

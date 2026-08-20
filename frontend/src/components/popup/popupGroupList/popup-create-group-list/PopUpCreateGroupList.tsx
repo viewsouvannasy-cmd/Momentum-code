@@ -3,35 +3,22 @@ import { CloseXButton } from "../../../close-x-button/CloseXButton.tsx";
 import { rbgaFormot } from "../../../../utils/rgbaFormart.ts";
 import { LoadButton } from "../../../load-button/LoadButton.tsx";
 import useGropList from "../../../../api/group-lists/useGroupList.ts";
+import usePopup from "../../../../context/usePopup.ts";
 
 import "../../BackOverlay.css";
 import "./PopUpCreateGroupList.css";
 
-interface PopCreateGroupListProp {
-  isAnimation: string;
-  setIsAnimation: (value: string) => void;
-  isOpenPopup: string | null;
-  setIsOpenPopup: (value: string | null) => void;
-}
-
-export function PopUpCreateGroupList({
-  isAnimation,
-  setIsAnimation,
-  isOpenPopup,
-  setIsOpenPopup,
-}: PopCreateGroupListProp) {
+export function PopUpCreateGroupList() {
   const [isPickColor, setIsPickColor] = useState("#2d7ffb");
   const [inputNameGroupList, setInputNameGroupList] = useState("");
+
+  const { isOpenPopup, isAnimation, closePopup } = usePopup();
 
   const { isLoadingPost, createGroup } = useGropList();
 
   function handleClosePopup() {
-    document.body.style.overflow = "unset";
-    setIsAnimation("close");
-    setTimeout(() => {
-      setIsOpenPopup(null);
-      setInputNameGroupList("");
-    }, 200);
+    closePopup();
+    setInputNameGroupList("");
   }
 
   const handleCreateGroupList = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,7 +34,7 @@ export function PopUpCreateGroupList({
     <div
       className={`container-background-overlay-popup ${isAnimation}`}
       style={{
-        display: isOpenPopup ? "flex" : "none",
+        display: isOpenPopup === "create" ? "flex" : "none",
       }}
     >
       <form

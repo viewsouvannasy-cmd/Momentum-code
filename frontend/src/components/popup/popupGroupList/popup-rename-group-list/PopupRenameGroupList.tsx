@@ -3,42 +3,28 @@ import { CloseXButton } from "../../../close-x-button/CloseXButton";
 import useGropList from "../../../../api/group-lists/useGroupList.ts";
 import useGetData from "../../../../api/todo-data/useGetData.ts";
 import { LoadButton } from "../../../load-button/LoadButton.tsx";
+import usePopup from "../../../../context/usePopup.ts";
 import "./PopupRenameGroupList.css";
 
 interface PopupRenameGroupListProp {
   groupId: number | undefined;
-  isOpenPopup: string | null;
-  isAnimation: string;
-  setIsOpenPopup: (param: string | null) => void;
-  setIsAnimation: (param: string) => void;
 }
 
-export function PopupRenameGroupList({
-  groupId,
-  isOpenPopup,
-  isAnimation,
-  setIsOpenPopup,
-  setIsAnimation,
-}: PopupRenameGroupListProp) {
+export function PopupRenameGroupList({ groupId }: PopupRenameGroupListProp) {
   const { renameGroup, isLoadingPost } = useGropList();
 
   const { getDataTodo } = useGetData();
 
   const [inputName, setInputName] = useState("");
 
-  function handleClosePopupRename() {
-    setIsAnimation("close");
-    setTimeout(() => {
-      setIsOpenPopup(null);
-    }, 200);
-  }
+  const { isAnimation, isOpenPopup, closePopup } = usePopup();
 
   const handleRenameGroupList = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (groupId) {
       await renameGroup(inputName, groupId);
       await getDataTodo();
-      handleClosePopupRename();
+      closePopup();
       setInputName("");
     }
   };
@@ -47,7 +33,7 @@ export function PopupRenameGroupList({
     <div
       className={`container-background-overlay-popup ${isAnimation}`}
       style={{
-        display: isOpenPopup ? "flex" : "none",
+        display: isOpenPopup === "rename" ? "flex" : "none",
       }}
     >
       <form
@@ -56,7 +42,7 @@ export function PopupRenameGroupList({
       >
         <div>
           <h2>Get a new name</h2>
-          <button type="button" onClick={handleClosePopupRename}>
+          <button type="button" onClick={closePopup}>
             <CloseXButton />
           </button>
         </div>

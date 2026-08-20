@@ -3,6 +3,7 @@ import { useState } from "react";
 import useMainTime from "../../../context/useMainTime";
 import { ClockIcon } from "../../../../../../components/icon-svg/clock-icon";
 import { calculateSpendingTime } from "../../../util/calculateTime";
+import dayjs from "dayjs";
 
 import "./ItemDate.css";
 
@@ -80,7 +81,7 @@ export function ItemDate({
 
   return (
     <div className="item-set-different-date">
-      <p>{item.date}</p>
+      <p>{dayjs(item.date).format("YYYY-MM-DD")}</p>
       {!isOpenInputTime && (
         <button type="button" onClick={hadnleOpenInputTime}>
           different time for this day...

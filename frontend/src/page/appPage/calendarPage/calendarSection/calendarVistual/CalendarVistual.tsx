@@ -1,5 +1,6 @@
 import { createCellId } from "../../util/checkDate";
 import { CellItem } from "./cellItem/CellItem";
+import useTaskDate from "../../../../../api/task-date/useTaskDate";
 
 import "./CalendarVistual.css";
 
@@ -8,6 +9,8 @@ interface CalendarVistualProp {
 }
 
 export function CalendarVistual({ isDate }: CalendarVistualProp) {
+  const { isLoadingTaskDate } = useTaskDate();
+
   const firstDays = new Date(
     isDate.getFullYear(),
     isDate.getMonth(),
@@ -33,25 +36,29 @@ export function CalendarVistual({ isDate }: CalendarVistualProp) {
         <p>Sat</p>
       </div>
 
-      <div className="container-display-date-of-calendar">
-        {new Array(daysInMonths + firstDays + nextDaysCount)
-          .fill(null)
-          .map((_, index) => {
-            const date = index + 1 - firstDays;
-            const cellId = createCellId(isDate, date);
-            if (index + 1 <= firstDays) {
+      {!isLoadingTaskDate && (
+        <div className="container-display-date-of-calendar">
+          {new Array(daysInMonths + firstDays + nextDaysCount)
+            .fill(null)
+            .map((_, index) => {
+              const date = index + 1 - firstDays;
+              const cellId = createCellId(isDate, date);
+              if (index + 1 <= firstDays) {
+                return (
+                  <div key={index} className="cell-calendar-empty-top"></div>
+                );
+              }
+              if (date <= daysInMonths) {
+                return <CellItem key={cellId} cellId={cellId} date={date} />;
+              }
               return (
-                <div key={index} className="cell-calendar-empty-top"></div>
+                <div key={index} className="cell-calendar-empty-bottom"></div>
               );
-            }
-            if (date <= daysInMonths) {
-              return <CellItem key={cellId} cellId={cellId} date={date} />;
-            }
-            return (
-              <div key={index} className="cell-calendar-empty-bottom"></div>
-            );
-          })}
-      </div>
+            })}
+        </div>
+      )}
+
+      {isLoadingTaskDate && <div className="container-loading-task-date"></div>}
     </>
   );
 }

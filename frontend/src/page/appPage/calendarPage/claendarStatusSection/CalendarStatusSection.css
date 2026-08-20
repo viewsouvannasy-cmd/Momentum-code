@@ -1,0 +1,41 @@
+.container-calendar-status-section-main {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.container-calendar-status-section-main > h1 {
+  font-weight: 500;
+  font-size: 1.4rem;
+}
+
+.container-calendar-status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.container-calendar-status-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.container-calendar-status-grid > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.container-calendar-status-grid > div > div p {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.container-calendar-status-grid > div > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 250px;
+}

@@ -8,3 +8,9 @@ export function rbgaFormot(hex: string | undefined) {
 
   return `rgba(${r}, ${g}, ${b}, 0.7)`;
 }
+
+export function reduceRgbaOpacity(rgba: string, newOpacity: string) {
+  const sparate = rgba.split(",");
+  sparate[3] = `${newOpacity})`;
+  return sparate.join(",");
+}

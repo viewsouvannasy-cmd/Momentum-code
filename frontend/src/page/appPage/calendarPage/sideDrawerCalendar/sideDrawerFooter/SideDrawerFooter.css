@@ -5,6 +5,9 @@
   align-items: center;
   justify-content: end;
   gap: 10px;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 
 .container-side-drawer-footer > button {
@@ -41,4 +44,24 @@
 
 .schedule-date-btn-not-allow {
   cursor: not-allowed;
+}
+
+.loading-add-date-btn {
+  cursor: not-allowed;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+  padding: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.loading-add-date-btn > .spinner-load {
+  margin: 0;
+  height: 18.5px;
+  width: 19px;
+  border-width: 2px;
 }

@@ -34,6 +34,12 @@
   height: 103%;
 }
 
+.container-loading-task-date {
+  width: 100%;
+  height: 500px;
+  background-color: rgba(69, 69, 69, 0.3);
+}
+
 @media (max-width: 510px) {
   .container-date-of-week > p {
     font-size: 0.7rem;

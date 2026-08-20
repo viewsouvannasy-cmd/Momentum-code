@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { ButtonArrow } from "../../../../../../components/button-icon/ButtonArrow";
+import { useNavigate } from "react-router";
 import { ButtonXDelete } from "../../../../../../components/button-icon/ButtonXDelete";
 import { ButtonThreeDot } from "../../../../../../components/button-icon/ButtonThreeDot";
+import { LoadButton } from "../../../../../../components/load-button/LoadButton";
 import useTask from "../../../../../../api/task/useTask";
+import useTaskDate from "../../../../../../api/task-date/useTaskDate";
+import useSideDrawerCalendar from "../../../../calendarPage/context/useOpenSideDrawerCalendar";
+import useSelectTask from "../../../../calendarPage/context/useSelectTask";
 
 import "./DisplayItemToDo.css";
 
@@ -22,17 +26,45 @@ interface DisplayItemToDoProp {
 export function DisplayItemToDo({ task }: DisplayItemToDoProp) {
   const { moveTo, deleteTask } = useTask();
 
+  const navigate = useNavigate();
+
   const [isFocus, setIsFocus] = useState(false);
+
+  const [isLoadingPostDelete, setIsLoadingPostDelete] = useState(false);
+  const [isLoadingPostMoveBack, setIsLoadingPostMoveBack] = useState(false);
+
+  const { openSideDrawer } = useSideDrawerCalendar();
+  const { selectTask } = useSelectTask();
+
+  const { deleteAllTaskDate } = useTaskDate();
 
   function handleMoveState(toState: string) {
     moveTo(task.group_id, task.task_id, toState);
     setIsFocus(false);
   }
 
-  function handleDeleteTesk() {
-    deleteTask(task.group_id, task.task_id);
-    setIsFocus(false);
+  function handleLetDoTask() {
+    navigate("/app/calendar");
+    openSideDrawer();
+    selectTask(task);
   }
+
+  // delete task and also delete all task date
+  const handleDeleteTesk = async () => {
+    setIsLoadingPostDelete(true);
+    await deleteAllTaskDate(task.group_id, task.task_id);
+    await deleteTask(task.group_id, task.task_id);
+    setIsFocus(false);
+    setIsLoadingPostDelete(false);
+  };
+
+  const handleMoveBackToToDo = async () => {
+    setIsLoadingPostMoveBack(true);
+    await deleteAllTaskDate(task.group_id, task.task_id);
+    await moveTo(task.group_id, task.task_id, "todo");
+    setIsFocus(false);
+    setIsLoadingPostMoveBack(false);
+  };
 
   return (
     <div className={`item-to-do-list ${task.task_status}`}>
@@ -74,12 +106,14 @@ export function DisplayItemToDo({ task }: DisplayItemToDoProp) {
         <div className="container-control-state-todo-list">
           {task.task_status !== "done" && (
             <button
-              className={`move-forward-btn`}
-              onClick={() =>
-                handleMoveState(task.task_status === "todo" ? "doing" : "done")
+              className="move-forward-btn"
+              onClick={
+                task.task_status === "todo"
+                  ? () => handleLetDoTask()
+                  : () => handleMoveState("done")
               }
             >
-              <ButtonArrow />
+              {task.task_status === "todo" ? "do" : "submit"}
             </button>
           )}
           <button
@@ -97,9 +131,10 @@ export function DisplayItemToDo({ task }: DisplayItemToDoProp) {
               <button
                 className="move-back-btn"
                 onMouseDown={(e) => e.preventDefault()}
-                onClick={() => handleMoveState("todo")}
+                onClick={() => handleMoveBackToToDo()}
               >
-                <img src="/icon/arrow-white.png" />
+                {!isLoadingPostMoveBack && <img src="/icon/arrow-white.png" />}
+                {isLoadingPostMoveBack && <LoadButton />}
                 Move back to To Do
               </button>
             )}
@@ -119,7 +154,8 @@ export function DisplayItemToDo({ task }: DisplayItemToDoProp) {
               onMouseDown={(e) => e.preventDefault()}
               onClick={handleDeleteTesk}
             >
-              <ButtonXDelete />
+              {!isLoadingPostDelete && <ButtonXDelete />}
+              {isLoadingPostDelete && <LoadButton />}
               Delete
             </button>
           </div>

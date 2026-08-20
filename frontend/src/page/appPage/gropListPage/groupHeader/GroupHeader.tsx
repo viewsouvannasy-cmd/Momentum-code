@@ -1,4 +1,5 @@
 import { BtnOpenNavBarMB } from "../../../../components/button-open-navber-mp/BtnOpenNavBarMB";
+import usePopup from "../../../../context/usePopup";
 import "./GroupHeader.css";
 
 interface GroupList {
@@ -9,20 +10,10 @@ interface GroupList {
 
 interface GroupHeaderProp {
   currentGroupList: GroupList | undefined;
-  setIsOpenPopup: (param: string | null) => void;
-  setIsAnimation: (param: string) => void;
 }
 
-export function GroupHeader({
-  currentGroupList,
-  setIsOpenPopup,
-  setIsAnimation,
-}: GroupHeaderProp) {
-  function handleOpenPopup(popupName: string) {
-    document.body.style.overflow = "hidden";
-    setIsAnimation("open");
-    setIsOpenPopup(popupName);
-  }
+export function GroupHeader({ currentGroupList }: GroupHeaderProp) {
+  const { openPopup } = usePopup();
 
   return (
     <div className="container-group-list-header-page">
@@ -36,23 +27,20 @@ export function GroupHeader({
           <div>
             <div className="box-name-group-list">
               <p>Name</p>
-              <div role="button" onClick={() => handleOpenPopup("rename")}>
+              <div role="button" onClick={() => openPopup("rename")}>
                 {currentGroupList?.group_name}
               </div>
             </div>
             <div className="box-color-group-list">
               <p>Color</p>
-              <div
-                role="button"
-                onClick={() => handleOpenPopup("change-color")}
-              >
+              <div role="button" onClick={() => openPopup("change-color")}>
                 <div
                   style={{ backgroundColor: currentGroupList?.group_color }}
                 ></div>
               </div>
             </div>
           </div>
-          <button onClick={() => handleOpenPopup("delete")}>Delete List</button>
+          <button onClick={() => openPopup("delete")}>Delete List</button>
         </div>
       </div>
     </div>

@@ -4,6 +4,9 @@
   padding: 15px;
   border-bottom: 1px solid var(--border-card-color);
   align-items: center;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 .container-set-date-for-task-header > div:first-child {

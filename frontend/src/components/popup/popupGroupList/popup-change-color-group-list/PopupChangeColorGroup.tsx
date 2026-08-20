@@ -5,6 +5,7 @@ import { CloseXButton } from "../../../close-x-button/CloseXButton";
 import { LoadButton } from "../../../load-button/LoadButton.tsx";
 import useGropList from "../../../../api/group-lists/useGroupList.ts";
 import useGetData from "../../../../api/todo-data/useGetData.ts";
+import usePopup from "../../../../context/usePopup.ts";
 
 import "./PopupChangeColorGroup.css";
 
@@ -12,20 +13,12 @@ interface PopupChangeColorGroupProp {
   groupId: number | undefined;
   group_name: string | undefined;
   group_color: string | undefined;
-  isOpenPopup: string | null;
-  isAnimation: string;
-  setIsOpenPopup: (param: string | null) => void;
-  setIsAnimation: (param: string) => void;
 }
 
 export function PopupChangeColorGroup({
   groupId,
   group_name,
   group_color,
-  isOpenPopup,
-  isAnimation,
-  setIsOpenPopup,
-  setIsAnimation,
 }: PopupChangeColorGroupProp) {
   const { isLoadingPost, changeColorGroup } = useGropList();
   const { getDataTodo } = useGetData();
@@ -34,12 +27,7 @@ export function PopupChangeColorGroup({
     rgbStringToHex(group_color),
   );
 
-  function handleClosePopup() {
-    setIsAnimation("close");
-    setTimeout(() => {
-      setIsOpenPopup(null);
-    }, 200);
-  }
+  const { isOpenPopup, isAnimation, closePopup } = usePopup();
 
   function handleInputColor(color: string) {
     setInputColor(color);
@@ -51,7 +39,7 @@ export function PopupChangeColorGroup({
     if (rbga && groupId) {
       await changeColorGroup(rbga, groupId);
       await getDataTodo();
-      handleClosePopup();
+      closePopup();
     }
   };
 
@@ -59,14 +47,14 @@ export function PopupChangeColorGroup({
     <div
       className={`container-background-overlay-popup ${isAnimation}`}
       style={{
-        display: isOpenPopup ? "flex" : "none",
+        display: isOpenPopup === "change-color" ? "flex" : "none",
       }}
     >
       <form
         onSubmit={handleChangeColor}
         className={`container-change-color-group-popup ${isAnimation}`}
       >
-        <button type="button" onClick={handleClosePopup}>
+        <button type="button" onClick={closePopup}>
           <CloseXButton />
         </button>
         <div className="container-show-example-change-color">

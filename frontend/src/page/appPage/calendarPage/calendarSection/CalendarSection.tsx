@@ -1,26 +1,14 @@
-import { useState, useEffect } from "react";
 import { CalendarSelectPage } from "./calendarSelectPage/CalendarSelectPage";
 import { CalendarVistual } from "./calendarVistual/CalendarVistual";
-import useSideDrawerCalendar from "../context/useOpenSideDrawerCalendar";
+
 import "./CalendarSection.css";
 
-export function CalendarSection() {
-  const [isDate, setIsDate] = useState(new Date());
+interface CalendarSectionProp {
+  isDate: Date;
+  setIsDate: (parma: Date) => void;
+}
 
-  const { isOpenSideDrawer } = useSideDrawerCalendar();
-
-  useEffect(() => {
-    if (isOpenSideDrawer) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  });
-
+export function CalendarSection({ isDate, setIsDate }: CalendarSectionProp) {
   return (
     <div className="container-calendar-section-page">
       <CalendarSelectPage isDate={isDate} setIsDate={setIsDate} />

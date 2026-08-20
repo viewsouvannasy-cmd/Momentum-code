@@ -3,15 +3,9 @@ import { LoadButton } from "../../../load-button/LoadButton.tsx";
 import { CloseXButton } from "../../../close-x-button/CloseXButton";
 import useGropList from "../../../../api/group-lists/useGroupList.ts";
 import useTask from "../../../../api/task/useTask.ts";
+import usePopup from "../../../../context/usePopup.ts";
 
 import "./PopupAddTask.css";
-
-interface PopupAddTaskProp {
-  isOpenPopup: string | null;
-  isAnimation: string;
-  setIsOpenPopup: (param: string | null) => void;
-  setIsAnimation: (param: string) => void;
-}
 
 interface GroupList {
   group_id: number;
@@ -19,12 +13,7 @@ interface GroupList {
   group_color: string;
 }
 
-export function PopupAddTask({
-  isOpenPopup,
-  isAnimation,
-  setIsOpenPopup,
-  setIsAnimation,
-}: PopupAddTaskProp) {
+export function PopupAddTask() {
   // this state data
   const { groupListData } = useGropList();
   const { taskData, addTask, isLoadingPost } = useTask();
@@ -34,14 +23,14 @@ export function PopupAddTask({
 
   const [inputNameTask, setInputNameTask] = useState("");
 
+  const { closePopup, isOpenPopup, isAnimation } = usePopup();
+
   const [isOpenSelectGroup, setIsOpenSelectGroup] = useState(false);
   const [selectGroup, setSelectGroup] = useState<GroupList | null>(null);
 
   function handleClosePopup() {
-    setIsAnimation("close");
-    setTimeout(() => {
-      setIsOpenPopup(null);
-    }, 200);
+    closePopup();
+    setInputNameTask("");
   }
 
   function handleSelectGroupList(
@@ -72,7 +61,7 @@ export function PopupAddTask({
     <div
       className={`container-background-overlay-popup ${isAnimation}`}
       style={{
-        display: isOpenPopup ? "flex" : "none",
+        display: isOpenPopup === "add-task" ? "flex" : "none",
       }}
     >
       <form

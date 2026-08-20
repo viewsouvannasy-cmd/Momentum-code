@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { PopUpCreateGroupList } from "../../../components/popup/popupGroupList/popup-create-group-list/PopUpCreateGroupList.tsx";
 import { PopupAddTask } from "../../../components/popup/popupTask/popup-add-test/PopupAddTask.tsx";
 import { InboxHeader } from "./inboxHeader/InboxHeader.tsx";
@@ -8,15 +8,14 @@ import { useMediaQuery } from "../../../hook/useMediaQuery.ts";
 import useGropList from "../../../api/group-lists/useGroupList.ts";
 import useTask from "../../../api/task/useTask.ts";
 import useUser from "../../../api/user-data/useUser.ts";
+import usePopup from "../../../context/usePopup.ts";
 
 interface AppInboxProp {
   isOpenNavBar: string;
 }
 
 export function AppInboxPage({ isOpenNavBar }: AppInboxProp) {
-  // this is use to controll popup
-  const [isOpenPopup, setIsOpenPopup] = useState<string | null>(null);
-  const [isAnimation, setIsAnimation] = useState("close");
+  const { isOpenPopup } = usePopup();
 
   useEffect(() => {
     if (isOpenPopup) {
@@ -35,6 +34,7 @@ export function AppInboxPage({ isOpenNavBar }: AppInboxProp) {
   const { getUserInfo } = useUser();
 
   useEffect(() => {
+    document.title = "Inbox";
     getGroup();
     getTask();
     getUserInfo();
@@ -47,42 +47,15 @@ export function AppInboxPage({ isOpenNavBar }: AppInboxProp) {
     <>
       <InboxHeader />
 
-      {isOpenNavBar === "close" && wideScreen && (
-        <GroupListSection
-          setIsAnimation={setIsAnimation}
-          setIsOpenPopup={setIsOpenPopup}
-        />
-      )}
+      {isOpenNavBar === "close" && wideScreen && <GroupListSection />}
 
-      {maxWideScreen && (
-        <GroupListSection
-          setIsAnimation={setIsAnimation}
-          setIsOpenPopup={setIsOpenPopup}
-        />
-      )}
+      {maxWideScreen && <GroupListSection />}
 
-      <StateSection
-        setIsAnimation={setIsAnimation}
-        setIsOpenPopup={setIsOpenPopup}
-      />
+      <StateSection />
 
-      {isOpenPopup === "create" && (
-        <PopUpCreateGroupList
-          isAnimation={isAnimation}
-          setIsAnimation={setIsAnimation}
-          isOpenPopup={isOpenPopup}
-          setIsOpenPopup={setIsOpenPopup}
-        />
-      )}
+      {isOpenPopup === "create" && <PopUpCreateGroupList />}
 
-      {isOpenPopup === "add-task" && (
-        <PopupAddTask
-          isAnimation={isAnimation}
-          setIsAnimation={setIsAnimation}
-          isOpenPopup={isOpenPopup}
-          setIsOpenPopup={setIsOpenPopup}
-        />
-      )}
+      {isOpenPopup === "add-task" && <PopupAddTask />}
     </>
   );
 }
