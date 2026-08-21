@@ -22,15 +22,30 @@ interface AddDateTypeBody {
   dates: DateType[];
 }
 
+interface ParamForValid {
+  group_id: number;
+  task_id: number;
+  date_id: number;
+}
+
+interface DeleteRemainderStatus extends ParamForValid {
+  status: string;
+}
+
+interface FilterTaskDateData {
+  month: string | undefined;
+  year: string | undefined;
+  status?: string | undefined;
+}
+
 // get task date function
-const getTaskDate = async (req: Request, res: Response) => {
+const getTaskDate = async (
+  req: Request<{}, {}, {}, FilterTaskDateData>,
+  res: Response,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
-    const { month, year, status } = req.query as {
-      month: string | null;
-      year: string | null;
-      status: string | null;
-    };
+    const { month, year, status } = req.query;
 
     // get filter month
     if (month && !year) {
@@ -56,13 +71,16 @@ const getTaskDate = async (req: Request, res: Response) => {
 };
 
 // this function use add date to to-do list
-const addDate = async (req: Request, res: Response) => {
+const addDate = async (
+  req: Request<ParamForValid, {}, AddDateTypeBody>,
+  res: Response,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
     const { group_id, task_id } = req.params;
 
     // date it will be a array
-    const { dates } = req.body as AddDateTypeBody;
+    const { dates } = req.body;
 
     // check that task inside group that have
     // that user be owner
@@ -72,7 +90,7 @@ const addDate = async (req: Request, res: Response) => {
       Number(task_id),
     );
     if (results.length === 0) {
-      return res.sendStatus(401);
+      return res.status(401).json({ msg: "You are not allow to do" });
     }
 
     // loop add
@@ -91,7 +109,10 @@ const addDate = async (req: Request, res: Response) => {
 };
 
 // this function is use to edit date
-const editDateTime = async (req: Request, res: Response) => {
+const editDateTime = async (
+  req: Request<ParamForValid, {}, { start_time: string; end_time: string }>,
+  res: Response,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
     const { group_id, task_id, date_id } = req.params;
@@ -105,7 +126,7 @@ const editDateTime = async (req: Request, res: Response) => {
       Number(date_id),
     );
     if (results.length === 0) {
-      return res.sendStatus(404);
+      return res.status(401).json({ msg: "You are not allow to do" });
     }
 
     await sql`
@@ -121,8 +142,51 @@ const editDateTime = async (req: Request, res: Response) => {
   }
 };
 
+// move status task date
+const moveStatusTaskDate = async (
+  req: Request<ParamForValid, {}, { toStatus: "completed" | "miss" }>,
+  res: Response,
+) => {
+  try {
+    const user_id = checkPayload(req.user?.user_id);
+    const { group_id, task_id, date_id } = req.params;
+    const { toStatus } = req.body;
+
+    if (toStatus !== "completed" && toStatus !== "miss") {
+      return res
+        .status(400)
+        .json({ msg: "toStatis must be completed or miss" });
+    }
+
+    // check user owner
+    const results = await checkDateInListInGroupOwner(
+      Number(group_id),
+      user_id,
+      Number(task_id),
+      Number(date_id),
+    );
+    if (results.length === 0) {
+      return res.status(401).json({ msg: "You are not allow to do" });
+    }
+
+    await sql`
+    UPDATE task_dates
+    SET date_status = ${toStatus}
+    WHERE date_id = ${date_id}
+    
+    `;
+
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json({ msg: `internal server error ${error}` });
+  }
+};
+
 // this function is use to delete date to-do
-const deleteDate = async (req: Request, res: Response) => {
+const deleteDate = async (
+  req: Request<ParamForValid, {}, {}>,
+  res: Response,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
     const { group_id, task_id, date_id } = req.params;
@@ -135,7 +199,7 @@ const deleteDate = async (req: Request, res: Response) => {
       Number(date_id),
     );
     if (results.length === 0) {
-      return res.status(401).json({ msg: "You are not able access" });
+      return res.status(401).json({ msg: "You are not allow to do" });
     }
 
     await sql`
@@ -149,7 +213,10 @@ const deleteDate = async (req: Request, res: Response) => {
   }
 };
 
-const deleteAllDate = async (req: Request, res: Response) => {
+const deleteAllDate = async (
+  req: Request<ParamForValid, {}, {}>,
+  res: Response,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
     const { group_id, task_id } = req.params;
@@ -161,7 +228,7 @@ const deleteAllDate = async (req: Request, res: Response) => {
       Number(task_id),
     );
     if (results.length === 0) {
-      return res.sendStatus(401);
+      return res.status(401).json({ msg: "You are not allow to do" });
     }
 
     await sql`
@@ -175,4 +242,45 @@ const deleteAllDate = async (req: Request, res: Response) => {
   }
 };
 
-export { getTaskDate, addDate, editDateTime, deleteDate, deleteAllDate };
+// this use to remove remainder status like when user submit
+// task but they still have date to do in the calendar but they already done with
+// we will auto remove that remain date for them
+const deleteRemainderStatus = async (
+  req: Request<DeleteRemainderStatus, {}, {}>,
+  res: Response,
+) => {
+  try {
+    const user_id = checkPayload(req.user?.user_id);
+    const { group_id, task_id, status } = req.params;
+
+    // check user owner
+    const results = await checkListInGroupOwner(
+      Number(group_id),
+      user_id,
+      Number(task_id),
+    );
+    if (results.length === 0) {
+      return res.status(401).json({ msg: "You are not allow to do" });
+    }
+
+    await sql`
+    DELETE FROM task_dates
+    WHERE task_id = ${task_id}
+      AND date_status = ${status}
+    `;
+
+    res.sendStatus(200);
+  } catch (error) {
+    res.status(500).json({ msg: `internal server error ${error}` });
+  }
+};
+
+export {
+  getTaskDate,
+  addDate,
+  editDateTime,
+  moveStatusTaskDate,
+  deleteDate,
+  deleteAllDate,
+  deleteRemainderStatus,
+};

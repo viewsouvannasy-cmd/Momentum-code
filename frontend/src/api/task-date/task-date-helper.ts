@@ -84,6 +84,34 @@ const deleteTaskDate = async (
   }
 };
 
+const moveStatusTaskDate = async (
+  group_id: number,
+  task_id: number,
+  date_id: number,
+  toStatus: string,
+) => {
+  try {
+    const accessToken = getAccessToken();
+    await axios.put(
+      `http://localhost:4000/api/task-date/move/${group_id}/${task_id}/${date_id}`,
+      { toStatus: toStatus },
+      { headers: { Authorization: `Bearer ${accessToken}` } },
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (
+        error.response?.status === 401 &&
+        !error.response.data.success_verify_token
+      ) {
+        await fetchRefreshToken();
+        return moveStatusTaskDate(group_id, task_id, date_id, toStatus);
+      }
+      console.log(error);
+      window.open("/error");
+    }
+  }
+};
+
 const deleteAllTaskDate = async (group_id: number, task_id: number) => {
   try {
     const accessToken = getAccessToken();
@@ -106,4 +134,37 @@ const deleteAllTaskDate = async (group_id: number, task_id: number) => {
   }
 };
 
-export { getFilterMonthYear, addDate, deleteTaskDate, deleteAllTaskDate };
+const deleteRemainderStatus = async (
+  group_id: number,
+  task_id: number,
+  status: string,
+) => {
+  try {
+    const accessToken = getAccessToken();
+    await axios.delete(
+      `http://localhost:4000/api/task-date/delete-status/${group_id}/${task_id}/${status}`,
+      { headers: { Authorization: `Bearer ${accessToken}` } },
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (
+        error.response?.status === 401 &&
+        !error.response.data.success_verify_token
+      ) {
+        await fetchRefreshToken();
+        return deleteRemainderStatus(group_id, task_id, status);
+      }
+      console.log(error);
+      window.open("/error");
+    }
+  }
+};
+
+export {
+  getFilterMonthYear,
+  addDate,
+  moveStatusTaskDate,
+  deleteTaskDate,
+  deleteAllTaskDate,
+  deleteRemainderStatus,
+};

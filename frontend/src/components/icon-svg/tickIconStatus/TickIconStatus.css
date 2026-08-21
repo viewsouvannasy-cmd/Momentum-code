@@ -1,0 +1,18 @@
+.tick-icon-status {
+  background-color: var(--done-state-color);
+  padding: 1px;
+  border-radius: 50px;
+  height: 10px;
+  width: 10px;
+  margin-top: -0.1px;
+  border: 0.7px solid var(--main-opponent-color);
+  box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.803);
+  flex-shrink: 1;
+}
+
+@media (max-width: 510px) {
+  .tick-icon-status {
+    width: 7px;
+    height: 7px;
+  }
+}

@@ -32,11 +32,12 @@ export function DisplayItemToDo({ task }: DisplayItemToDoProp) {
 
   const [isLoadingPostDelete, setIsLoadingPostDelete] = useState(false);
   const [isLoadingPostMoveBack, setIsLoadingPostMoveBack] = useState(false);
+  const [isLoadingPostSubmit, setIsLoadingPostSubmit] = useState(false);
 
   const { openSideDrawer } = useSideDrawerCalendar();
   const { selectTask } = useSelectTask();
 
-  const { deleteAllTaskDate } = useTaskDate();
+  const { deleteAllTaskDate, deleteRemainderStatus } = useTaskDate();
 
   function handleMoveState(toState: string) {
     moveTo(task.group_id, task.task_id, toState);
@@ -64,6 +65,13 @@ export function DisplayItemToDo({ task }: DisplayItemToDoProp) {
     await moveTo(task.group_id, task.task_id, "todo");
     setIsFocus(false);
     setIsLoadingPostMoveBack(false);
+  };
+
+  const handleSubmitTask = async () => {
+    setIsLoadingPostSubmit(true);
+    await deleteRemainderStatus(task.group_id, task.task_id, "wait");
+    await moveTo(task.group_id, task.task_id, "done");
+    setIsLoadingPostSubmit(false);
   };
 
   return (
@@ -110,10 +118,14 @@ export function DisplayItemToDo({ task }: DisplayItemToDoProp) {
               onClick={
                 task.task_status === "todo"
                   ? () => handleLetDoTask()
-                  : () => handleMoveState("done")
+                  : () => handleSubmitTask()
               }
             >
-              {task.task_status === "todo" ? "do" : "submit"}
+              {task.task_status === "todo" && "do"}
+              {task.task_status === "doing" && !isLoadingPostSubmit && "submit"}
+              {task.task_status === "doing" && isLoadingPostSubmit && (
+                <LoadButton />
+              )}
             </button>
           )}
           <button

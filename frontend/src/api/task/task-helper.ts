@@ -61,7 +61,7 @@ const moveToState = async (
   try {
     const accessToken = await checkAccessToken();
     await axios.put(
-      "http://localhost:4000/api/task/move",
+      "http://localhost:4000/api/task/move/",
       {
         group_id: group_id,
         task_id: task_id,

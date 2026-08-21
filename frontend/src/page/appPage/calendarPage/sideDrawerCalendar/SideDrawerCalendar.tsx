@@ -30,7 +30,7 @@ export function SideDrawerCalendar() {
   // store task that user wanna add date to
   const { taskSelected, selectTask } = useSelectTask();
 
-  const { addDate, getFilterMonthYear } = useTaskDate();
+  const { addDate } = useTaskDate();
 
   const { moveTo } = useTask();
 
@@ -77,16 +77,12 @@ export function SideDrawerCalendar() {
       };
     });
     if (taskSelected) {
-      const year = String(new Date().getFullYear());
-      const month = String(new Date().getMonth() + 1);
-
       // change task status to doing if it have status todo
       if (taskSelected.task_status === "todo") {
         await moveTo(taskSelected.group_id, taskSelected.task_id, "doing");
       }
 
       await addDate(taskSelected.group_id, taskSelected.task_id, arrDate);
-      await getFilterMonthYear(month, year);
       closeSideDrawer();
       setIsArraySelectDate([
         {

@@ -1,0 +1,34 @@
+.container-status-task-date {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.container-status-task-date > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-status-task-date > div:first-child > p {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.container-status-task-date > div:first-child > span {
+  font-size: 0.85rem;
+  font-family: nunito, sans-serif;
+  color: #999999;
+}
+
+.container-status-task-date > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 150px;
+}
+
+.loading-state-task-date {
+  height: 50px;
+  background-color: rgba(69, 69, 69, 0.3);
+}

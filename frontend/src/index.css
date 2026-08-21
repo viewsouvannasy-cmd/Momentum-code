@@ -15,6 +15,8 @@
   --todo-state-color: #aaaaaa;
   --doing-state-color: #3b82f6;
   --done-state-color: #22c55e;
+  --delete-color: #d94045;
+
   /* ----- */
   --hero-text-color-opponent: #000000;
   --color-hover-button-auth: rgba(255, 255, 255, 0.7);

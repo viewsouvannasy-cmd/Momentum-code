@@ -3,9 +3,14 @@ import { ZoomIcon } from "../../../../../../../components/icon-svg/zoom-icon";
 import { ButtonXDelete } from "../../../../../../../components/button-icon/ButtonXDelete";
 import { reduceRgbaOpacity } from "../../../../../../../utils/rgbaFormart";
 import { LoadButton } from "../../../../../../../components/load-button/LoadButton";
+import { TickIcon } from "../../../../../../../components/icon-svg/TickIcon";
 import useTaskDate from "../../../../../../../api/task-date/useTaskDate";
+import { getToday } from "../../../../util/getDate";
+import { MissIconStatus } from "../../../../../../../components/icon-svg/missIconStatus/MissIconStatus";
+import { TickIconStatus } from "../../../../../../../components/icon-svg/tickIconStatus/TickIconStatus";
+import dayjs from "dayjs";
 
-import type { TaskDateType } from "../../../../../../../api/task-date/useTaskDate";
+import type { TaskDateType } from "../../../../../../../types/task-date-type";
 
 import "./ItemTaskDate.css";
 
@@ -14,25 +19,35 @@ interface ItemTaskDateProp {
 }
 
 export function ItemTaskDate({ item }: ItemTaskDateProp) {
-  const { getFilterMonthYear, deleteTaskDate } = useTaskDate();
+  const { deleteTaskDate, moveStatusTaskDate } = useTaskDate();
 
   const start = item.start_time.split(":").slice(0, 2).join(":");
   const end = item.end_time.split(":").slice(0, 2).join(":");
   const [isFocus, setIsFocus] = useState("close");
 
-  const [isLoadingPost, setIsLoadingPost] = useState(false);
+  const [isLoadingPostDelete, setIsLoadingPostDelete] = useState(false);
+  const [isLoadingPostMarkDone, setIsLoadingPostMarkDone] = useState(false);
 
   const handleDeleteTaskDate = async (
     group_id: number,
     task_id: number,
     date_id: number,
   ) => {
-    setIsLoadingPost(true);
-    const year = String(new Date().getFullYear());
-    const month = String(new Date().getMonth() + 1);
+    setIsLoadingPostDelete(true);
     await deleteTaskDate(group_id, task_id, date_id);
-    await getFilterMonthYear(month, year);
-    setIsLoadingPost(false);
+    setIsLoadingPostDelete(false);
+  };
+
+  const handleMoveStatusTaskDate = async (
+    group_id: number,
+    task_id: number,
+    date_id: number,
+    toStatus: string,
+  ) => {
+    setIsLoadingPostMarkDone(true);
+    await moveStatusTaskDate(group_id, task_id, date_id, toStatus);
+    setIsLoadingPostMarkDone(false);
+    setIsFocus("close");
   };
 
   return (
@@ -60,8 +75,32 @@ export function ItemTaskDate({ item }: ItemTaskDateProp) {
           </span>
         </div>
       </div>
+
+      {/* drop down option */}
       <div className={`container-option-task-date-item-cell ${isFocus}`}>
+        {dayjs(item.task_date).format("YYYY-MM-DD") === getToday() && (
+          <button
+            className="btn-mark-done-drop-down-task-date"
+            onMouseDown={(e) => {
+              e.preventDefault();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleMoveStatusTaskDate(
+                item.group_id,
+                item.task_id,
+                item.date_id,
+                "completed",
+              );
+            }}
+          >
+            {isLoadingPostMarkDone && <LoadButton />}
+            {!isLoadingPostMarkDone && <TickIcon />}
+            Mark Done
+          </button>
+        )}
         <button
+          className="btn-preview-drop-down-task-date"
           onMouseDown={(e) => {
             e.preventDefault();
           }}
@@ -73,19 +112,36 @@ export function ItemTaskDate({ item }: ItemTaskDateProp) {
           Preview
         </button>
         <button
+          className="btn-delete-drop-down-task-date"
           onMouseDown={(e) => {
             e.preventDefault();
           }}
           onClick={(e) => {
             e.stopPropagation();
+
             handleDeleteTaskDate(item.group_id, item.task_id, item.date_id);
           }}
         >
-          {!isLoadingPost && <ButtonXDelete />}
-          {isLoadingPost && <LoadButton />}
+          {!isLoadingPostDelete && <ButtonXDelete />}
+          {isLoadingPostDelete && <LoadButton />}
           Delete
         </button>
       </div>
+
+      {/* icon above the task date */}
+      {item.date_status === "wait" ? (
+        ""
+      ) : (
+        <div className="container-show-status-of-task-date-cell">
+          {item.date_status === "miss" && <MissIconStatus />}
+
+          {item.date_status === "completed" && <TickIconStatus />}
+
+          {item.task_status === "done" && (
+            <div className="status-task-done">Done</div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

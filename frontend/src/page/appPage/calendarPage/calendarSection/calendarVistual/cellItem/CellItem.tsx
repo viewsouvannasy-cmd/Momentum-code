@@ -1,5 +1,5 @@
 import { findTodayDate } from "../../../util/checkDate";
-import { getClassNameCellCalendarMain } from "../../../util/checkDate";
+
 import { checkIsPastDate } from "../../../util/checkDate";
 import { ItemTaskDate } from "./itemTaskDate/ItemTaskDate";
 import useSelectDateCell from "../../../context/useSelectDateOnCalendar";
@@ -37,7 +37,15 @@ export function CellItem({ cellId, date }: CellItemProp) {
     <div
       role="button"
       onClick={() => hadnleSelectCellDate(cellId)}
-      className={getClassNameCellCalendarMain(cellId)}
+      className={
+        checkIsPastDate(cellId) ? "cell-calendar-past" : "cell-calendar"
+      }
+      style={{
+        cursor:
+          checkIsPastDate(cellId) && filterData.length > 0
+            ? "pointer"
+            : "default",
+      }}
     >
       <div>
         <p className={`number-cell ${isToday ? "today" : ""}`}>{date}</p>

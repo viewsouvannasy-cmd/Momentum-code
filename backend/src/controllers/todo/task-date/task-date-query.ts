@@ -4,7 +4,7 @@ import { sql } from "../../../config/database.js";
 const getFilterMonth = async (
   user_id: number,
   month: string,
-  status: string | null,
+  status: string | undefined,
 ) => {
   const year = new Date().getFullYear();
   const daysInMonth = new Date(year, Number(month), 0).getDate();
@@ -20,10 +20,12 @@ const getFilterMonth = async (
     gl.group_color,
     t.task_id,
     t.task_name,
+    t.task_status,
     td.date_id,
     td.task_date,
     td.start_time,
-    td.end_time
+    td.end_time,
+    td.date_status
     FROM task_dates AS td
     INNER JOIN tasks AS t
       ON td.task_id = t.task_id
@@ -43,10 +45,12 @@ const getFilterMonth = async (
     gl.group_color,
     t.task_id,
     t.task_name,
+    t.task_status,
     td.date_id,
     td.task_date,
     td.start_time,
-    td.end_time
+    td.end_time,
+    td.date_status
     FROM task_dates AS td
     INNER JOIN tasks AS t
       ON td.task_id = t.task_id
@@ -61,7 +65,7 @@ const getFilterMonth = async (
 const getFilterYear = async (
   user_id: number,
   year: string,
-  status: string | null,
+  status: string | undefined,
 ) => {
   const startDate = `'${year}-01-01'`;
   const endDate = `'${Number(year) + 1}-01-01'`;
@@ -74,10 +78,12 @@ const getFilterYear = async (
     gl.group_color,
     t.task_id,
     t.task_name,
+    t.task_status,
     td.date_id,
     td.task_date,
     td.start_time,
-    td.end_time
+    td.end_time,
+    td.date_status
     FROM task_dates AS td
     INNER JOIN tasks AS t
       ON td.task_id = t.task_id
@@ -97,10 +103,12 @@ const getFilterYear = async (
     gl.group_color,
     t.task_id,
     t.task_name,
+    t.task_status,
     td.date_id,
     td.task_date,
     td.start_time,
-    td.end_time
+    td.end_time,
+    td.date_status
     FROM task_dates AS td
     INNER JOIN tasks AS t
       ON td.task_id = t.task_id
@@ -116,7 +124,7 @@ const getFilterMonthAndYear = async (
   user_id: number,
   year: string,
   month: string,
-  status: string | null,
+  status: string | undefined,
 ) => {
   const startDate = `'${year}-${month}-01'`;
   const endDate = getEndDate(month, year);
@@ -129,10 +137,12 @@ const getFilterMonthAndYear = async (
         gl.group_color,
         t.task_id,
         t.task_name,
+        t.task_status,
         td.date_id,
         td.task_date,
         td.start_time,
-        td.end_time
+        td.end_time,
+        td.date_status
         FROM task_dates AS td
         INNER JOIN tasks AS t
           ON td.task_id = t.task_id
@@ -152,10 +162,12 @@ const getFilterMonthAndYear = async (
         gl.group_color,
         t.task_id,
         t.task_name,
+        t.task_status,
         td.date_id,
         td.task_date,
         td.start_time,
-        td.end_time
+        td.end_time,
+        td.date_status
         FROM task_dates AS td
         INNER JOIN tasks AS t
           ON td.task_id = t.task_id

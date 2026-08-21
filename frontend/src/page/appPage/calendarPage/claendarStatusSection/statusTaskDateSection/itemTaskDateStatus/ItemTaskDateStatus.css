@@ -1,0 +1,142 @@
+.item-task-date-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+
+  border-bottom: 1px solid var(--border-card-color);
+  transition:
+    background-color 0.2s ease,
+    padding 0.2s ease;
+}
+
+.item-task-date-status:hover {
+  padding: 10px;
+  background-color: rgba(69, 69, 69, 0.3);
+}
+
+.item-task-date-status > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.item-task-date-status > div:first-child > p {
+  font-weight: 450;
+}
+
+.item-task-date-status > div:first-child > div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.item-task-date-status > div:first-child > div > div {
+  padding: 1px 10px;
+  font-weight: 550;
+  border-radius: 50px;
+  font-size: 0.75rem;
+}
+
+.item-task-date-status > div:first-child > div > span {
+  font-family: nunito, sans-serif;
+  font-size: 0.8rem;
+  color: #999999;
+}
+
+.item-task-date-status > div:last-child {
+  display: flex;
+  height: 100%;
+  align-items: end;
+}
+
+.item-task-date-status > div:last-child > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.item-task-date-status > div:last-child > div > button {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.preview-btn-task-date > svg {
+  width: 17px;
+  height: 17px;
+}
+
+.preview-btn-task-date > svg > circle,
+.preview-btn-task-date > svg > line {
+  stroke: var(--border-card-color);
+  stroke-width: 12px;
+  transition: stroke 0.2s ease;
+}
+
+.preview-btn-task-date:hover > svg > circle,
+.preview-btn-task-date:hover > svg > line {
+  stroke: var(--hero-text-color);
+}
+
+.delete-btn-task-date > .spinner-load {
+  margin: 0;
+  height: 22px;
+  width: 22px;
+  border-width: 2.5px;
+}
+
+.delete-btn-task-date > svg {
+  color: var(--border-card-color);
+  width: 22px;
+  height: 22px;
+  transition: color 0.2s ease;
+}
+
+.delete-btn-task-date > svg > path {
+  stroke-width: 2.2px;
+}
+
+.delete-btn-task-date:hover > svg {
+  color: var(--delete-color);
+}
+
+.mark-done-btn-task-date > .spinner-load {
+  margin: 0;
+  height: 22px;
+  width: 22px;
+  border-width: 2.5px;
+}
+
+.mark-done-btn-task-date > svg {
+  color: var(--border-card-color);
+  width: 17px;
+  height: 17px;
+  transition: color 0.2s ease;
+}
+
+.mark-done-btn-task-date > svg > path {
+  stroke-width: 2.5px;
+}
+
+.mark-done-btn-task-date:hover > svg {
+  color: var(--hero-text-color);
+}
+
+.message-completed-task-date {
+  font-family: nunito, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--done-state-color);
+}
+
+.message-miss-task-date {
+  font-family: nunito, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--delete-color);
+}

@@ -1,5 +1,6 @@
+import { StatusTaskDateSection } from "./statusTaskDateSection/StatusTaskDateSection";
 import dayjs from "dayjs";
-import { ItemTaskDateStatus } from "./itemTaskDateStatus/ItemTaskDateStatus";
+
 import "./CalendarStatusSection.css";
 
 interface CalendarStatusSectionProp {
@@ -12,17 +13,12 @@ export function CalendarStatusSection({ isDate }: CalendarStatusSectionProp) {
       <h1>Momentum In {dayjs(isDate).format("MM")}</h1>
       <div className="container-calendar-status-grid">
         <div>
-          <div>
-            <p>Today</p>
-            <div>
-              <ItemTaskDateStatus status="today" />
-            </div>
-          </div>
-          <div>All Task To Do</div>
+          <StatusTaskDateSection status="today" />
+          <StatusTaskDateSection status="wait" />
         </div>
         <div>
-          <div>Mark Done</div>
-          <div>Missing</div>
+          <StatusTaskDateSection status="completed" />
+          <StatusTaskDateSection status="miss" />
         </div>
       </div>
     </div>

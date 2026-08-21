@@ -2,27 +2,18 @@ import { create } from "zustand";
 import {
   getFilterMonthYear,
   addDate,
+  moveStatusTaskDate,
   deleteTaskDate,
   deleteAllTaskDate,
+  deleteRemainderStatus,
 } from "./task-date-helper";
+
+import type { TaskDateType } from "../../types/task-date-type";
 
 interface DateType {
   date: string;
   start_time: string;
   end_time: string;
-}
-
-export interface TaskDateType {
-  group_id: number;
-  group_name: string;
-  group_color: string;
-  task_id: number;
-  task_name: string;
-  date_id: number;
-  task_date: string;
-  start_time: string;
-  end_time: string;
-  date_status: "wait" | "do" | "miss";
 }
 
 interface UseTaskDate {
@@ -32,8 +23,19 @@ interface UseTaskDate {
   error: unknown;
   getFilterMonthYear: (month: string, year: string) => void;
   addDate: (group_id: number, task_id: number, arrDate: DateType[]) => void;
+  moveStatusTaskDate: (
+    group_id: number,
+    task_id: number,
+    date_id: number,
+    toStatus: string,
+  ) => void;
   deleteTaskDate: (group_id: number, task_id: number, date_id: number) => void;
   deleteAllTaskDate: (group_id: number, task_id: number) => void;
+  deleteRemainderStatus: (
+    group_id: number,
+    task_id: number,
+    status: string,
+  ) => void;
 }
 
 const useTaskDate = create<UseTaskDate>((set) => ({
@@ -56,9 +58,28 @@ const useTaskDate = create<UseTaskDate>((set) => ({
   // add task date
   addDate: async (group_id, task_id, arrDate) => {
     try {
+      const year = String(new Date().getFullYear());
+      const month = String(new Date().getMonth() + 1);
+
       set({ isLoadingPost: true });
       await addDate(group_id, task_id, arrDate);
-      set({ isLoadingPost: false });
+      const response = await getFilterMonthYear(month, year);
+      set({ taskDateData: response.results, isLoadingPost: false });
+    } catch (error) {
+      set({ isLoadingPost: false, error: error });
+    }
+  },
+
+  // this use to move status task date
+  moveStatusTaskDate: async (group_id, task_id, date_id, toStatus) => {
+    try {
+      const year = String(new Date().getFullYear());
+      const month = String(new Date().getMonth() + 1);
+
+      set({ isLoadingPost: true });
+      await moveStatusTaskDate(group_id, task_id, date_id, toStatus);
+      const response = await getFilterMonthYear(month, year);
+      set({ taskDateData: response.results, isLoadingPost: false });
     } catch (error) {
       set({ isLoadingPost: false, error: error });
     }
@@ -67,9 +88,13 @@ const useTaskDate = create<UseTaskDate>((set) => ({
   // delete task date
   deleteTaskDate: async (group_id, task_id, date_id) => {
     try {
+      const year = String(new Date().getFullYear());
+      const month = String(new Date().getMonth() + 1);
+
       set({ isLoadingPost: true });
       await deleteTaskDate(group_id, task_id, date_id);
-      set({ isLoadingPost: false });
+      const response = await getFilterMonthYear(month, year);
+      set({ taskDateData: response.results, isLoadingPost: false });
     } catch (error) {
       set({ isLoadingPost: false, error: error });
     }
@@ -79,9 +104,27 @@ const useTaskDate = create<UseTaskDate>((set) => ({
   // or when user delete it
   deleteAllTaskDate: async (group_id, task_id) => {
     try {
+      const year = String(new Date().getFullYear());
+      const month = String(new Date().getMonth() + 1);
+
       set({ isLoadingPost: true });
       await deleteAllTaskDate(group_id, task_id);
-      set({ isLoadingPost: false });
+      const response = await getFilterMonthYear(month, year);
+      set({ taskDateData: response.results, isLoadingPost: false });
+    } catch (error) {
+      set({ isLoadingPost: false, error: error });
+    }
+  },
+
+  deleteRemainderStatus: async (group_id, task_id, status) => {
+    try {
+      const year = String(new Date().getFullYear());
+      const month = String(new Date().getMonth() + 1);
+
+      set({ isLoadingPost: true });
+      await deleteRemainderStatus(group_id, task_id, status);
+      const response = await getFilterMonthYear(month, year);
+      set({ taskDateData: response.results, isLoadingPost: false });
     } catch (error) {
       set({ isLoadingPost: false, error: error });
     }

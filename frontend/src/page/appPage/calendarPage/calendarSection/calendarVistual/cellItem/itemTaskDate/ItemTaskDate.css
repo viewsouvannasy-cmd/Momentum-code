@@ -82,7 +82,6 @@
 
 .container-option-task-date-item-cell > button {
   border: none;
-  color: var(--hero-text-color);
   border-radius: 5px;
   font-size: 0.7rem;
   padding: 5px 8px;
@@ -93,7 +92,6 @@
   cursor: pointer;
   font-family: nunito, sans-serif;
   font-weight: 500;
-
   transition: background-color 0.2s ease;
 }
 
@@ -101,32 +99,75 @@
   background-color: rgba(69, 69, 69, 0.5);
 }
 
-.container-option-task-date-item-cell > button:first-child > svg {
+.btn-mark-done-drop-down-task-date {
+  color: var(--hero-text-color);
+}
+
+.btn-mark-done-drop-down-task-date > svg {
+  width: 10px;
+  height: 10px;
+}
+
+.btn-mark-done-drop-down-task-date > .spinner-load {
+  margin: 0;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid var(--main-opponent-color);
+  border-top-color: transparent;
+}
+
+.btn-preview-drop-down-task-date {
+  color: var(--hero-text-color);
+}
+
+.btn-preview-drop-down-task-date > svg {
   width: 11px;
   height: 11px;
 }
 
-.container-option-task-date-item-cell > button:first-child > svg > line,
-.container-option-task-date-item-cell > button:first-child > svg > circle {
+.btn-preview-drop-down-task-date > svg > line,
+.btn-preview-drop-down-task-date > svg > circle {
   stroke: var(--hero-text-color);
 }
 
-.container-option-task-date-item-cell > button:last-child {
-  color: #d94045;
+.btn-delete-drop-down-task-date {
+  color: var(--delete-color);
   display: flex;
   align-items: center;
 }
 
-.container-option-task-date-item-cell > button:last-child > svg {
+.btn-delete-drop-down-task-date > svg {
   margin-left: -1px;
+  color: var(--delete-color);
 }
 
-.container-option-task-date-item-cell > button:last-child > .spinner-load {
+.btn-delete-drop-down-task-date > .spinner-load {
   margin: 0;
   width: 9px;
   height: 9px;
-  border: 1.5px solid #d94045;
+  border: 1.5px solid var(--delete-color);
   border-top-color: transparent;
+}
+
+.container-show-status-of-task-date-cell {
+  position: absolute;
+  top: -7px;
+  right: 0px;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.status-task-done {
+  color: var(--hero-text-color-opponent);
+  background-color: var(--main-opponent-color);
+  padding: 0px 5px;
+  font-family: nunito, sans-serif;
+  font-size: 0.52rem;
+  border-radius: 50px;
+  box-shadow: 0 1px 5px 0px rgba(0, 0, 0, 0.803);
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 510px) {
@@ -141,5 +182,16 @@
 
   .container-option-task-date-item-cell {
     top: 15px;
+  }
+
+  .status-task-done {
+    padding: 0 4px;
+    font-size: 0.36rem;
+  }
+
+  .container-show-status-of-task-date-cell {
+    position: absolute;
+    top: -5px;
+    gap: 2px;
   }
 }

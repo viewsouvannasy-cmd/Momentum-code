@@ -56,14 +56,6 @@ export function getClassNameCellCalendar(
   }
 }
 
-export function getClassNameCellCalendarMain(cellId: string): string {
-  const today = dayjs(new Date()).format("YYYY-MM-D");
-  if (getTimeUnix(today) > getTimeUnix(cellId)) {
-    return "cell-calendar-past";
-  }
-  return "cell-calendar";
-}
-
 export function checkIsPastDate(cellId: string): boolean {
   const today = dayjs(new Date()).format("YYYY-MM-D");
 

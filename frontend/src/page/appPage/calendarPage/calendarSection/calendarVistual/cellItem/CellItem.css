@@ -17,8 +17,6 @@
   flex-direction: column;
   gap: 10px;
   padding: 8px;
-  cursor: default;
-  pointer-events: none;
 }
 
 .cell-calendar > div:first-child,

@@ -139,6 +139,14 @@
   padding: 0;
 }
 
+.move-forward-btn > .spinner-load {
+  margin: 0;
+  width: 15px;
+  height: 15px;
+  border-width: 2px;
+  border-top-color: transparent;
+}
+
 .move-forward-btn:hover {
   color: var(--hero-text-color);
   text-decoration: underline;
