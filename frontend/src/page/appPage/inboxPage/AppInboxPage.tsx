@@ -1,13 +1,22 @@
+// library
 import { useEffect } from "react";
+
+// components
 import { PopUpCreateGroupList } from "../../../components/popup/popupGroupList/popup-create-group-list/PopUpCreateGroupList.tsx";
 import { PopupAddTask } from "../../../components/popup/popupTask/popup-add-test/PopupAddTask.tsx";
 import { InboxHeader } from "./inboxHeader/InboxHeader.tsx";
 import { GroupListSection } from "./groupListSection/GroupListSection.tsx";
 import { StateSection } from "./stateSection/StateSection.tsx";
+
+// hook
 import { useMediaQuery } from "../../../hook/useMediaQuery.ts";
+
+// api
 import useGropList from "../../../api/group-lists/useGroupList.ts";
 import useTask from "../../../api/task/useTask.ts";
 import useUser from "../../../api/user-data/useUser.ts";
+
+// context api
 import usePopup from "../../../context/usePopup.ts";
 
 interface AppInboxProp {

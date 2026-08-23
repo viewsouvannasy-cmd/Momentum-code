@@ -85,8 +85,8 @@
 
 .delete-btn-task-date > .spinner-load {
   margin: 0;
-  height: 22px;
-  width: 22px;
+  height: 18px;
+  width: 18px;
   border-width: 2.5px;
 }
 
@@ -139,4 +139,7 @@
   font-size: 0.9rem;
   font-weight: 300;
   color: var(--delete-color);
+}
+
+@media (max-width: 510px) {
 }

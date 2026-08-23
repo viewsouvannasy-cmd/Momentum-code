@@ -130,6 +130,15 @@
   stroke: var(--hero-text-color);
 }
 
+.btn-edit-drop-down-task-date {
+  color: var(--hero-text-color);
+}
+
+.btn-edit-drop-down-task-date > svg {
+  width: 11px;
+  height: 11px;
+}
+
 .btn-delete-drop-down-task-date {
   color: var(--delete-color);
   display: flex;

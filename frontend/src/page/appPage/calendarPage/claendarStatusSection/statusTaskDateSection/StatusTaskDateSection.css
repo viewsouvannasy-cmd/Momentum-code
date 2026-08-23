@@ -32,3 +32,9 @@
   height: 50px;
   background-color: rgba(69, 69, 69, 0.3);
 }
+
+@media (max-width: 810px) {
+  .container-status-task-date > div:last-child {
+    min-height: 50px;
+  }
+}

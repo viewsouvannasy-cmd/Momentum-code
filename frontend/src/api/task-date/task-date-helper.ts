@@ -31,6 +31,29 @@ const getFilterMonthYear = async (month: string, year: string) => {
   }
 };
 
+const getFilterByDate = async (date: string) => {
+  try {
+    const accessToken = getAccessToken();
+    const response = await axios.get(
+      `http://localhost:4000/api/task-date/get?date=${date}`,
+      { headers: { Authorization: `Bearer ${accessToken}` } },
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (
+        error.response?.status === 401 &&
+        !error.response.data.success_verify_token
+      ) {
+        await fetchRefreshToken();
+        return getFilterByDate(date);
+      }
+      console.log(error);
+      window.open("/error");
+    }
+  }
+};
+
 const addDate = async (
   group_id: number,
   task_id: number,
@@ -162,6 +185,7 @@ const deleteRemainderStatus = async (
 
 export {
   getFilterMonthYear,
+  getFilterByDate,
   addDate,
   moveStatusTaskDate,
   deleteTaskDate,

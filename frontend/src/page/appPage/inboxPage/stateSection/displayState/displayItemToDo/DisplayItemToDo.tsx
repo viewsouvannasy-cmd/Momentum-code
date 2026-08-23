@@ -1,23 +1,25 @@
+// library
 import { useState } from "react";
 import { useNavigate } from "react-router";
+
+// components
 import { ButtonXDelete } from "../../../../../../components/button-icon/ButtonXDelete";
 import { ButtonThreeDot } from "../../../../../../components/button-icon/ButtonThreeDot";
 import { LoadButton } from "../../../../../../components/load-button/LoadButton";
+
+// api
 import useTask from "../../../../../../api/task/useTask";
 import useTaskDate from "../../../../../../api/task-date/useTaskDate";
+
+// context api
 import useSideDrawerCalendar from "../../../../calendarPage/context/useOpenSideDrawerCalendar";
 import useSelectTask from "../../../../calendarPage/context/useSelectTask";
 
-import "./DisplayItemToDo.css";
+// type
+import type { TaskType } from "../../../../../../types/task-type";
 
-interface TaskType {
-  group_id: number;
-  group_name: string;
-  group_color: string;
-  task_id: number;
-  task_name: string;
-  task_status: string;
-}
+// css
+import "./DisplayItemToDo.css";
 
 interface DisplayItemToDoProp {
   task: TaskType;

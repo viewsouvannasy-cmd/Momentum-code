@@ -17,6 +17,7 @@ function App() {
       <Route path="/verify-otp/:name" element={<VerifyOtpPage />} />
       <Route path="/app/:section" element={<AppPage />} />
       <Route path="/app/group/:groupId" element={<AppPage />} />
+      <Route path="/app/preview/:date" element={<AppPage />} />
       <Route path="/error" element={<ErrorPage />} />
     </Routes>
   );

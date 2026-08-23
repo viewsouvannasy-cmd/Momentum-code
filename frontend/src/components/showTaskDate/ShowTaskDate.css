@@ -1,0 +1,124 @@
+.container-today-list-page-main {
+  display: flex;
+  justify-content: center;
+  height: 95vh;
+}
+
+.container-today-list-page {
+  max-width: 450px;
+  width: 100%;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-today-list-page > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.container-today-list-page > div:first-child > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border-bottom: 1px solid var(--border-card-color);
+  padding-bottom: 10px;
+  justify-content: space-between;
+}
+
+.container-title-today-list {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.container-title-today-list > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-title-today-list > div > h1 {
+  font-size: 1.8rem;
+  font-weight: 550;
+}
+
+.container-title-today-list > div > span {
+  font-family: nunito, sans-serif;
+  font-size: 0.8rem;
+  color: #999999;
+}
+
+.contanier-change-date-preview {
+  display: flex;
+  justify-self: end;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border-card-color);
+  padding: 3px;
+  border-radius: 3px;
+  background-color: var(--card-color);
+}
+
+.contanier-change-date-preview > button {
+  border: none;
+  border-radius: 3px;
+  background-color: var(--main-opponent-color);
+
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.contanier-change-date-preview > button:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.contanier-change-date-preview > button:last-child {
+  transform: rotate(180deg);
+}
+
+.contanier-change-date-preview > span {
+  font-family: nunito, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 300;
+  width: 100px;
+  text-align: center;
+}
+
+.container-today-list-page > div:first-child > div:last-child {
+  display: flex;
+  justify-content: space-between;
+  font-family: nunito, sans-serif;
+  color: #999999;
+  font-weight: 300;
+}
+
+.container-display-task-in-date {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+.container-today-list-page > p {
+  font-size: 0.8rem;
+  text-align: center;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  color: #999999;
+}
+
+.container-display-task-in-date .loading-element {
+  height: 100px;
+  background-color: rgba(69, 69, 69, 0.3);
+}
+
+@media (max-width: 820px) {
+  .container-title-today-list > div > h1 {
+    font-size: 1.3rem;
+  }
+  .container-title-today-list > div > span {
+    font-size: 0.7rem;
+  }
+}

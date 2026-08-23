@@ -1,6 +1,7 @@
 // library
 import { useState } from "react";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router";
 
 // components
 import { ZoomIcon } from "../../../../../../components/icon-svg/zoom-icon";
@@ -23,6 +24,8 @@ interface ItemTaskDateStatusProp {
 
 export function ItemTaskDateStatus({ item, status }: ItemTaskDateStatusProp) {
   const { deleteTaskDate, moveStatusTaskDate } = useTaskDate();
+
+  const navigate = useNavigate();
 
   const [isLoadingPostDelete, setIsLoadingPostDelete] = useState(false);
   const [isLoadingPostMarkDone, setIsLoadingPostMarkDone] = useState(false);
@@ -70,7 +73,14 @@ export function ItemTaskDateStatus({ item, status }: ItemTaskDateStatusProp) {
         <div>
           {status === "wait" && (
             <>
-              <button className="preview-btn-task-date">
+              <button
+                className="preview-btn-task-date"
+                onClick={() =>
+                  navigate(
+                    `/app/preview/${dayjs(item.task_date).format("YYYY-MM-DD")}`,
+                  )
+                }
+              >
                 <ZoomIcon />
               </button>
               <button

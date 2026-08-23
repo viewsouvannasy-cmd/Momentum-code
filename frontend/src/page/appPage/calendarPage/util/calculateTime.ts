@@ -1,3 +1,5 @@
+import type { TaskDateType } from "../../../../types/task-date-type";
+
 export interface SelectDateType {
   date: string;
   start_time: string;
@@ -57,5 +59,14 @@ export function setTimeAllDate(
       };
     }
     return item;
+  });
+}
+
+export function sortByTime(array: TaskDateType[]): TaskDateType[] {
+  return [...array].sort((a, b) => {
+    const [aHours, aMinutes] = a.start_time.split(":").map(Number);
+    const [bHours, bMinutes] = b.start_time.split(":").map(Number);
+
+    return aHours * 60 + aMinutes - (bHours * 60 + bMinutes);
   });
 }

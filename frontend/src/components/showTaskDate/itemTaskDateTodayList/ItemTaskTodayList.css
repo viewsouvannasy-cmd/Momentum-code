@@ -1,0 +1,157 @@
+.item-task-date-to-do {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+  border-bottom: 2px solid var(--border-card-color);
+  padding-bottom: 5px;
+}
+
+.item-task-date-to-do > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-task-date-to-do > div:first-child > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-task-date-to-do > div:first-child > div:first-child > span {
+  font-family: nunito, sans-serif;
+  color: #999999;
+  font-weight: 300;
+  font-size: 0.9rem;
+}
+
+.item-task-date-to-do > div:first-child > div:last-child {
+  padding: 1px 10px;
+  font-weight: 550;
+  background-color: rgba(245, 186, 97, 0.7);
+  font-size: 0.9rem;
+  border-radius: 3px;
+}
+
+.item-task-date-to-do > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.item-task-date-to-do > div:last-child > div:first-child {
+  display: flex;
+  gap: 10px;
+  font-family: nunito, sans-serif;
+  font-size: 0.8rem;
+}
+
+.item-task-date-to-do > div:last-child > div:first-child .miss {
+  color: var(--delete-color);
+}
+
+.item-task-date-to-do > div:last-child > div:first-child .completed {
+  color: var(--done-state-color);
+}
+
+.item-task-date-to-do > div:last-child > div:first-child .done {
+  padding: 1px 7px;
+  background-color: var(--main-opponent-color);
+  color: var(--hero-text-color-opponent);
+  border-radius: 50px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.item-task-date-to-do > div:last-child > div:first-child .done > svg {
+  width: 9px;
+  height: 9px;
+}
+
+.item-task-date-to-do > div:last-child > div:first-child .done > svg > path {
+  stroke: var(--hero-text-color-opponent);
+}
+
+.item-task-date-to-do > div:last-child > div:last-child {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-delete-task-date-to-do,
+.btn-edit-task-date-to-do {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+}
+
+.btn-delete-task-date-to-do .spinner-load {
+  margin: 0;
+  height: 15px;
+  width: 15px;
+  border: 2px solid var(--delete-color);
+  border-top-color: transparent;
+}
+
+.btn-delete-task-date-to-do > svg {
+  color: var(--border-card-color);
+  width: 20px;
+  height: 20px;
+  transition: color 0.2s ease;
+}
+
+.btn-delete-task-date-to-do > svg > path {
+  stroke-width: 2.3px;
+}
+.btn-delete-task-date-to-do:hover > svg {
+  color: var(--delete-color);
+}
+
+.btn-edit-task-date-to-do > svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-edit-task-date-to-do > svg > path {
+  stroke: var(--border-card-color);
+  transition: stroke 0.2s ease;
+}
+
+.btn-edit-task-date-to-do:hover > svg > path {
+  stroke: var(--main-opponent-color);
+}
+
+.btn-tick-complete-task-date-to-do {
+  display: flex;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  height: 18px;
+  width: 18px;
+}
+
+.btn-tick-complete-task-date-to-do .spinner-load {
+  margin: 0;
+  height: 15px;
+  width: 15px;
+  border: 2px solid var(--main-opponent-color);
+  border-top-color: transparent;
+}
+
+.btn-tick-complete-task-date-to-do > svg > path {
+  color: var(--border-card-color);
+}
+
+.btn-tick-complete-task-date-to-do:hover > svg > path {
+  color: var(--main-opponent-color);
+}

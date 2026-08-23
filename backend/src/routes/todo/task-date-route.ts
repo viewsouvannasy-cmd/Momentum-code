@@ -17,7 +17,7 @@ route.put("/edit/:group_id/:task_id/:date_id", editDateTime);
 route.put("/move/:group_id/:task_id/:date_id", moveStatusTaskDate);
 
 route.delete("/delete-all/:group_id/:task_id", deleteAllDate);
-route.delete("/delete/:group_id/:task_id", deleteDate);
+route.delete("/delete/:group_id/:task_id/:date_id", deleteDate);
 route.delete(
   "/delete-status/:group_id/:task_id/:status",
   deleteRemainderStatus,

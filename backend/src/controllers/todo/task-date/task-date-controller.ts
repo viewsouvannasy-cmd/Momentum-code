@@ -10,6 +10,7 @@ import {
   getFilterMonth,
   getFilterYear,
   getFilterMonthAndYear,
+  getFilterDate,
 } from "./task-date-query.js";
 
 interface DateType {
@@ -35,7 +36,8 @@ interface DeleteRemainderStatus extends ParamForValid {
 interface FilterTaskDateData {
   month: string | undefined;
   year: string | undefined;
-  status?: string | undefined;
+  status: string | undefined;
+  date: string;
 }
 
 // get task date function
@@ -45,7 +47,7 @@ const getTaskDate = async (
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
-    const { month, year, status } = req.query;
+    const { month, year, status, date } = req.query;
 
     // get filter month
     if (month && !year) {
@@ -62,6 +64,12 @@ const getTaskDate = async (
     // get filter year and month
     if (month && year) {
       const results = await getFilterMonthAndYear(user_id, year, month, status);
+      return res.status(202).json({ results });
+    }
+
+    // get filter date
+    if (date) {
+      const results = await getFilterDate(user_id, date);
       return res.status(202).json({ results });
     }
   } catch (error) {
@@ -144,7 +152,7 @@ const editDateTime = async (
 
 // move status task date
 const moveStatusTaskDate = async (
-  req: Request<ParamForValid, {}, { toStatus: "completed" | "miss" }>,
+  req: Request<ParamForValid, {}, { toStatus: "completed" | "miss" | "today" }>,
   res: Response,
 ) => {
   try {
@@ -152,7 +160,11 @@ const moveStatusTaskDate = async (
     const { group_id, task_id, date_id } = req.params;
     const { toStatus } = req.body;
 
-    if (toStatus !== "completed" && toStatus !== "miss") {
+    if (
+      toStatus !== "completed" &&
+      toStatus !== "miss" &&
+      toStatus !== "today"
+    ) {
       return res
         .status(400)
         .json({ msg: "toStatis must be completed or miss" });

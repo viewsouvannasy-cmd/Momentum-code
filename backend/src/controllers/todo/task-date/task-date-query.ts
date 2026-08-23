@@ -180,4 +180,28 @@ const getFilterMonthAndYear = async (
         `;
 };
 
-export { getFilterMonth, getFilterYear, getFilterMonthAndYear };
+const getFilterDate = async (user_id: number, date: string) => {
+  return await sql`
+       SELECT
+        gl.group_id,
+        gl.group_name,
+        gl.group_color,
+        t.task_id,
+        t.task_name,
+        t.task_status,
+        td.date_id,
+        td.task_date,
+        td.start_time,
+        td.end_time,
+        td.date_status
+        FROM task_dates AS td
+        INNER JOIN tasks AS t
+          ON td.task_id = t.task_id
+        INNER JOIN group_list AS gl
+          ON gl.group_id = t.group_id
+        WHERE gl.user_id = ${user_id}
+        AND task_date = ${date}
+  `;
+};
+
+export { getFilterMonth, getFilterYear, getFilterMonthAndYear, getFilterDate };

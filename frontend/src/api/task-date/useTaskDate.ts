@@ -6,6 +6,7 @@ import {
   deleteTaskDate,
   deleteAllTaskDate,
   deleteRemainderStatus,
+  getFilterByDate,
 } from "./task-date-helper";
 
 import type { TaskDateType } from "../../types/task-date-type";
@@ -18,10 +19,12 @@ interface DateType {
 
 interface UseTaskDate {
   taskDateData: TaskDateType[];
+  taskDataFilterDate: TaskDateType[];
   isLoadingTaskDate: boolean;
   isLoadingPost: boolean;
   error: unknown;
   getFilterMonthYear: (month: string, year: string) => void;
+  getFilterByDate: (date: string) => void;
   addDate: (group_id: number, task_id: number, arrDate: DateType[]) => void;
   moveStatusTaskDate: (
     group_id: number,
@@ -40,6 +43,7 @@ interface UseTaskDate {
 
 const useTaskDate = create<UseTaskDate>((set) => ({
   taskDateData: [],
+  taskDataFilterDate: [],
   isLoadingTaskDate: true,
   isLoadingPost: false,
   error: null,
@@ -48,8 +52,19 @@ const useTaskDate = create<UseTaskDate>((set) => ({
   getFilterMonthYear: async (month, year) => {
     try {
       set({ isLoadingTaskDate: true });
+
       const response = await getFilterMonthYear(month, year);
       set({ isLoadingTaskDate: false, taskDateData: response.results });
+    } catch (error) {
+      set({ isLoadingTaskDate: false, error: error });
+    }
+  },
+
+  // get Task data by filter date
+  getFilterByDate: async (date: string) => {
+    try {
+      const response = await getFilterByDate(date);
+      set({ isLoadingTaskDate: false, taskDataFilterDate: response.results });
     } catch (error) {
       set({ isLoadingTaskDate: false, error: error });
     }
@@ -94,6 +109,7 @@ const useTaskDate = create<UseTaskDate>((set) => ({
       set({ isLoadingPost: true });
       await deleteTaskDate(group_id, task_id, date_id);
       const response = await getFilterMonthYear(month, year);
+
       set({ taskDateData: response.results, isLoadingPost: false });
     } catch (error) {
       set({ isLoadingPost: false, error: error });

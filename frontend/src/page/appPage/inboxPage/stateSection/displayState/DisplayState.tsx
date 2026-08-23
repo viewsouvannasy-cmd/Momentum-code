@@ -5,16 +5,11 @@ import useTask from "../../../../../api/task/useTask";
 import useGropList from "../../../../../api/group-lists/useGroupList.ts";
 import usePopup from "../../../../../context/usePopup.ts";
 
-import "./DisplayState.css";
+// typr
+import type { TaskType } from "../../../../../types/task-type.ts";
 
-interface TaskType {
-  group_id: number;
-  group_name: string;
-  group_color: string;
-  task_id: number;
-  task_name: string;
-  task_status: string;
-}
+// css
+import "./DisplayState.css";
 
 interface DisplaystateProp {
   taskData: TaskType[] | [];

@@ -9,5 +9,5 @@ export interface TaskDateType {
   task_date: string;
   start_time: string;
   end_time: string;
-  date_status: "wait" | "completed" | "miss";
+  date_status: "wait" | "completed" | "miss" | "today";
 }

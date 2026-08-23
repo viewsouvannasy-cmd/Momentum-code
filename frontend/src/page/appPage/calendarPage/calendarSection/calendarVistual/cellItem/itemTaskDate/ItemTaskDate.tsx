@@ -1,17 +1,28 @@
+// library
 import { useState } from "react";
-import { ZoomIcon } from "../../../../../../../components/icon-svg/zoom-icon";
-import { ButtonXDelete } from "../../../../../../../components/button-icon/ButtonXDelete";
-import { reduceRgbaOpacity } from "../../../../../../../utils/rgbaFormart";
-import { LoadButton } from "../../../../../../../components/load-button/LoadButton";
-import { TickIcon } from "../../../../../../../components/icon-svg/TickIcon";
-import useTaskDate from "../../../../../../../api/task-date/useTaskDate";
-import { getToday } from "../../../../util/getDate";
-import { MissIconStatus } from "../../../../../../../components/icon-svg/missIconStatus/MissIconStatus";
-import { TickIconStatus } from "../../../../../../../components/icon-svg/tickIconStatus/TickIconStatus";
+import { useNavigate } from "react-router";
 import dayjs from "dayjs";
 
+// components
+import { ZoomIcon } from "../../../../../../../components/icon-svg/zoom-icon";
+import { ButtonXDelete } from "../../../../../../../components/button-icon/ButtonXDelete";
+import { LoadButton } from "../../../../../../../components/load-button/LoadButton";
+import { TickIcon } from "../../../../../../../components/icon-svg/TickIcon";
+import { MissIconStatus } from "../../../../../../../components/icon-svg/missIconStatus/MissIconStatus";
+import { TickIconStatus } from "../../../../../../../components/icon-svg/tickIconStatus/TickIconStatus";
+import { IconEdit } from "../../../../../../../components/icon-svg/IconEdit";
+
+// api
+import useTaskDate from "../../../../../../../api/task-date/useTaskDate";
+
+// helper function
+import { reduceRgbaOpacity } from "../../../../../../../utils/rgbaFormart";
+import { findTodayDate, checkIsPastDate } from "../../../../util/checkDate";
+
+// type
 import type { TaskDateType } from "../../../../../../../types/task-date-type";
 
+// css
 import "./ItemTaskDate.css";
 
 interface ItemTaskDateProp {
@@ -19,6 +30,8 @@ interface ItemTaskDateProp {
 }
 
 export function ItemTaskDate({ item }: ItemTaskDateProp) {
+  const navigate = useNavigate();
+
   const { deleteTaskDate, moveStatusTaskDate } = useTaskDate();
 
   const start = item.start_time.split(":").slice(0, 2).join(":");
@@ -50,6 +63,15 @@ export function ItemTaskDate({ item }: ItemTaskDateProp) {
     setIsFocus("close");
   };
 
+  function handleToPreviewPage(item: TaskDateType) {
+    if (findTodayDate(dayjs(item.task_date).format("YYYY-MM-D"))) {
+      navigate("/app/today-lists");
+      return;
+    }
+
+    navigate(`/app/preview/${dayjs(item.task_date).format("YYYY-MM-DD")}`);
+  }
+
   return (
     <div
       tabIndex={0}
@@ -78,7 +100,7 @@ export function ItemTaskDate({ item }: ItemTaskDateProp) {
 
       {/* drop down option */}
       <div className={`container-option-task-date-item-cell ${isFocus}`}>
-        {dayjs(item.task_date).format("YYYY-MM-DD") === getToday() && (
+        {item.date_status === "today" && (
           <button
             className="btn-mark-done-drop-down-task-date"
             onMouseDown={(e) => {
@@ -106,11 +128,18 @@ export function ItemTaskDate({ item }: ItemTaskDateProp) {
           }}
           onClick={(e) => {
             e.stopPropagation();
+            handleToPreviewPage(item);
           }}
         >
           <ZoomIcon />
           Preview
         </button>
+        {!checkIsPastDate(dayjs(item.task_date).format("YYYY-MM-D")) && (
+          <button className="btn-edit-drop-down-task-date">
+            <IconEdit />
+            Edit Task Date
+          </button>
+        )}
         <button
           className="btn-delete-drop-down-task-date"
           onMouseDown={(e) => {
