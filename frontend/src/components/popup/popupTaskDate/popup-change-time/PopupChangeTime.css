@@ -1,0 +1,235 @@
+.container-popup-change-time-task-date {
+  background-color: var(--card-color);
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 10px;
+  border: 1px solid var(--border-card-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 20px 3px rgb(103, 103, 103, 0.2);
+}
+
+.container-popup-change-time-task-date.open {
+  animation: appearFromBottom 0.2s forwards;
+}
+.container-popup-change-time-task-date.close {
+  animation: goDown 0.2s forwards;
+}
+
+.container-popup-change-time-task-date > div:nth-child(1) {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-popup-change-time-task-date > div:nth-child(1) > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container-popup-change-time-task-date > div:nth-child(1) > div > h2 {
+  font-weight: 550;
+}
+
+.container-popup-change-time-task-date > div:nth-child(1) > div > button {
+  display: flex;
+  padding: 0px;
+  border-radius: 2px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.container-popup-change-time-task-date > div:nth-child(1) > div > button:hover {
+  background-color: rgb(69, 69, 69, 0.3);
+}
+
+.container-popup-change-time-task-date
+  > div:nth-child(1)
+  > div
+  > button:hover
+  svg {
+  color: var(--main-opponent-color);
+}
+
+.container-popup-change-time-task-date > div:nth-child(1) > span {
+  font-family: nunito, sans-serif;
+  font-size: 0.8rem;
+  color: #999999;
+  width: 70%;
+}
+
+.container-popup-change-time-task-date > div:nth-child(2) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.container-popup-change-time-task-date > div:nth-child(2) > div:nth-child(1),
+.container-popup-change-time-task-date > div:nth-child(2) > div:nth-child(3) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.container-popup-change-time-task-date
+  > div:nth-child(2)
+  > div:first-child
+  > label,
+.container-popup-change-time-task-date
+  > div:nth-child(2)
+  > div:nth-child(3)
+  > label {
+  font-size: 0.9rem;
+}
+
+.container-popup-change-time-task-date
+  > div:nth-child(2)
+  > div:first-child
+  > div,
+.container-popup-change-time-task-date
+  > div:nth-child(2)
+  > div:nth-child(3)
+  > div {
+  padding: 10px;
+  border: 1px solid var(--border-card-color);
+  border-radius: 5px;
+  font-family: nunito, sans-serif;
+  background-color: var(--main-background-color);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.container-popup-change-time-task-date
+  > div:nth-child(2)
+  > div:first-child
+  > div:hover,
+.container-popup-change-time-task-date
+  > div:nth-child(2)
+  > div:nth-child(3)
+  > div:hover {
+  border-color: var(--main-opponent-color);
+}
+
+.container-popup-change-time-task-date > div:nth-child(2) > span:nth-child(2) {
+  margin-top: 23px;
+  font-family: nunito, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 300;
+}
+
+.container-popup-change-time-task-date > div:nth-child(2) > div:nth-child(4) {
+  padding: 5px;
+  border: 1px solid var(--border-card-color);
+  border-radius: 5px;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  font-size: 0.85rem;
+  margin-top: 23px;
+}
+
+.btn-submit-edit-time-task-date {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit-edit-time-task-date-load {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn-submit-edit-time-task-date-load .spinner-load {
+  margin: 0;
+  height: 20px;
+  width: 20px;
+  border: 2px solid var(--main-background-color);
+  border-top-color: transparent;
+}
+
+.btn-submit-edit-time-task-date:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+/* drop down */
+.drop-down-input-time-popup {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  background-color: var(--border-card-color);
+  border: 1px solid var(--border-card-color);
+  gap: 1px;
+  bottom: 50px;
+  left: 0;
+  box-shadow: 0 10px 20px 3px rgb(103, 103, 103, 0.2);
+}
+
+.drop-down-input-time-popup > div {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.drop-down-input-time-popup > div > p {
+  background-color: var(--main-background-color);
+  font-size: 0.8rem;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.drop-down-input-time-popup > div > div {
+  min-height: 170px;
+  max-height: 170px;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  width: 100%;
+  scrollbar-width: none;
+}
+
+.btn-select-time-drop-down {
+  padding: 8px;
+  border: none;
+  background-color: var(--card-color);
+  color: var(--hero-text-color);
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.btn-select-time-drop-down-selected {
+  padding: 8px;
+  border: none;
+  background-color: var(--main-opponent-color);
+  color: var(--hero-text-color-opponent);
+  cursor: default;
+}
+
+.btn-select-time-drop-down:hover {
+  background-color: rgba(250, 250, 250, 0.2);
+}

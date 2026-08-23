@@ -15,6 +15,10 @@ import { IconEdit } from "../../../../../../../components/icon-svg/IconEdit";
 // api
 import useTaskDate from "../../../../../../../api/task-date/useTaskDate";
 
+// context api
+import usePopup from "../../../../../../../context/usePopup";
+import useSelectTaskDateEdit from "../../../../context/useSelectTaskDateEdit";
+
 // helper function
 import { reduceRgbaOpacity } from "../../../../../../../utils/rgbaFormart";
 import { findTodayDate, checkIsPastDate } from "../../../../util/checkDate";
@@ -31,6 +35,10 @@ interface ItemTaskDateProp {
 
 export function ItemTaskDate({ item }: ItemTaskDateProp) {
   const navigate = useNavigate();
+
+  const { openPopup } = usePopup();
+
+  const { handleSelectTaskDateEdit } = useSelectTaskDateEdit();
 
   const { deleteTaskDate, moveStatusTaskDate } = useTaskDate();
 
@@ -135,7 +143,18 @@ export function ItemTaskDate({ item }: ItemTaskDateProp) {
           Preview
         </button>
         {!checkIsPastDate(dayjs(item.task_date).format("YYYY-MM-D")) && (
-          <button className="btn-edit-drop-down-task-date">
+          <button
+            className="btn-edit-drop-down-task-date"
+            onMouseDown={(e) => {
+              e.preventDefault();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleSelectTaskDateEdit(item);
+              openPopup("change-time");
+              setIsFocus("close");
+            }}
+          >
             <IconEdit />
             Edit Task Date
           </button>

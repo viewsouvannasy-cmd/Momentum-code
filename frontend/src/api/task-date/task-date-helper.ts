@@ -183,6 +183,44 @@ const deleteRemainderStatus = async (
   }
 };
 
+const editTimeTaskDate = async (
+  group_id: number,
+  task_id: number,
+  date_id: number,
+  start_time: string,
+  end_time: string,
+) => {
+  try {
+    const accessToken = getAccessToken();
+    await axios.put(
+      `http://localhost:4000/api/task-date/edit/${group_id}/${task_id}/${date_id}`,
+      {
+        start_time: start_time,
+        end_time: end_time,
+      },
+      { headers: { Authorization: `Bearer ${accessToken}` } },
+    );
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (
+        error.response?.status === 401 &&
+        !error.response.data.success_verify_token
+      ) {
+        await fetchRefreshToken();
+        return editTimeTaskDate(
+          group_id,
+          task_id,
+          date_id,
+          start_time,
+          end_time,
+        );
+      }
+      console.log(error);
+      window.open("/error");
+    }
+  }
+};
+
 export {
   getFilterMonthYear,
   getFilterByDate,
@@ -191,4 +229,5 @@ export {
   deleteTaskDate,
   deleteAllTaskDate,
   deleteRemainderStatus,
+  editTimeTaskDate,
 };

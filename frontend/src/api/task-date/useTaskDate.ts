@@ -7,6 +7,7 @@ import {
   deleteAllTaskDate,
   deleteRemainderStatus,
   getFilterByDate,
+  editTimeTaskDate,
 } from "./task-date-helper";
 
 import type { TaskDateType } from "../../types/task-date-type";
@@ -38,6 +39,13 @@ interface UseTaskDate {
     group_id: number,
     task_id: number,
     status: string,
+  ) => void;
+  editTimeTaskDate: (
+    group_id: number,
+    task_id: number,
+    date_id: number,
+    start_time: string,
+    end_time: string,
   ) => void;
 }
 
@@ -139,6 +147,26 @@ const useTaskDate = create<UseTaskDate>((set) => ({
 
       set({ isLoadingPost: true });
       await deleteRemainderStatus(group_id, task_id, status);
+      const response = await getFilterMonthYear(month, year);
+      set({ taskDateData: response.results, isLoadingPost: false });
+    } catch (error) {
+      set({ isLoadingPost: false, error: error });
+    }
+  },
+
+  editTimeTaskDate: async (
+    group_id,
+    task_id,
+    date_id,
+    start_time,
+    end_time,
+  ) => {
+    try {
+      const year = String(new Date().getFullYear());
+      const month = String(new Date().getMonth() + 1);
+
+      set({ isLoadingPost: true });
+      await editTimeTaskDate(group_id, task_id, date_id, start_time, end_time);
       const response = await getFilterMonthYear(month, year);
       set({ taskDateData: response.results, isLoadingPost: false });
     } catch (error) {
