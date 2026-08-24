@@ -42,10 +42,10 @@ const getTaskList = async (req: Request, res: Response) => {
 };
 
 // this function add to do list to group list
-const addTaskList = async (req: Request, res: Response) => {
+const addTaskList = async (req: Request<{}, {}, TaskType>, res: Response) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
-    const { group_id, task_name, task_status }: TaskType = req.body;
+    const { group_id, task_name, task_status } = req.body;
 
     // check required
     if (!group_id || !task_name || !task_status) {
@@ -70,7 +70,10 @@ const addTaskList = async (req: Request, res: Response) => {
 };
 
 // this function undo list inside group list
-const deleteTask = async (req: Request, res: Response) => {
+const deleteTask = async (
+  req: Request<{ group_id: string; task_id: string }>,
+  res: Response,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
     const { group_id, task_id } = req.params;
@@ -98,10 +101,10 @@ const deleteTask = async (req: Request, res: Response) => {
 };
 
 // this function move to do state to doing state
-const moveTo = async (req: Request, res: Response) => {
+const moveTo = async (req: Request<{}, {}, TaskType>, res: Response) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
-    const { group_id, task_id, toState }: TaskType = req.body;
+    const { group_id, task_id, toState } = req.body;
 
     // check that to do inside group that have
     // that user be owner

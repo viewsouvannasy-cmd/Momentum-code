@@ -29,10 +29,13 @@ const getGroupList = async (req: Request, res: Response) => {
 };
 
 // this function create group list
-const createGroupList = async (req: Request, res: Response) => {
+const createGroupList = async (
+  req: Request<{}, {}, GroupType>,
+  res: Response,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
-    const { group_name, group_color }: GroupType = req.body;
+    const { group_name, group_color } = req.body;
 
     // check required
     if (!group_name || !group_color) {
@@ -55,7 +58,10 @@ const createGroupList = async (req: Request, res: Response) => {
 };
 
 // this function delete group list
-const deleteGroupList = async (req: Request, res: Response) => {
+const deleteGroupList = async (
+  req: Request<{ group_id: string }, {}, {}>,
+  res: Response,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
     const { group_id } = req.params;
@@ -77,11 +83,14 @@ const deleteGroupList = async (req: Request, res: Response) => {
 };
 
 // this function use to rename group list
-const renameGroupList = async (req: Request, res: Response) => {
+const renameGroupList = async (
+  req: Request<{ group_id: string }, {}, { group_new_name: string }>,
+  res: Response,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
-    const { group_new_name } = req.body;
     const { group_id } = req.params;
+    const { group_new_name } = req.body;
 
     const results = await sql`
     UPDATE group_list
@@ -100,7 +109,10 @@ const renameGroupList = async (req: Request, res: Response) => {
 };
 
 // this function use to change color of group list
-const changeColorGroupList = async (req: Request, res: Response) => {
+const changeColorGroupList = async (
+  req: Request<{ group_id: string }, {}, { group_new_color: string }>,
+  res: Response,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
     const { group_id } = req.params;

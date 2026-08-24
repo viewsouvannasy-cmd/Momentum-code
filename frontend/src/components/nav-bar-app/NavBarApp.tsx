@@ -142,7 +142,11 @@ export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
             </div>
           </div>
         </div>
-        <div className={`container-user-name-and-email`} role="button">
+        <div
+          className={`container-user-name-and-email`}
+          role="button"
+          onClick={() => navigate(`/app/user`)}
+        >
           <img src="/profile.jpg" />
           <div>
             <p>{userData[0]?.user_name}</p>
@@ -231,7 +235,11 @@ export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
               </div>
             </div>
           </div>
-          <div className={`container-user-name-and-email`} role="button">
+          <div
+            className={`container-user-name-and-email`}
+            role="button"
+            onClick={() => navigate(`/app/user`)}
+          >
             <img src="/profile.jpg" />
             <div>
               <p>{userData[0]?.user_name}</p>

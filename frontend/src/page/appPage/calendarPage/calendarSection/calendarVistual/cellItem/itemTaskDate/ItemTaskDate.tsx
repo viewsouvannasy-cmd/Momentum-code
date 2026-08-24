@@ -142,7 +142,9 @@ export function ItemTaskDate({ item }: ItemTaskDateProp) {
           <ZoomIcon />
           Preview
         </button>
-        {!checkIsPastDate(dayjs(item.task_date).format("YYYY-MM-D")) && (
+        {((!checkIsPastDate(dayjs(item.task_date).format("YYYY-MM-D")) &&
+          item.date_status === "today") ||
+          item.date_status === "wait") && (
           <button
             className="btn-edit-drop-down-task-date"
             onMouseDown={(e) => {

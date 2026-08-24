@@ -31,9 +31,12 @@ interface OtpPayLoad {
 
 // this function is use to check valid info of user
 // and check that user email is truly have
-const createAccount = async (req: Request, res: Response) => {
+const createAccount = async (
+  req: Request<{}, {}, UserInfoType>,
+  res: Response,
+) => {
   try {
-    const { user_name, user_email }: UserInfoType = req.body;
+    const { user_name, user_email } = req.body;
 
     // check provide info
     if (!user_name || !user_email) {
@@ -125,10 +128,12 @@ const createAccount = async (req: Request, res: Response) => {
 
 // this actucl function that use to store a user to
 // datebase after verify otp code
-const verifyUserOTP = async (req: Request, res: Response) => {
+const verifyUserOTP = async (
+  req: Request<{}, {}, VerifyOtpType>,
+  res: Response,
+) => {
   try {
-    const { user_name, user_email, user_password, otp_code }: VerifyOtpType =
-      req.body;
+    const { user_name, user_email, user_password, otp_code } = req.body;
 
     const cookieOtp = req.cookies.jwt_otp;
 
@@ -205,7 +210,10 @@ const verifyUserOTP = async (req: Request, res: Response) => {
 };
 
 // validate user login
-const handleLogin = async (req: Request, res: Response) => {
+const handleLogin = async (
+  req: Request<{}, {}, UserInfoType>,
+  res: Response,
+) => {
   try {
     const { user_name, user_password }: UserInfoType = req.body;
 

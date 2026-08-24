@@ -20,10 +20,10 @@ import { calculateSpendingTime } from "../../../../page/appPage/calendarPage/uti
 // css
 import "./PopupChangeTime.css";
 
-export function PopupChangeTime() {
+export function PopupChangeTime({ page }: { page: "calendar" | "t-p" }) {
   const { isOpenPopup, isAnimation, closePopup } = usePopup();
 
-  const { isLoadingPost, editTimeTaskDate } = useTaskDate();
+  const { isLoadingPost, editTimeTaskDate, getFilterByDate } = useTaskDate();
 
   const { taskDateSelectEdit, handleSelectTaskDateEdit } =
     useSelectTaskDateEdit();
@@ -35,9 +35,18 @@ export function PopupChangeTime() {
   const start = taskDateSelectEdit?.start_time.split(":").slice(0, 2).join(":");
   const end = taskDateSelectEdit?.end_time.split(":").slice(0, 2).join(":");
   const [inputTime, setInputTime] = useState({
-    start_time: start ? start : "09:00",
+    start_time: start ? start : "9:00",
     end_time: end ? end : "13:00",
   });
+  const [prevDateId, setPrevDateId] = useState(taskDateSelectEdit?.date_id);
+
+  if (taskDateSelectEdit?.date_id !== prevDateId) {
+    setPrevDateId(taskDateSelectEdit?.date_id);
+    setInputTime({
+      start_time: start ?? "9:00",
+      end_time: end ?? "13:00",
+    });
+  }
 
   function handleInputTime(
     value: string,
@@ -67,6 +76,20 @@ export function PopupChangeTime() {
     e.preventDefault();
 
     if (taskDateSelectEdit) {
+      if (page === "t-p") {
+        const date = dayjs(taskDateSelectEdit.task_date).format("YYYY-MM-DD");
+        await editTimeTaskDate(
+          taskDateSelectEdit?.group_id,
+          taskDateSelectEdit?.task_id,
+          taskDateSelectEdit?.date_id,
+          inputTime.start_time,
+          inputTime.end_time,
+        );
+        await getFilterByDate(date);
+        handleSelectTaskDateEdit(null);
+        closePopup();
+        return;
+      }
       await editTimeTaskDate(
         taskDateSelectEdit?.group_id,
         taskDateSelectEdit?.task_id,
@@ -74,8 +97,8 @@ export function PopupChangeTime() {
         inputTime.start_time,
         inputTime.end_time,
       );
-      closePopup();
       handleSelectTaskDateEdit(null);
+      closePopup();
     }
   };
 
@@ -93,7 +116,14 @@ export function PopupChangeTime() {
         <div>
           <div>
             <h2>Change new Time</h2>
-            <button type="button" onClick={closePopup}>
+            <button
+              type="button"
+              onClick={() => {
+                handleSelectTaskDateEdit(null);
+                closePopup();
+                setIsOpenDropDown(null);
+              }}
+            >
               <CloseXButton />
             </button>
           </div>

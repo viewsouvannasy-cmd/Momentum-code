@@ -59,7 +59,7 @@ export function CalendarPage() {
 
       <SideDrawerCalendar />
 
-      {isOpenPopup === "change-time" && <PopupChangeTime />}
+      <PopupChangeTime page="calendar" />
     </>
   );
 }

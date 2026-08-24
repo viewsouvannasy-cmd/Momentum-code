@@ -15,11 +15,15 @@ import { checkIsPastDate } from "../../../page/appPage/calendarPage/util/checkDa
 //api
 import useTaskDate from "../../../api/task-date/useTaskDate";
 
+// context api
+import usePopup from "../../../context/usePopup";
+import useSelectTaskDateEdit from "../../../page/appPage/calendarPage/context/useSelectTaskDateEdit";
+
 // type
 import type { TaskDateType } from "../../../types/task-date-type";
 
 // css
-import "./ItemTaskTodayList.css";
+import "./ItemTaskDateTodayList.css";
 
 interface ItemTaskTodayListProp {
   item: TaskDateType;
@@ -28,6 +32,10 @@ interface ItemTaskTodayListProp {
 export function ItemTaskTodayList({ item }: ItemTaskTodayListProp) {
   const [isLoadingDeleteTaskDate, setIsLoadingDeleteTaskDate] = useState(false);
   const [isLoadingMarkDone, setIsLoadingMarkDone] = useState(false);
+
+  const { openPopup } = usePopup();
+
+  const { handleSelectTaskDateEdit } = useSelectTaskDateEdit();
 
   const { deleteTaskDate, moveStatusTaskDate, getFilterByDate } = useTaskDate();
 
@@ -90,8 +98,16 @@ export function ItemTaskTodayList({ item }: ItemTaskTodayListProp) {
             {!isLoadingDeleteTaskDate && <ButtonXDelete />}
             {isLoadingDeleteTaskDate && <LoadButton />}
           </button>
-          {!checkIsPastDate(dayjs(item.task_date).format("YYYY-MM-D")) && (
-            <button className="btn-edit-task-date-to-do">
+          {((!checkIsPastDate(dayjs(item.task_date).format("YYYY-MM-D")) &&
+            item.date_status === "today") ||
+            item.date_status === "wait") && (
+            <button
+              className="btn-edit-task-date-to-do"
+              onClick={() => {
+                handleSelectTaskDateEdit(item);
+                openPopup("change-time");
+              }}
+            >
               <IconEdit />
             </button>
           )}

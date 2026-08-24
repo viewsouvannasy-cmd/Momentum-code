@@ -167,8 +167,12 @@ const useTaskDate = create<UseTaskDate>((set) => ({
 
       set({ isLoadingPost: true });
       await editTimeTaskDate(group_id, task_id, date_id, start_time, end_time);
+
       const response = await getFilterMonthYear(month, year);
-      set({ taskDateData: response.results, isLoadingPost: false });
+      set({
+        taskDateData: response.results,
+        isLoadingPost: false,
+      });
     } catch (error) {
       set({ isLoadingPost: false, error: error });
     }

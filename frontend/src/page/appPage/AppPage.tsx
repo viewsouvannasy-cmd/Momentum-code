@@ -2,13 +2,14 @@
 import { useState } from "react";
 import { useParams } from "react-router";
 
-// components
+// main components
 import { NavBarApp } from "../../components/nav-bar-app/NavBarApp";
 import { AppInboxPage } from "./inboxPage/AppInboxPage";
 import { GroupListPage } from "./gropListPage/GroupListPage.tsx";
 import { CalendarPage } from "./calendarPage/CalendarPage.tsx";
 import { TodayListPage } from "./todayListPage/TodayListPage.tsx";
 import { PreviewPage } from "./previewPage/PreveiwPage.tsx";
+import { UserPage } from "./userPage/UserPage.tsx";
 
 // css
 import "./AppPage.css";
@@ -31,6 +32,7 @@ export function AppPage() {
         {section === "inbox" && <AppInboxPage isOpenNavBar={isOpenNavBar} />}
         {section === "calendar" && <CalendarPage />}
         {section === "today-lists" && <TodayListPage />}
+        {section === "user" && <UserPage />}
 
         {date && <PreviewPage date={date} />}
         {groupId && <GroupListPage />}
