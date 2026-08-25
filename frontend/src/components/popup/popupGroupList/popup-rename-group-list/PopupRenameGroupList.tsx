@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { CloseXButton } from "../../../close-x-button/CloseXButton";
 import useGropList from "../../../../api/group-lists/useGroupList.ts";
-import useGetData from "../../../../api/todo-data/useGetData.ts";
 import { LoadButton } from "../../../load-button/LoadButton.tsx";
 import usePopup from "../../../../context/usePopup.ts";
 import "./PopupRenameGroupList.css";
@@ -13,8 +12,6 @@ interface PopupRenameGroupListProp {
 export function PopupRenameGroupList({ groupId }: PopupRenameGroupListProp) {
   const { renameGroup, isLoadingPost } = useGropList();
 
-  const { getDataTodo } = useGetData();
-
   const [inputName, setInputName] = useState("");
 
   const { isAnimation, isOpenPopup, closePopup } = usePopup();
@@ -23,7 +20,6 @@ export function PopupRenameGroupList({ groupId }: PopupRenameGroupListProp) {
     e.preventDefault();
     if (groupId) {
       await renameGroup(inputName, groupId);
-      await getDataTodo();
       closePopup();
       setInputName("");
     }

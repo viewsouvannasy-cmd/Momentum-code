@@ -29,4 +29,18 @@ const getUserInfo = async (req: Request, res: Response) => {
   }
 };
 
-export { getUserInfo };
+// this is use to upload user profile
+const uploadProfile = async (req: Request, res: Response) => {
+  try {
+    const user_id = checkPayload(req.user?.user_id);
+    const file = req.file;
+
+    console.log(file);
+
+    res.status(202).json({ file });
+  } catch (error) {
+    res.status(500).json({ msg: "internal server error", error });
+  }
+};
+
+export { getUserInfo, uploadProfile };

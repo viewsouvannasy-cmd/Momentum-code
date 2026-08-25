@@ -4,7 +4,6 @@ import { rbgaFormot } from "../../../../utils/rgbaFormart.ts";
 import { CloseXButton } from "../../../close-x-button/CloseXButton";
 import { LoadButton } from "../../../load-button/LoadButton.tsx";
 import useGropList from "../../../../api/group-lists/useGroupList.ts";
-import useGetData from "../../../../api/todo-data/useGetData.ts";
 import usePopup from "../../../../context/usePopup.ts";
 
 import "./PopupChangeColorGroup.css";
@@ -21,7 +20,6 @@ export function PopupChangeColorGroup({
   group_color,
 }: PopupChangeColorGroupProp) {
   const { isLoadingPost, changeColorGroup } = useGropList();
-  const { getDataTodo } = useGetData();
 
   const [inputColor, setInputColor] = useState<string | undefined>(
     rgbStringToHex(group_color),
@@ -38,7 +36,7 @@ export function PopupChangeColorGroup({
     const rbga = rbgaFormot(inputColor);
     if (rbga && groupId) {
       await changeColorGroup(rbga, groupId);
-      await getDataTodo();
+
       closePopup();
     }
   };
