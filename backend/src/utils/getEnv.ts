@@ -45,3 +45,27 @@ export function getAppPassword(): string {
   }
   return appPassword;
 }
+
+export function getCloudinaryName(): string {
+  const cloudinaryName = process.env.CLOUDINARY_CLOUD_NAME;
+  if (!cloudinaryName) {
+    throw new Error("cloudinary name is not set");
+  }
+  return cloudinaryName;
+}
+
+export function getCloudinaryApi(): string {
+  const cloudinaryApi = process.env.CLOUDINARY_API;
+  if (!cloudinaryApi) {
+    throw new Error("cloudinary api is not set");
+  }
+  return cloudinaryApi;
+}
+
+export function getCloudinarySecsetKey(): string {
+  const cloudinarySecreyKey = process.env.CLOUDINARY_SECRET_KEY;
+  if (!cloudinarySecreyKey) {
+    throw new Error("cloudinary secret key is not set");
+  }
+  return cloudinarySecreyKey;
+}

@@ -8,11 +8,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
 } from "../utils/generateToken.js";
-import {
-  getAccessTokenSecret,
-  getRefreshTokenSecret,
-  getOtpTokenSecret,
-} from "../utils/getEnv.js";
+import { getRefreshTokenSecret, getOtpTokenSecret } from "../utils/getEnv.js";
 
 interface UserInfoType {
   user_name: string;

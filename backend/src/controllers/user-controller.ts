@@ -35,6 +35,10 @@ const uploadProfile = async (req: Request, res: Response) => {
     const user_id = checkPayload(req.user?.user_id);
     const file = req.file;
 
+    if (!file) {
+      return res.status(401).json({ msg: "file is not upload" });
+    }
+
     console.log(file);
 
     res.status(202).json({ file });
