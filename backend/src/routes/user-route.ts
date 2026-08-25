@@ -2,7 +2,7 @@ import express, { Router } from "express";
 import multer from "multer";
 const route: Router = express.Router();
 
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer();
 
 import { getUserInfo, uploadProfile } from "../controllers/user-controller.js";
 

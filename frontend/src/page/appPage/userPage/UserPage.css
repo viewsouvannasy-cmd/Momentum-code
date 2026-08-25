@@ -105,7 +105,6 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  margin-top: -15px;
 }
 
 .container-card-user-info > div:nth-child(3) > label {

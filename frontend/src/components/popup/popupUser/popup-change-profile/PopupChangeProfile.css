@@ -79,6 +79,23 @@
   transition: background-color 0.2s ease;
 }
 
+.btn-submit-change-profile-load {
+  border: none;
+  padding: 10px;
+  font-weight: 600;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  cursor: not-allowed;
+}
+
+.btn-submit-change-profile-load .spinner-load {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--main-background-color);
+  border-top-color: transparent;
+}
+
 .btn-submit-change-profile:hover {
   background-color: var(--color-hover-button-auth);
 }

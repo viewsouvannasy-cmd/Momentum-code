@@ -1,3 +1,6 @@
+// api
+import useUser from "../../../api/user-data/useUser";
+
 // context api
 import usePopup from "../../../context/usePopup";
 
@@ -11,6 +14,8 @@ import "./UserPage.css";
 export function UserPage() {
   const { openPopup } = usePopup();
 
+  const { userData } = useUser();
+
   return (
     <>
       <div className="container-user-page-main">
@@ -22,21 +27,17 @@ export function UserPage() {
           <div className="container-card-user-info">
             <div>
               <div role="button" onClick={() => openPopup("change-profile")}>
-                <img src="/profile.jpg" />
+                <img src={userData[0]?.user_profile ?? "/profile.jpg"} />
               </div>
               <div>
-                <h2>BoB</h2>
-                <span>email</span>
+                <h2>{userData[0]?.user_name}</h2>
+                <span>{userData[0]?.user_email}</span>
               </div>
             </div>
             <div>
               <div>
                 <label>Name</label>
-                <div>bob</div>
-              </div>
-              <div>
-                <label>Email</label>
-                <div>view@</div>
+                <div>{userData[0]?.user_name}</div>
               </div>
             </div>
             <div>

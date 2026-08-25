@@ -190,6 +190,7 @@
   height: 35px;
   border-radius: 50%;
   flex-shrink: 0;
+  object-fit: cover;
 }
 
 .container-user-name-and-email > div:last-child {

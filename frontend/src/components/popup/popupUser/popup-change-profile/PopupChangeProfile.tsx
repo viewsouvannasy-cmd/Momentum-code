@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 // conponents
 import { CloseXButton } from "../../../close-x-button/CloseXButton";
+import { LoadButton } from "../../../load-button/LoadButton";
 
 // api
 import useUser from "../../../../api/user-data/useUser";
@@ -15,7 +16,7 @@ import "./PopupChangeProfile.css";
 export function PopupChangeProfile() {
   const { isAnimation, isOpenPopup, closePopup } = usePopup();
 
-  const { uploadProfile } = useUser();
+  const { uploadProfile, getUserInfo, isLoadingPost } = useUser();
 
   const [inputFile, setInputFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -51,6 +52,10 @@ export function PopupChangeProfile() {
     }
 
     await uploadProfile(inputFile);
+    await getUserInfo();
+    setInputFile(null);
+    setPreviewUrl(null);
+    closePopup();
   };
 
   return (
@@ -107,8 +112,17 @@ export function PopupChangeProfile() {
             </button>
           </div>
         )}
-        <button type="submit" className="btn-submit-change-profile">
-          Save
+        <button
+          type="submit"
+          className={
+            isLoadingPost
+              ? "btn-submit-change-profile-load"
+              : "btn-submit-change-profile"
+          }
+          disabled={isLoadingPost}
+        >
+          {!isLoadingPost && "Save"}
+          {isLoadingPost && <LoadButton />}
         </button>
       </form>
     </div>
