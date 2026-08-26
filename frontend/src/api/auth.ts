@@ -1,7 +1,7 @@
 import { saveAccessToken, claearAccessToken } from "../store/token/accessToken";
 import axios from "axios";
 
-const fetchRefreshToken = async () => {
+const fetchRefreshToken = async (): Promise<string> => {
   try {
     const response = await axios.get(
       "http://localhost:4000/api/refresh-token",
@@ -16,6 +16,7 @@ const fetchRefreshToken = async () => {
       window.location.href = "/";
       throw error;
     }
+    throw error;
   }
 };
 

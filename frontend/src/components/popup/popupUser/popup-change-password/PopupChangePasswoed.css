@@ -1,0 +1,155 @@
+.container-popup-change-password {
+  background-color: var(--card-color);
+  padding: 20px;
+  width: 100%;
+  max-width: 450px;
+  border-radius: 10px;
+  border: 1px solid var(--border-card-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 20px 3px rgb(103, 103, 103, 0.2);
+}
+
+.container-popup-change-password.open {
+  animation: appearFromBottom 0.2s forwards;
+}
+
+.container-popup-change-password.close {
+  animation: goDown 0.2s forwards;
+}
+
+.container-popup-change-password > div:nth-child(1) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-popup-change-password > div:nth-child(1) > h2 {
+  font-weight: 550;
+}
+
+.container-popup-change-password > div:nth-child(1) > button {
+  display: flex;
+  border: none;
+  padding: 0;
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.container-popup-change-password > div:nth-child(1) > button:hover > svg {
+  color: var(--main-opponent-color);
+}
+
+.container-popup-change-password > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.box-input-old-password,
+.box-input-new-password {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.box-input-old-password > label,
+.box-input-new-password > label {
+  font-weight: 500;
+}
+
+.box-input-old-password > input,
+.box-input-new-password > input {
+  margin-top: 5px;
+  border: none;
+  color: var(--hero-text-color);
+  border-radius: 5px;
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid var(--border-card-color);
+  padding-right: 30px;
+}
+
+.box-input-new-password > input:focus,
+.box-input-old-password > input:focus {
+  outline: 1px solid var(--main-opponent-color);
+}
+
+.box-input-old-password.error > input,
+.box-input-new-password.error > input {
+  border-color: var(--error-text-color);
+}
+
+.box-input-old-password > svg,
+.box-input-new-password > svg {
+  position: absolute;
+  top: 35px;
+  right: 10px;
+  color: var(--border-card-color);
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.box-input-new-password > svg:hover,
+.box-input-old-password > svg:hover {
+  color: var(--main-opponent-color);
+}
+
+.container-popup-change-password > div:nth-child(2) > div > p {
+  color: var(--error-text-color);
+  font-family: nunito, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 300;
+  margin-top: 3px;
+}
+
+.btn-submit-change-password {
+  border: none;
+  padding: 7px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit-change-password-load {
+  border: none;
+  padding: 7px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+
+  cursor: not-allowed;
+}
+
+.btn-submit-change-password-load .spinner-load {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--main-background-color);
+  border-top-color: transparent;
+}
+
+.btn-submit-change-password:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.message-change-password-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 1px solid var(--done-state-color);
+  border-radius: 5px;
+  gap: 5px;
+  color: var(--done-state-color);
+  font-size: 0.9rem;
+}
+.message-change-password-success > svg {
+  width: 13px;
+  height: 13px;
+}

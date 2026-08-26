@@ -7,6 +7,8 @@ import usePopup from "../../../context/usePopup";
 // components
 import { BtnOpenNavBarMB } from "../../../components/button-open-navber-mp/BtnOpenNavBarMB";
 import { PopupChangeProfile } from "../../../components/popup/popupUser/popup-change-profile/PopupChangeProfile";
+import { PopupChangeUserName } from "../../../components/popup/popupUser/pop-chnage-name-user/PopupChangeUserName";
+import { PopupChangePasswoed } from "../../../components/popup/popupUser/popup-change-password/PopupChangePassword";
 
 // css
 import "./UserPage.css";
@@ -35,14 +37,16 @@ export function UserPage() {
               </div>
             </div>
             <div>
-              <div>
-                <label>Name</label>
-                <div>{userData[0]?.user_name}</div>
+              <label>Name</label>
+              <div role="button" onClick={() => openPopup("change-user-name")}>
+                {userData[0]?.user_name}
               </div>
             </div>
             <div>
               <label>Password</label>
-              <div>•••••••••</div>
+              <div role="button" onClick={() => openPopup("change-password")}>
+                •••••••••
+              </div>
             </div>
           </div>
           <button>Log Out</button>
@@ -50,6 +54,8 @@ export function UserPage() {
       </div>
 
       <PopupChangeProfile />
+      <PopupChangeUserName />
+      <PopupChangePasswoed />
     </>
   );
 }

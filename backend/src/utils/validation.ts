@@ -1,4 +1,8 @@
+import bcrypt from "bcrypt";
 import dns from "dns/promises";
+
+// helper function
+import { findUserById } from "./findUserById.js";
 
 function vaildateFormatEmail(email: string): boolean {
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -28,4 +32,11 @@ const checkDomainEamil = async (email: string): Promise<boolean> => {
   }
 };
 
-export { vaildateFormatEmail, checkDomainEamil };
+const checkUserPassword = async (user_id: number, password: string) => {
+  const findUser = await findUserById(user_id);
+
+  // compare hash password
+  return await bcrypt.compare(password, findUser[0].user_password);
+};
+
+export { vaildateFormatEmail, checkDomainEamil, checkUserPassword };

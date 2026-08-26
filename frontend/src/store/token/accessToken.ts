@@ -14,7 +14,7 @@ export function claearAccessToken() {
   accessToken = null;
 }
 
-export const checkAccessToken = async () => {
+export const checkAccessToken = async (): Promise<string> => {
   const accessToken = getAccessToken();
   if (!accessToken) {
     const newToken = await fetchRefreshToken();

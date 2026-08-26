@@ -33,7 +33,7 @@ export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
     localStorage.setItem("navbar", next);
   }
 
-  function handleChangeSectionPage(sectionName: string, navType: string) {
+  function handleChangeSectionPage(sectionName: string, navType: "dt" | "mb") {
     navigate(`/app/${sectionName}`);
     if (navType === "mb") {
       closeSideBarMb();
@@ -145,7 +145,7 @@ export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
         <div
           className={`container-user-name-and-email`}
           role="button"
-          onClick={() => navigate(`/app/user`)}
+          onClick={() => handleChangeSectionPage("user", "dt")}
         >
           <img src={userData[0]?.user_profile ?? "/profile.jpg"} />
           <div>
@@ -238,7 +238,7 @@ export function NavBarApp({ isOpenNavBar, setIsOpenNavBar }: NavBarProp) {
           <div
             className={`container-user-name-and-email`}
             role="button"
-            onClick={() => navigate(`/app/user`)}
+            onClick={() => handleChangeSectionPage("user", "mb")}
           >
             <img src={userData[0]?.user_profile ?? "/profile.jpg"} />
             <div>

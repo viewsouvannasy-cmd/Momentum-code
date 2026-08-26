@@ -1,0 +1,113 @@
+.container-popup-change-user-name {
+  background-color: var(--card-color);
+  padding: 20px;
+  width: 100%;
+  max-width: 450px;
+  border-radius: 10px;
+  border: 1px solid var(--border-card-color);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 10px 20px 3px rgb(103, 103, 103, 0.2);
+}
+
+.container-popup-change-user-name.open {
+  animation: appearFromBottom 0.2s forwards;
+}
+
+.container-popup-change-user-name.close {
+  animation: goDown 0.2s forwards;
+}
+
+.container-popup-change-user-name > div:nth-child(1) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.container-popup-change-user-name > div:nth-child(1) > h2 {
+  font-weight: 550;
+}
+
+.container-popup-change-user-name > div:nth-child(1) > button {
+  display: flex;
+  border: none;
+  padding: 0;
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.container-popup-change-user-name > div:nth-child(1) > button:hover > svg {
+  color: var(--main-opponent-color);
+}
+
+.container-popup-change-user-name > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-popup-change-user-name > div:nth-child(2) > label {
+  font-weight: 500;
+}
+
+.input-change-user-name {
+  border: 1px solid var(--border-card-color);
+  padding: 10px;
+  border-radius: 5px;
+  background-color: transparent;
+  color: var(--hero-text-color);
+  margin-top: 5px;
+}
+
+.input-change-user-name:focus {
+  outline: 1px solid var(--main-opponent-color);
+}
+
+.input-change-user-name.error {
+  border-color: var(--error-text-color);
+}
+
+.input-change-user-name.error:focus {
+  outline: none;
+}
+
+.container-popup-change-user-name > div:nth-child(2) > p {
+  font-family: nunito, sans-serif;
+  color: var(--error-text-color);
+  font-weight: 300;
+  font-size: 0.8rem;
+  margin-top: 3px;
+}
+
+.btn-submit-change-user-name {
+  border: none;
+  padding: 7px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease;
+}
+
+.btn-submit-change-user-name:hover {
+  background-color: var(--color-hover-button-auth);
+}
+
+.btn-submit-change-user-name-load {
+  border: none;
+  padding: 7px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+
+  cursor: not-allowed;
+}
+
+.btn-submit-change-user-name-load .spinner-load {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--main-background-color);
+  border-top-color: transparent;
+}

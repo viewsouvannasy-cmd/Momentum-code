@@ -86,7 +86,6 @@ export function SignupPage() {
 
   // go to verify-otp page after validation
   function handleToVerifyOtpPage(data: fetchResult) {
-    console.log(data);
     if (!data.success) {
       return;
     }
@@ -99,8 +98,6 @@ export function SignupPage() {
       },
     });
   }
-
-  // back to landing page
 
   return (
     <div className="container-background-image sign">
@@ -124,7 +121,7 @@ export function SignupPage() {
                 <input
                   type="text"
                   placeholder="Enter your name"
-                  minLength={1}
+                  minLength={2}
                   maxLength={100}
                   onFocus={handleRemoveHightLinghtError}
                   onChange={(e) => setInputName(e.target.value)}
@@ -139,7 +136,7 @@ export function SignupPage() {
               >
                 <label>Email</label>
                 <input
-                  minLength={1}
+                  minLength={2}
                   maxLength={100}
                   type="email"
                   placeholder="Enter your email"

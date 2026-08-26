@@ -28,13 +28,14 @@
   background-color: var(--card-color);
   border-radius: 10px;
   gap: 10px;
-  flex-wrap: wrap;
+  width: 100%;
 }
 
 .container-card-user-info > div:first-child {
   display: flex;
   gap: 20px;
   align-items: center;
+  width: 100%;
 }
 
 .container-card-user-info > div:first-child > div:first-child {
@@ -45,10 +46,8 @@
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.7);
   cursor: pointer;
   transition: box-shadow 0.2s ease;
-}
 
-.container-card-user-info > div:first-child > div:first-child:hover {
-  box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.7);
+  flex-shrink: 0;
 }
 
 .container-card-user-info > div:first-child > div:first-child > img {
@@ -58,53 +57,52 @@
   border-radius: 50%;
 }
 
+.container-card-user-info > div:first-child > div:first-child:hover {
+  box-shadow: 0 0 5px 1px rgba(128, 128, 128, 0.7);
+}
+
 .container-card-user-info > div:first-child > div:last-child {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 0;
 }
 
 .container-card-user-info > div:first-child > div:last-child > span {
   font-family: nunito, sans-serif;
   color: #999999;
   font-weight: 300;
+  font-size: 0.9rem;
+
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .container-card-user-info > div:nth-child(2) {
-  gap: 10px;
+  gap: 5px;
   display: flex;
   margin-top: 10px;
-}
-
-.container-card-user-info > div:nth-child(2) > div {
-  flex: 1;
-  display: flex;
   flex-direction: column;
-  gap: 5px;
-  min-width: 0;
+  width: 100%;
 }
 
-.container-card-user-info > div:nth-child(2) > div:first-child {
-  cursor: pointer;
-}
-
-.container-card-user-info > div:nth-child(2) > div > label {
+.container-card-user-info > div:nth-child(2) > label {
   font-weight: 600;
 }
 
-.container-card-user-info > div:nth-child(2) > div > div {
+.container-card-user-info > div:nth-child(2) > div {
+  cursor: pointer;
   font-size: 0.95rem;
   padding: 5px;
   border: 1px solid var(--border-card-color);
   border-radius: 5px;
-  overflow-wrap: break-word;
-  word-break: break-word;
 }
 
 .container-card-user-info > div:nth-child(3) {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  width: 100%;
 }
 
 .container-card-user-info > div:nth-child(3) > label {
@@ -117,8 +115,6 @@
   padding: 5px;
   border: 1px solid var(--border-card-color);
   border-radius: 5px;
-  overflow-wrap: break-word;
-  word-break: break-word;
 }
 
 .container-user-page > button {
