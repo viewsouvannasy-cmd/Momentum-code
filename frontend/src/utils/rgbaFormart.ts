@@ -10,7 +10,5 @@ export function rbgaFormot(hex: string | undefined) {
 }
 
 export function reduceRgbaOpacity(rgba: string, newOpacity: string) {
-  const sparate = rgba.split(",");
-  sparate[3] = `${newOpacity})`;
-  return sparate.join(",");
+  return rgba.replace(/[\d.]+\)$/, `${newOpacity})`);
 }
