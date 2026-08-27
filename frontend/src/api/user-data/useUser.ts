@@ -4,6 +4,7 @@ import {
   uploadProfile,
   changeUserName,
   changePassword,
+  handleLogout,
 } from "./user-helper.ts";
 
 // type
@@ -23,6 +24,7 @@ interface UseUserProp {
     old_password: string,
     new_password: string,
   ) => Promise<ResponseStatus | undefined>;
+  handleLogout: () => void;
 }
 
 const useUser = create<UseUserProp>((set) => ({
@@ -77,6 +79,16 @@ const useUser = create<UseUserProp>((set) => ({
 
       set({ isLoadingPost: false });
       return response;
+    } catch (error) {
+      set({ isLoadingPost: false, error: error });
+    }
+  },
+
+  handleLogout: async () => {
+    try {
+      set({ isLoadingPost: true });
+      await handleLogout();
+      set({ isLoadingPost: false });
     } catch (error) {
       set({ isLoadingPost: false, error: error });
     }

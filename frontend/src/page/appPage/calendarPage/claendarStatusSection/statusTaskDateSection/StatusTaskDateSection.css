@@ -38,3 +38,9 @@
     min-height: 50px;
   }
 }
+
+@media (max-width: 510px) {
+  .container-status-task-date > div:first-child > p {
+    font-size: 1rem;
+  }
+}

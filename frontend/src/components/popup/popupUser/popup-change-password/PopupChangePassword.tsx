@@ -51,8 +51,6 @@ export function PopupChangePasswoed() {
     setResponseStatus({ success: false, point: "", msg: "" });
   }
 
-  console.log(responseStatus);
-
   return (
     <div
       className={`container-background-overlay-popup ${isAnimation}`}

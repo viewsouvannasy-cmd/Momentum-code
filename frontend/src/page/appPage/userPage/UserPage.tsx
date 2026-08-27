@@ -1,3 +1,6 @@
+// library
+import { useNavigate } from "react-router";
+
 // api
 import useUser from "../../../api/user-data/useUser";
 
@@ -14,9 +17,16 @@ import { PopupChangePasswoed } from "../../../components/popup/popupUser/popup-c
 import "./UserPage.css";
 
 export function UserPage() {
+  const navigate = useNavigate();
+
   const { openPopup } = usePopup();
 
-  const { userData } = useUser();
+  const { userData, handleLogout } = useUser();
+
+  function handleUserLogout() {
+    handleLogout();
+    navigate("/");
+  }
 
   return (
     <>
@@ -49,7 +59,7 @@ export function UserPage() {
               </div>
             </div>
           </div>
-          <button>Log Out</button>
+          <button onClick={handleUserLogout}>Log Out</button>
         </div>
       </div>
 

@@ -122,7 +122,7 @@ export function SignupPage() {
                   type="text"
                   placeholder="Enter your name"
                   minLength={2}
-                  maxLength={100}
+                  maxLength={50}
                   onFocus={handleRemoveHightLinghtError}
                   onChange={(e) => setInputName(e.target.value)}
                   value={inputName}
@@ -136,8 +136,6 @@ export function SignupPage() {
               >
                 <label>Email</label>
                 <input
-                  minLength={2}
-                  maxLength={100}
                   type="email"
                   placeholder="Enter your email"
                   onFocus={handleRemoveHightLinghtError}
@@ -153,7 +151,7 @@ export function SignupPage() {
                 <input
                   type={isShowPassword === "close" ? "password" : "text"}
                   minLength={8}
-                  maxLength={100}
+                  maxLength={50}
                   placeholder="••••••••"
                   onFocus={handleRemoveHightLinghtError}
                   onChange={(e) => setInputPassword(e.target.value)}

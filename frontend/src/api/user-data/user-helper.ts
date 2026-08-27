@@ -126,4 +126,16 @@ const changePassword = async (
   }
 };
 
+export const handleLogout = async () => {
+  try {
+    await axios.get("http://localhost:4000/api/auth/logout", {
+      withCredentials: true,
+    });
+  } catch (error: unknown) {
+    console.log(error);
+    window.open("/error");
+    throw error;
+  }
+};
+
 export { getUserInfo, uploadProfile, changeUserName, changePassword };

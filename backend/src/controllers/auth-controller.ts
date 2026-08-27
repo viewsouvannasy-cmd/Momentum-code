@@ -37,8 +37,26 @@ const createAccount = async (
     // check provide info
     if (!user_name || !user_email) {
       return res
-        .status(401)
+        .status(400)
         .json({ msg: "Please provide all required information" });
+    }
+
+    // check user length
+    if (user_name.length < 2) {
+      return res.status(400).json({
+        success: false,
+        point: "name",
+        msg: "the name should have characters more then 2",
+      });
+    }
+
+    // check user length
+    if (user_name.length > 50) {
+      return res.status(400).json({
+        success: false,
+        point: "name",
+        msg: "name length is limit at 50",
+      });
     }
 
     // check dupicate name
@@ -49,7 +67,7 @@ const createAccount = async (
         WHERE user_name = ${user_name}
         `;
     if (dupicateName.length > 0) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         point: "name",
         msg: "This name is already taken",
@@ -59,13 +77,13 @@ const createAccount = async (
     // check valid email format
     const checkForrmatEmail = vaildateFormatEmail(user_email);
     if (!checkForrmatEmail) {
-      return res.status(401).json({ msg: "Invilid email format" });
+      return res.status(400).json({ msg: "Invilid email format" });
     }
 
     // check email domain
     const checkMailDoamin = await checkDomainEamil(user_email);
     if (!checkMailDoamin) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         point: "email",
         msg: "Email domin does not exist",
@@ -80,7 +98,7 @@ const createAccount = async (
     WHERE user_email = ${user_email}
     `;
     if (dupicateEmail.length > 0) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         point: "email",
         msg: "This email is already in use",
@@ -135,7 +153,7 @@ const verifyUserOTP = async (
 
     //check cookie
     if (!cookieOtp) {
-      return res.status(404).json({
+      return res.status(401).json({
         success: false,
         point: "verify",
         msg: "the OTP code has expired",

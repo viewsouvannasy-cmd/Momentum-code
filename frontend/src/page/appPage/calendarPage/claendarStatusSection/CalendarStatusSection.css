@@ -28,3 +28,9 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 510px) {
+  .container-calendar-status-section-main > h1 {
+    font-size: 1.2rem;
+  }
+}
