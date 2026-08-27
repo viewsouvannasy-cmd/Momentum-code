@@ -1,11 +1,19 @@
+// library
 import { useState } from "react";
+
+// components
 import { ClockIcon } from "../../../../../components/icon-svg/clock-icon";
 import { DropDownSelectDate } from "../../../../../components/dropDownSelectDate/DropDownSelectDate";
-import { calculateSpendingTime } from "../../util/calculateTime";
 import { ItemDate } from "./itemDate/ItemDate";
+
+// helper function
+import { calculateSpendingTime } from "../../util/calculateTime";
 import { sortDateArray } from "../../util/calculateTime";
+
+// context api
 import useMainTime from "../../context/useMainTime";
 
+// css
 import "./SideDrawerSetTime.css";
 
 export interface SelectDateType {
