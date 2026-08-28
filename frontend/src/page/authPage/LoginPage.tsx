@@ -1,9 +1,17 @@
+// library
 import { Link } from "react-router";
 import { useState } from "react";
 import axios from "axios";
+
+// components
 import { LoadButton } from "../../components/load-button/LoadButton";
 import { FullLogo } from "../../components/logo/FullLogo";
+import { EyeIcon } from "../../components/icon-svg/EyeIcon";
+
+// context api
 import useToggleTheme from "../../store/theme/useToggleTheme";
+
+// css
 import "./authPage.css";
 
 type FetchResult = {
@@ -17,7 +25,7 @@ export function LoginPage() {
   const { themeColor } = useToggleTheme();
 
   const [isLoading, setIsLading] = useState(false);
-  const [isShowPassword, setIsShowPassword] = useState("close");
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
   // state to store input info
   const [inputName, setInputName] = useState("");
@@ -55,10 +63,6 @@ export function LoginPage() {
     setIsLading(true);
   }
 
-  function handleShowPassword() {
-    setIsShowPassword(isShowPassword === "close" ? "open" : "close");
-  }
-
   function handleToMainApp(data: FetchResult) {
     if (data.success) {
       window.open("/app/inbox", "_blank", "noopener,noreferrer");
@@ -92,53 +96,45 @@ export function LoginPage() {
                 />
               </div>
               <div className="box-input-password login">
-                <label>Password</label>
+                <div>
+                  <label>Password</label>
+                  <Link
+                    to="/forgot-password"
+                    className="link-to-forgot-password-page"
+                  >
+                    Forgot Password
+                  </Link>
+                </div>
                 <input
-                  type={isShowPassword === "close" ? "password" : "text"}
+                  type={isShowPassword ? "text" : "password"}
                   minLength={8}
                   maxLength={100}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   onChange={(e) => setInputPassword(e.target.value)}
                   value={inputPassword}
                   required
                 />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="17"
-                  height="17"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  role="button"
-                  onClick={handleShowPassword}
-                >
-                  {isShowPassword === "close" ? (
-                    <>
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </>
-                  ) : (
-                    <>
-                      <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                      <line x1="1" y1="1" x2="23" y2="23" />
-                    </>
-                  )}
-                </svg>
+                <EyeIcon
+                  isShowPassword={isShowPassword}
+                  onClick={() => setIsShowPassword(!isShowPassword)}
+                />
               </div>
 
-              {!isLoading ? (
-                <div
-                  className={`box-submit-btn-and-error-msg ${resultFetch?.success === false && "error"}`}
+              <div
+                className={`box-submit-btn-and-error-msg ${resultFetch?.success === false && "error"}`}
+              >
+                <span>{resultFetch?.msg}</span>
+                <button
+                  type="submit"
+                  className={
+                    isLoading ? "btn-submit-login-load" : "btn-submit-login"
+                  }
+                  disabled={isLoading}
                 >
-                  <span>{resultFetch?.msg}</span>
-                  <button type="submit">Log in</button>
-                </div>
-              ) : (
-                <LoadButton />
-              )}
+                  {isLoading && <LoadButton />}
+                  {!isLoading && "Log in"}
+                </button>
+              </div>
             </form>
             <p>
               Don't have an account?

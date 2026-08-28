@@ -1,11 +1,14 @@
 import { fetchRefreshToken } from "../auth.ts";
 import axios from "axios";
 import { checkAccessToken } from "../../store/token/accessToken.ts";
+import { getHostServer } from "../../utils/getENV.ts";
 
 const getTaskData = async () => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
-    const response = await axios.get("http://localhost:4000/api/task/get", {
+    const response = await axios.get(`${serverHost}/api/task/get`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     return response.data;
@@ -26,9 +29,11 @@ const getTaskData = async () => {
 
 const addNewTask = async (group_id: number, task_name: string) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
     await axios.post(
-      "http://localhost:4000/api/task/add",
+      `${serverHost}/api/task/add`,
       {
         group_id: group_id,
         task_name: task_name,
@@ -59,9 +64,11 @@ const moveToState = async (
   toState: string,
 ) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
     await axios.put(
-      "http://localhost:4000/api/task/move/",
+      `${serverHost}/api/task/move`,
       {
         group_id: group_id,
         task_id: task_id,
@@ -86,11 +93,12 @@ const moveToState = async (
 
 const deleteTask = async (group_id: number, task_id: number) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
-    await axios.delete(
-      `http://localhost:4000/api/task/delete/${group_id}/${task_id}`,
-      { headers: { Authorization: `Bearer ${accessToken}` } },
-    );
+    await axios.delete(`${serverHost}/api/task/delete/${group_id}/${task_id}`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (

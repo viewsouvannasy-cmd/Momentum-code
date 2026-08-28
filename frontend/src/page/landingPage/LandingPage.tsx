@@ -21,6 +21,7 @@ export function LandingPage() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
   return (
     <div className="container-landing-main">
       <HeaderLanding isScroll={isScroll} />

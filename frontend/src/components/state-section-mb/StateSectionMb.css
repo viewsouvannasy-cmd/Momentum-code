@@ -2,6 +2,7 @@
   display: none;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 }
 
 .container-state-section-mb > h3 {

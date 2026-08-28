@@ -1,6 +1,7 @@
 import axios from "axios";
 import { fetchRefreshToken } from "../auth";
 import { getAccessToken } from "../../store/token/accessToken";
+import { getHostServer } from "../../utils/getENV";
 
 interface DateType {
   date: string;
@@ -10,9 +11,11 @@ interface DateType {
 
 const getFilterMonthYear = async (month: string, year: string) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = getAccessToken();
     const response = await axios.get(
-      `http://localhost:4000/api/task-date/get?month=${month}&&year=${year}`,
+      `${serverHost}/api/task-date/get?month=${month}&&year=${year}`,
       { headers: { Authorization: `Bearer ${accessToken}` } },
     );
     return response.data;
@@ -33,9 +36,11 @@ const getFilterMonthYear = async (month: string, year: string) => {
 
 const getFilterByDate = async (date: string) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = getAccessToken();
     const response = await axios.get(
-      `http://localhost:4000/api/task-date/get?date=${date}`,
+      `${serverHost}/api/task-date/get?date=${date}`,
       { headers: { Authorization: `Bearer ${accessToken}` } },
     );
     return response.data;
@@ -60,9 +65,11 @@ const addDate = async (
   arrDate: DateType[],
 ) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = getAccessToken();
     await axios.post(
-      `http://localhost:4000/api/task-date/add/${group_id}/${task_id}`,
+      `${serverHost}/api/task-date/add/${group_id}/${task_id}`,
       { dates: arrDate },
       { headers: { Authorization: `Bearer ${accessToken}` } },
     );
@@ -87,9 +94,11 @@ const deleteTaskDate = async (
   date_id: number,
 ) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = getAccessToken();
     await axios.delete(
-      `http://localhost:4000/api/task-date/delete/${group_id}/${task_id}/${date_id}`,
+      `${serverHost}/api/task-date/delete/${group_id}/${task_id}/${date_id}`,
       { headers: { Authorization: `Bearer ${accessToken}` } },
     );
   } catch (error) {
@@ -114,9 +123,11 @@ const moveStatusTaskDate = async (
   toStatus: string,
 ) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = getAccessToken();
     await axios.put(
-      `http://localhost:4000/api/task-date/move/${group_id}/${task_id}/${date_id}`,
+      `${serverHost}/api/task-date/move/${group_id}/${task_id}/${date_id}`,
       { toStatus: toStatus },
       { headers: { Authorization: `Bearer ${accessToken}` } },
     );
@@ -137,9 +148,11 @@ const moveStatusTaskDate = async (
 
 const deleteAllTaskDate = async (group_id: number, task_id: number) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = getAccessToken();
     await axios.delete(
-      `http://localhost:4000/api/task-date/delete-all/${group_id}/${task_id}`,
+      `${serverHost}/api/task-date/delete-all/${group_id}/${task_id}`,
       { headers: { Authorization: `Bearer ${accessToken}` } },
     );
   } catch (error) {
@@ -163,9 +176,11 @@ const deleteRemainderStatus = async (
   status: string,
 ) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = getAccessToken();
     await axios.delete(
-      `http://localhost:4000/api/task-date/delete-status/${group_id}/${task_id}/${status}`,
+      `${serverHost}/api/task-date/delete-status/${group_id}/${task_id}/${status}`,
       { headers: { Authorization: `Bearer ${accessToken}` } },
     );
   } catch (error) {
@@ -191,9 +206,11 @@ const editTimeTaskDate = async (
   end_time: string,
 ) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = getAccessToken();
     await axios.put(
-      `http://localhost:4000/api/task-date/edit/${group_id}/${task_id}/${date_id}`,
+      `${serverHost}/api/task-date/edit/${group_id}/${task_id}/${date_id}`,
       {
         start_time: start_time,
         end_time: end_time,

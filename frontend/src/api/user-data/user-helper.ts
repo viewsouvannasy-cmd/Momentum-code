@@ -1,15 +1,18 @@
 import axios from "axios";
 import { fetchRefreshToken } from "../auth.ts";
 import { checkAccessToken } from "../../store/token/accessToken.ts";
+import { getHostServer } from "../../utils/getENV.ts";
 
 // type
 import type { UserType, ResponseStatus } from "../../types/user-type.ts";
 
 const getUserInfo = async (): Promise<{ results: [UserType] }> => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
     const response = await axios.get<{ results: [UserType] }>(
-      "http://localhost:4000/api/user/info",
+      `${serverHost}/api/user/info`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       },
@@ -35,16 +38,16 @@ const getUserInfo = async (): Promise<{ results: [UserType] }> => {
 
 const uploadProfile = async (filePhoto: File) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
 
     const formData = new FormData();
     formData.append("filePhoto", filePhoto);
 
-    await axios.post(
-      "http://localhost:4000/api/user/upload-profile",
-      formData,
-      { headers: { Authorization: `Bearer ${accessToken}` } },
-    );
+    await axios.post(`${serverHost}/api/user/upload-profile`, formData, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (
@@ -64,9 +67,11 @@ const uploadProfile = async (filePhoto: File) => {
 
 const changeUserName = async (new_name: string): Promise<ResponseStatus> => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
     const response = await axios.post<ResponseStatus>(
-      "http://localhost:4000/api/user/change-name",
+      `${serverHost}/api/user/change-name`,
       { new_name: new_name },
       { headers: { Authorization: `Bearer ${accessToken}` } },
     );
@@ -97,9 +102,10 @@ const changePassword = async (
   new_password: string,
 ): Promise<ResponseStatus> => {
   try {
+    const serverHost = getHostServer();
     const accessToken = await checkAccessToken();
     const response = await axios.post<ResponseStatus>(
-      "http://localhost:4000/api/user/change-password",
+      `${serverHost}/api/user/change-password`,
       { old_password: old_password, new_password: new_password },
       { headers: { Authorization: `Bearer ${accessToken}` } },
     );
@@ -128,7 +134,8 @@ const changePassword = async (
 
 export const handleLogout = async () => {
   try {
-    await axios.get("http://localhost:4000/api/auth/logout", {
+    const serverHost = getHostServer();
+    await axios.get(`${serverHost}/api/auth/logout`, {
       withCredentials: true,
     });
   } catch (error: unknown) {

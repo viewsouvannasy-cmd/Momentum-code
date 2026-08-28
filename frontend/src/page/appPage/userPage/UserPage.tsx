@@ -9,6 +9,7 @@ import usePopup from "../../../context/usePopup";
 
 // components
 import { BtnOpenNavBarMB } from "../../../components/button-open-navber-mp/BtnOpenNavBarMB";
+
 import { PopupChangeProfile } from "../../../components/popup/popupUser/popup-change-profile/PopupChangeProfile";
 import { PopupChangeUserName } from "../../../components/popup/popupUser/pop-chnage-name-user/PopupChangeUserName";
 import { PopupChangePasswoed } from "../../../components/popup/popupUser/popup-change-password/PopupChangePassword";
@@ -54,7 +55,11 @@ export function UserPage() {
             </div>
             <div>
               <label>Password</label>
-              <div role="button" onClick={() => openPopup("change-password")}>
+              <div
+                className="box-password"
+                role="button"
+                onClick={() => openPopup("change-password")}
+              >
                 •••••••••
               </div>
             </div>

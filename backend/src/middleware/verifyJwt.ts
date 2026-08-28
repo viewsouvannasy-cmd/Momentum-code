@@ -2,18 +2,15 @@ import { Request, Response, NextFunction } from "express";
 import { getAccessTokenSecret } from "../utils/getEnv.js";
 import jwt from "jsonwebtoken";
 
+// type
+import type { PayloadType } from "../types/payload-type.js";
+
 declare global {
   namespace Express {
     interface Request {
       user?: PayloadType;
     }
   }
-}
-
-interface PayloadType {
-  user_id: number;
-  iat: number;
-  exp: number;
 }
 
 const verifyJwt = (req: Request, res: Response, next: NextFunction) => {

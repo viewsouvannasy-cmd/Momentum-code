@@ -45,7 +45,15 @@ const uploadProfile = async (req: Request, res: Response) => {
     const file = req.file;
 
     if (!file) {
-      return res.status(401).json({ msg: "file is not upload" });
+      return res
+        .status(400)
+        .json({ success: false, msg: "file is not upload" });
+    }
+
+    if (file.mimetype.split("/")[0] !== "image") {
+      return res
+        .status(400)
+        .json({ success: false, msg: "file should be images" });
     }
 
     // check that user is already have one profile
@@ -76,7 +84,7 @@ const uploadProfile = async (req: Request, res: Response) => {
     WHERE user_id = ${user_id}
     `;
 
-    res.sendStatus(200);
+    res.status(202).json({ success: true, msg: "change profile Successful" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: "internal server error", error });
@@ -91,6 +99,30 @@ const changeUserName = async (
   try {
     const user_id = checkPayload(req.user?.user_id);
     const { new_name } = req.body;
+
+    if (!new_name) {
+      return res.status(400).json({
+        success: false,
+        point: "name",
+        msg: "Please provide your new name",
+      });
+    }
+
+    if (new_name.length < 2) {
+      return res.status(400).json({
+        success: false,
+        point: "name",
+        msg: "your name should character more then 2",
+      });
+    }
+
+    if (new_name.length > 50) {
+      return res.status(400).json({
+        success: false,
+        point: "name",
+        msg: "the name length is limit at 50 characters",
+      });
+    }
 
     // check duplicate name
     const dupicateName = await sql`

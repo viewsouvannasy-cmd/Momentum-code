@@ -49,7 +49,7 @@ export function getAppPassword(): string {
 export function getCloudinaryName(): string {
   const cloudinaryName = process.env.CLOUDINARY_CLOUD_NAME;
   if (!cloudinaryName) {
-    throw new Error("cloudinary name is not set");
+    throw new Error("CLOUDINARY_CLOUD_NAME  is not set");
   }
   return cloudinaryName;
 }
@@ -57,7 +57,7 @@ export function getCloudinaryName(): string {
 export function getCloudinaryApi(): string {
   const cloudinaryApi = process.env.CLOUDINARY_API;
   if (!cloudinaryApi) {
-    throw new Error("cloudinary api is not set");
+    throw new Error("CLOUDINARY_API is not set");
   }
   return cloudinaryApi;
 }
@@ -65,7 +65,24 @@ export function getCloudinaryApi(): string {
 export function getCloudinarySecsetKey(): string {
   const cloudinarySecreyKey = process.env.CLOUDINARY_SECRET_KEY;
   if (!cloudinarySecreyKey) {
-    throw new Error("cloudinary secret key is not set");
+    throw new Error("CLOUDINARY_SECRET_KEY is not set");
   }
   return cloudinarySecreyKey;
+}
+
+export function getResetPasswordToken(): string {
+  const resetPasswordToken = process.env.RESET_PASSWORD_TOKEN_SECRET;
+  if (!resetPasswordToken) {
+    throw new Error("RESET_PASSWORD_TOKEN_SECRET  is not set");
+  }
+
+  return resetPasswordToken;
+}
+
+export function getClientHost(): string {
+  const clientHost = process.env.CLIENT_HOST;
+  if (!clientHost) {
+    throw new Error("CLIENT_HOST is not set");
+  }
+  return clientHost;
 }

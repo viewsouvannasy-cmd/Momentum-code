@@ -1,11 +1,13 @@
 import axios from "axios";
+import { getHostServer } from "../../utils/getENV";
 
 export const checkUser = async () => {
   try {
-    const response = await axios.get(
-      "http://localhost:4000/api/auth/check-user",
-      { withCredentials: true },
-    );
+    const serverHost = getHostServer();
+
+    const response = await axios.get(`${serverHost}/api/auth/check-user`, {
+      withCredentials: true,
+    });
     console.log(response.data);
     return response.data;
   } catch (error: unknown) {

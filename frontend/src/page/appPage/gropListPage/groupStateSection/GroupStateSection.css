@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+  max-width: 2000px;
 }
 
 .container-group-list-state-section > div:first-child {

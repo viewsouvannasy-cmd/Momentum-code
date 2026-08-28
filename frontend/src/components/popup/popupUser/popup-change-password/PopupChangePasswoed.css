@@ -56,7 +56,16 @@
   position: relative;
 }
 
-.box-input-old-password > label,
+.box-input-old-password > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.box-input-old-password > div > label {
+  font-weight: 500;
+}
+
 .box-input-new-password > label {
   font-weight: 500;
 }
@@ -152,4 +161,17 @@
 .message-change-password-success > svg {
   width: 13px;
   height: 13px;
+}
+
+.link-to-forgot-password-page {
+  color: #999999;
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+}
+
+.link-to-forgot-password-page:hover {
+  color: var(--main-opponent-color);
+  text-decoration: underline;
 }

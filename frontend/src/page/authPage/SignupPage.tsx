@@ -1,9 +1,17 @@
+// library
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
+
+// components
 import { LoadButton } from "../../components/load-button/LoadButton";
 import { FullLogo } from "../../components/logo/FullLogo";
+import { EyeIcon } from "../../components/icon-svg/EyeIcon";
+
+// sotre
 import useToggleTheme from "../../store/theme/useToggleTheme";
+
+// css
 import "./authPage.css";
 
 type fetchResult = {
@@ -19,7 +27,7 @@ export function SignupPage() {
   const navigate = useNavigate();
 
   const [isCheck, setIsCheck] = useState(false);
-  const [isShowPassword, setIsShowPassword] = useState("close");
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
   // this state use to store user input
   const [inputName, setInputName] = useState("");
@@ -34,10 +42,6 @@ export function SignupPage() {
     setIsCheck(isCheck ? false : true);
   }
 
-  function handleShowPassword() {
-    setIsShowPassword(isShowPassword === "close" ? "open" : "close");
-  }
-
   // we will not send a password to server in process
   // this fetch it use to check a valid name and email
   // we actual store user whem they verify they email at verift-otp page
@@ -48,6 +52,7 @@ export function SignupPage() {
         {
           user_name: inputName,
           user_email: inputEmail,
+          user_password: inputPasswrod,
         },
         { withCredentials: true },
       );
@@ -73,15 +78,11 @@ export function SignupPage() {
   }
 
   function handleRemoveHightLinghtError() {
-    if (resultFetch?.point === "email" || resultFetch?.point === "name") {
-      setResultFetch({
-        success: false,
-        point: "",
-        msg: "",
-      });
-    } else {
-      return;
-    }
+    setResultFetch({
+      success: false,
+      point: "",
+      msg: "",
+    });
   }
 
   // go to verify-otp page after validation
@@ -146,45 +147,29 @@ export function SignupPage() {
                 <span>{resultFetch?.msg}</span>
               </div>
 
-              <div className="box-password-sign-up">
+              <div
+                className={`box-password-sign-up ${resultFetch?.point === "password" && "error"}`}
+              >
                 <label>Password</label>
                 <input
-                  type={isShowPassword === "close" ? "password" : "text"}
+                  type={isShowPassword ? "text" : "password"}
                   minLength={8}
                   maxLength={50}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   onFocus={handleRemoveHightLinghtError}
                   onChange={(e) => setInputPassword(e.target.value)}
                   value={inputPasswrod}
                   required
                 />
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="17"
-                  height="17"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  role="button"
-                  onClick={handleShowPassword}
-                >
-                  {isShowPassword === "close" ? (
-                    <>
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </>
-                  ) : (
-                    <>
-                      <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                      <line x1="1" y1="1" x2="23" y2="23" />
-                    </>
-                  )}
-                </svg>
-                <span>At least 8 characters</span>
+                <EyeIcon
+                  isShowPassword={isShowPassword}
+                  onClick={() => setIsShowPassword(!isShowPassword)}
+                />
+                <span>
+                  {resultFetch?.point === "password"
+                    ? resultFetch.msg
+                    : "At least 8 characters"}
+                </span>
               </div>
               <div className="box-submit-and-checkbox-sign-up">
                 <div>
@@ -200,11 +185,18 @@ export function SignupPage() {
                     <span>Privacy Policy</span>
                   </p>
                 </div>
-                {!isLoading ? (
-                  <button type="submit">Create account</button>
-                ) : (
-                  <LoadButton />
-                )}
+                <button
+                  type="submit"
+                  className={
+                    isLoading
+                      ? "btn-submit-create-account-load"
+                      : "btn-submit-create-account"
+                  }
+                  disabled={isLoading}
+                >
+                  {isLoading && <LoadButton />}
+                  {!isLoading && "Create account"}
+                </button>
               </div>
             </form>
             <p>

@@ -94,7 +94,7 @@
   display: initial;
 }
 
-.box-submit-btn-and-error-msg > button {
+.btn-submit-login {
   border: none;
   padding: 14px;
   border-radius: 5px;
@@ -105,8 +105,25 @@
   color: var(--hero-text-color-opponent);
 }
 
-.box-submit-btn-and-error-msg > button:hover {
+.btn-submit-login:hover {
   background-color: var(--color-hover-button-auth);
+}
+
+.btn-submit-login-load {
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: not-allowed;
+  display: flex;
+  justify-content: center;
+  background-color: var(--main-opponent-color);
+}
+
+.btn-submit-login-load .spinner-load {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--main-background-color);
+  border-top-color: transparent;
 }
 
 .container-card-form-and-title.login > p,
@@ -157,12 +174,24 @@
   background-color: var(--main-background-color);
   border: 1px solid var(--border-card-color);
   color: var(--hero-text-color);
-  margin-top: 10px;
+  margin-top: 5px;
+  padding-right: 35px;
+}
+
+.box-input-password.login > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .box-input-email.error > input,
-.box-input-name.error > input {
+.box-input-name.error > input,
+.box-password-sign-up.error > input {
   border: 1px solid var(--error-text-color);
+}
+
+.box-password-sign-up.error > span {
+  color: var(--error-text-color);
 }
 
 .box-password-sign-up > input:focus,
@@ -180,7 +209,7 @@
   display: flex;
   border: none;
   background-color: transparent;
-  top: 46%;
+
   cursor: pointer;
   color: gray;
 
@@ -189,6 +218,10 @@
 
 .box-input-password.login > svg {
   top: 59.5%;
+}
+
+.box-password-sign-up > svg {
+  top: 44%;
 }
 
 .box-password-sign-up > svg:hover,
@@ -269,7 +302,7 @@
   text-decoration: underline;
 }
 
-.box-submit-and-checkbox-sign-up > button {
+.btn-submit-create-account {
   width: 100%;
   border: none;
   padding: 14px;
@@ -282,8 +315,27 @@
   color: var(--hero-text-color-opponent);
 }
 
-.box-submit-and-checkbox-sign-up > button:hover {
+.btn-submit-create-account:hover {
   background-color: var(--color-hover-button-auth);
+}
+
+.btn-submit-create-account-load {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  cursor: not-allowed;
+  border-radius: 5px;
+  display: flex;
+  margin-top: 8px;
+  justify-content: center;
+  background-color: var(--main-opponent-color);
+}
+
+.btn-submit-create-account-load .spinner-load {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--main-background-color);
+  border-top-color: transparent;
 }
 
 @media (max-width: 700px) {

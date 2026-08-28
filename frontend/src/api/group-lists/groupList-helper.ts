@@ -1,11 +1,13 @@
 import { fetchRefreshToken } from "../auth.ts";
 import axios from "axios";
 import { checkAccessToken } from "../../store/token/accessToken.ts";
+import { getHostServer } from "../../utils/getENV.ts";
 
 const getGroupList = async () => {
   try {
+    const serverHost = getHostServer();
     const accessToken = await checkAccessToken();
-    const response = await axios.get("http://localhost:4000/api/group/get", {
+    const response = await axios.get(`${serverHost}/api/group/get`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
     return response.data;
@@ -26,9 +28,11 @@ const getGroupList = async () => {
 
 const createGroupList = async (group_name: string, group_color: string) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
     await axios.post(
-      "http://localhost:4000/api/group/create",
+      `${serverHost}/api/group/create`,
       {
         group_name: group_name,
         group_color: group_color,
@@ -54,9 +58,11 @@ const createGroupList = async (group_name: string, group_color: string) => {
 
 const renameGroupList = async (group_new_name: string, group_id: number) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
     await axios.put(
-      `http://localhost:4000/api/group/rename/${group_id}`,
+      `${serverHost}/api/group/rename/${group_id}`,
       {
         group_new_name: group_new_name,
       },
@@ -82,9 +88,11 @@ const changeColorGroupList = async (
   group_id: number,
 ) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
     await axios.put(
-      `http://localhost:4000/api/group/change-color/${group_id}`,
+      `${serverHost}/api/group/change-color/${group_id}`,
       {
         group_new_color: group_new_color,
       },
@@ -107,8 +115,10 @@ const changeColorGroupList = async (
 
 const deleteGroupList = async (group_id: number) => {
   try {
+    const serverHost = getHostServer();
+
     const accessToken = await checkAccessToken();
-    await axios.delete(`http://localhost:4000/api/group/delete/${group_id}`, {
+    await axios.delete(`${serverHost}/api/group/delete/${group_id}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   } catch (error) {

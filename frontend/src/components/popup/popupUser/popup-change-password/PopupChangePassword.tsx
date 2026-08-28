@@ -1,5 +1,6 @@
 // library
 import { useState } from "react";
+import { Link } from "react-router";
 
 // components
 import { CloseXButton } from "../../../close-x-button/CloseXButton";
@@ -81,7 +82,15 @@ export function PopupChangePasswoed() {
             className={`
                 box-input-old-password ${(responseStatus?.point === "old-pwd" || responseStatus?.point === "all") && "error"}`}
           >
-            <label>Your Password</label>
+            <div>
+              <label>Your Password</label>
+              <Link
+                to="/forgot-password"
+                className="link-to-forgot-password-page"
+              >
+                Forgot Password
+              </Link>
+            </div>
             <input
               type={isShowOldPassword ? "text" : "password"}
               minLength={8}

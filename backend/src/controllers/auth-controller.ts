@@ -1,14 +1,32 @@
+// library
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { vaildateFormatEmail, checkDomainEamil } from "../utils/validation.js";
-import { sentOtpEmail, genrateOtp } from "../service/emailService.js";
 import { sql } from "../config/database.js";
+
+// helpers function
+import {
+  vaildateFormatEmail,
+  checkDomainEamil,
+  isValidOtp,
+} from "../utils/validation.js";
+import {
+  sentOtpEmail,
+  genrateOtp,
+  sendResetPassword,
+} from "../service/emailService.js";
 import {
   generateAccessToken,
   generateRefreshToken,
 } from "../utils/generateToken.js";
-import { getRefreshTokenSecret, getOtpTokenSecret } from "../utils/getEnv.js";
+import {
+  getRefreshTokenSecret,
+  getOtpTokenSecret,
+  getResetPasswordToken,
+} from "../utils/getEnv.js";
+
+// Types
+import type { PayloadType } from "../types/payload-type.js";
 
 interface UserInfoType {
   user_name: string;
@@ -32,10 +50,10 @@ const createAccount = async (
   res: Response,
 ) => {
   try {
-    const { user_name, user_email } = req.body;
+    const { user_name, user_email, user_password } = req.body;
 
     // check provide info
-    if (!user_name || !user_email) {
+    if (!user_name || !user_email || !user_password) {
       return res
         .status(400)
         .json({ msg: "Please provide all required information" });
@@ -59,6 +77,23 @@ const createAccount = async (
       });
     }
 
+    // check password Length
+    if (user_password.length < 8) {
+      return res.status(400).json({
+        success: false,
+        point: "password",
+        msg: "the password should have characters more then 8",
+      });
+    }
+
+    if (user_password.length > 50) {
+      return res.status(400).json({
+        success: false,
+        point: "password",
+        msg: "the password length is limit at 50",
+      });
+    }
+
     // check dupicate name
     const dupicateName = await sql`
         SELECT 
@@ -77,7 +112,9 @@ const createAccount = async (
     // check valid email format
     const checkForrmatEmail = vaildateFormatEmail(user_email);
     if (!checkForrmatEmail) {
-      return res.status(400).json({ msg: "Invilid email format" });
+      return res
+        .status(400)
+        .json({ success: false, point: "email", msg: "Invilid email format" });
     }
 
     // check email domain
@@ -153,11 +190,25 @@ const verifyUserOTP = async (
 
     //check cookie
     if (!cookieOtp) {
-      return res.status(401).json({
+      return res.status(400).json({
         success: false,
         point: "verify",
         msg: "the OTP code has expired",
       });
+    }
+
+    if (!user_name || !user_email || !user_password || !otp_code) {
+      return res.status(400).json({
+        success: false,
+        point: "verify",
+        msg: "something was wrong try again",
+      });
+    }
+
+    if (!isValidOtp(otp_code)) {
+      return res
+        .status(400)
+        .json({ success: false, point: "verify", msg: "otp code is invalid" });
     }
 
     // check valid otp code
@@ -231,6 +282,34 @@ const handleLogin = async (
   try {
     const { user_name, user_password }: UserInfoType = req.body;
 
+    if (user_name.length < 2) {
+      return res.status(401).json({
+        success: false,
+        msg: "name or password is wrong try again",
+      });
+    }
+
+    if (user_name.length > 50) {
+      return res.status(401).json({
+        success: false,
+        msg: "name or password is wrong try again",
+      });
+    }
+
+    if (user_password.length < 8) {
+      return res.status(401).json({
+        success: false,
+        msg: "name or password is wrong try again",
+      });
+    }
+
+    if (user_password.length > 50) {
+      return res.status(401).json({
+        success: false,
+        msg: "name or password is wrong try again",
+      });
+    }
+
     // find user
     const findUser = await sql`
     SELECT
@@ -294,7 +373,7 @@ const handleLogout = async (req: Request, res: Response) => {
     const cookie = req.cookies;
 
     if (!cookie?.jwt) {
-      return res.status(404).json({ success: false, msg: "jwt is not fount" });
+      return res.status(401).json({ success: false, msg: "jwt is not fount" });
     }
 
     // find user
@@ -329,7 +408,7 @@ const handleLogout = async (req: Request, res: Response) => {
 
     res.clearCookie("jwt", { httpOnly: true, sameSite: "lax", secure: false });
 
-    res.status(200).json({ success: true, msg: "log out" });
+    res.status(202).json({ success: true, msg: "log out" });
   } catch (error) {
     res.status(500).json({ msg: "internal server error", error });
   }
@@ -361,7 +440,7 @@ const checkUser = async (req: Request, res: Response) => {
     WHERE user_id = ${payload.user_id}
     `;
     if (findUser.length === 0) {
-      res.status(404).json({
+      res.status(401).json({
         success: false,
         msg: "user is not found",
       });
@@ -375,4 +454,160 @@ const checkUser = async (req: Request, res: Response) => {
   }
 };
 
-export { createAccount, verifyUserOTP, handleLogin, handleLogout, checkUser };
+const userForgetPassowrd = async (
+  req: Request<{}, {}, { user_email: string }>,
+  res: Response,
+) => {
+  try {
+    const { user_email } = req.body;
+
+    if (!user_email) {
+      return res.status(400).json({
+        success: false,
+        point: "email",
+        msg: "Please provide your email address",
+      });
+    }
+
+    // check valid email format
+    const checkForrmatEmail = vaildateFormatEmail(user_email);
+    if (!checkForrmatEmail) {
+      return res
+        .status(400)
+        .json({ success: false, point: "email", msg: "Invilid email format" });
+    }
+
+    // check email domain
+    const checkMailDoamin = await checkDomainEamil(user_email);
+    if (!checkMailDoamin) {
+      return res.status(400).json({
+        success: false,
+        point: "email",
+        msg: "Email domin does not exist",
+      });
+    }
+
+    // find user by email
+    const findUser = await sql`
+    SELECT
+    *
+    FROM users
+    WHERE user_email = ${user_email}
+    `;
+    if (findUser.length === 0) {
+      return res.status(401).json({
+        success: false,
+        point: "email",
+        msg: "user is not found",
+      });
+    }
+
+    // create token reset password
+    const resetPasswordToken = jwt.sign(
+      { user_id: findUser[0].user_id },
+      getResetPasswordToken(),
+      { expiresIn: "15m" },
+    );
+
+    await sendResetPassword(user_email, resetPasswordToken);
+    res.status(202).json({
+      success: true,
+      msg: "we have been message to your email",
+      resetPasswordToken,
+    });
+  } catch (error) {
+    res.status(500).json({ msg: `internal server error ${error}` });
+  }
+};
+
+const resetResetPasssword = async (
+  req: Request<{ reset_password_token: string }, {}, { new_password: string }>,
+  res: Response,
+) => {
+  try {
+    const { new_password } = req.body;
+    const { reset_password_token } = req.params;
+
+    if (!reset_password_token) {
+      return res.status(400).json({
+        success: false,
+        point: "password",
+        msg: "reset password token is not found",
+      });
+    }
+
+    if (!new_password) {
+      return res.status(400).json({
+        success: false,
+        point: "password",
+        msg: "Please provide your new password",
+      });
+    }
+
+    if (new_password.length < 8) {
+      return res.status(401).json({
+        success: false,
+        point: "password",
+        msg: "the password should have characters more then 8",
+      });
+    }
+
+    if (new_password.length > 50) {
+      return res.status(401).json({
+        success: false,
+        point: "password",
+        msg: "the password length is limit at 50",
+      });
+    }
+
+    let payload: PayloadType;
+
+    try {
+      payload = jwt.verify(
+        reset_password_token,
+        getResetPasswordToken(),
+      ) as PayloadType;
+    } catch (error) {
+      return res.status(401).json({
+        success: false,
+        point: "password",
+        msg: "token was expires",
+      });
+    }
+
+    if (!payload.user_id) {
+      return res.status(401).json({
+        success: false,
+        point: "password",
+        msg: "invalid token",
+      });
+    }
+
+    // hash password
+    const hashPassword = await bcrypt.hash(new_password, 10);
+
+    await sql`
+    UPDATE users
+    SET user_password = ${hashPassword}
+    WHERE user_id = ${payload.user_id}
+    `;
+
+    res.status(202).json({
+      success: true,
+      point: "password",
+      msg: "Set New Password Successful",
+    });
+  } catch (error) {
+    res.status(500).json({ msg: `internal server error ${error}` });
+  }
+};
+
+export {
+  createAccount,
+  verifyUserOTP,
+  handleLogin,
+  handleLogout,
+  checkUser,
+  userForgetPassowrd,
+  resetResetPasssword,
+};

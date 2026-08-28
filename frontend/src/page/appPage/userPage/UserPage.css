@@ -93,7 +93,7 @@
 .container-card-user-info > div:nth-child(2) > div {
   cursor: pointer;
   font-size: 0.95rem;
-  padding: 5px;
+  padding: 5px 10px;
   border: 1px solid var(--border-card-color);
   border-radius: 5px;
 }
@@ -103,16 +103,17 @@
   flex-direction: column;
   gap: 5px;
   width: 100%;
+  position: relative;
 }
 
 .container-card-user-info > div:nth-child(3) > label {
   font-weight: 600;
 }
 
-.container-card-user-info > div:nth-child(3) > div {
+.container-card-user-info > div:nth-child(3) > .box-password {
   cursor: pointer;
   font-size: 0.95rem;
-  padding: 5px;
+  padding: 5px 10px;
   border: 1px solid var(--border-card-color);
   border-radius: 5px;
 }
