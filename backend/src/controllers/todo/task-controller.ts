@@ -1,5 +1,5 @@
 import { checkPayload } from "../../utils/checkPayload.js";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { sql } from "../../config/database.js";
 import { checkOwner, checkListInGroupOwner } from "../../utils/checkOwner.js";
 
@@ -17,7 +17,7 @@ interface TaskType {
 }
 
 // this function use to get task data
-const getTaskList = async (req: Request, res: Response) => {
+const getTaskList = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
 
@@ -37,12 +37,16 @@ const getTaskList = async (req: Request, res: Response) => {
 
     res.status(200).json({ results });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
 // this function add to do list to group list
-const addTaskList = async (req: Request<{}, {}, TaskType>, res: Response) => {
+const addTaskList = async (
+  req: Request<{}, {}, TaskType>,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
     const { group_id, task_name, task_status } = req.body;
@@ -65,7 +69,7 @@ const addTaskList = async (req: Request<{}, {}, TaskType>, res: Response) => {
 
     res.sendStatus(201);
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
@@ -73,6 +77,7 @@ const addTaskList = async (req: Request<{}, {}, TaskType>, res: Response) => {
 const deleteTask = async (
   req: Request<{ group_id: string; task_id: string }>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -96,12 +101,16 @@ const deleteTask = async (
 
     res.sendStatus(200);
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
 // this function move to do state to doing state
-const moveTo = async (req: Request<{}, {}, TaskType>, res: Response) => {
+const moveTo = async (
+  req: Request<{}, {}, TaskType>,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
     const { group_id, task_id, toState } = req.body;
@@ -121,7 +130,7 @@ const moveTo = async (req: Request<{}, {}, TaskType>, res: Response) => {
 
     res.sendStatus(200);
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 

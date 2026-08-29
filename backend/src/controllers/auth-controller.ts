@@ -1,6 +1,6 @@
 // library
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { sql } from "../config/database.js";
 
@@ -48,6 +48,7 @@ interface OtpPayLoad {
 const createAccount = async (
   req: Request<{}, {}, UserInfoType>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const { user_name, user_email, user_password } = req.body;
@@ -173,7 +174,7 @@ const createAccount = async (
       .status(200)
       .json({ success: true, msg: "we have send OTP to your email" });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
@@ -182,6 +183,7 @@ const createAccount = async (
 const verifyUserOTP = async (
   req: Request<{}, {}, VerifyOtpType>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const { user_name, user_email, user_password, otp_code } = req.body;
@@ -270,7 +272,7 @@ const verifyUserOTP = async (
       accessToken: accessToken,
     });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
@@ -278,6 +280,7 @@ const verifyUserOTP = async (
 const handleLogin = async (
   req: Request<{}, {}, UserInfoType>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const { user_name, user_password }: UserInfoType = req.body;
@@ -363,12 +366,17 @@ const handleLogin = async (
       },
     });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
 // handle log out
-const handleLogout = async (req: Request, res: Response) => {
+
+const handleLogout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const cookie = req.cookies;
 
@@ -410,13 +418,18 @@ const handleLogout = async (req: Request, res: Response) => {
 
     res.status(202).json({ success: true, msg: "log out" });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
 // this funciton use to check user is already in system
 // if in, will send that user to app page or user refresh token is not expires
-const checkUser = async (req: Request, res: Response) => {
+const checkUser = async (
+  req: Request,
+  res: Response,
+
+  next: NextFunction,
+) => {
   try {
     const cookie = req.cookies;
 
@@ -448,15 +461,14 @@ const checkUser = async (req: Request, res: Response) => {
 
     res.status(202).json({ success: true, results: findUser });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, msg: `internal server error ${error}` });
+    next(error);
   }
 };
 
 const userForgetPassowrd = async (
   req: Request<{}, {}, { user_email: string }>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const { user_email } = req.body;
@@ -516,13 +528,14 @@ const userForgetPassowrd = async (
       resetPasswordToken,
     });
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 
 const resetResetPasssword = async (
   req: Request<{ reset_password_token: string }, {}, { new_password: string }>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const { new_password } = req.body;
@@ -598,7 +611,7 @@ const resetResetPasssword = async (
       msg: "Set New Password Successful",
     });
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 

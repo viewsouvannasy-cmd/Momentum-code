@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { checkPayload } from "../../utils/checkPayload.js";
 import { sql } from "../../config/database.js";
 
@@ -9,7 +9,11 @@ interface GroupType {
 }
 
 // this function get group list
-const getGroupList = async (req: Request, res: Response) => {
+const getGroupList = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
 
@@ -24,7 +28,7 @@ const getGroupList = async (req: Request, res: Response) => {
 
     res.status(202).json({ results: results });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
@@ -32,6 +36,7 @@ const getGroupList = async (req: Request, res: Response) => {
 const createGroupList = async (
   req: Request<{}, {}, GroupType>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -53,7 +58,7 @@ const createGroupList = async (
 
     res.sendStatus(201);
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
@@ -61,6 +66,7 @@ const createGroupList = async (
 const deleteGroupList = async (
   req: Request<{ group_id: string }, {}, {}>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -78,7 +84,7 @@ const deleteGroupList = async (
 
     res.sendStatus(200);
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next();
   }
 };
 
@@ -86,6 +92,7 @@ const deleteGroupList = async (
 const renameGroupList = async (
   req: Request<{ group_id: string }, {}, { group_new_name: string }>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -104,7 +111,7 @@ const renameGroupList = async (
 
     res.sendStatus(200);
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
@@ -112,6 +119,7 @@ const renameGroupList = async (
 const changeColorGroupList = async (
   req: Request<{ group_id: string }, {}, { group_new_color: string }>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -130,7 +138,7 @@ const changeColorGroupList = async (
 
     res.sendStatus(200);
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 

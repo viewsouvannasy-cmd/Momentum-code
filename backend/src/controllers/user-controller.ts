@@ -1,6 +1,6 @@
 // library
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import cloudinary from "../config/cloudinary.js";
 import { sql } from "../config/database.js";
 
@@ -15,7 +15,7 @@ interface findUserType {
   user_profile: string;
 }
 
-const getUserInfo = async (req: Request, res: Response) => {
+const getUserInfo = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
 
@@ -34,12 +34,16 @@ const getUserInfo = async (req: Request, res: Response) => {
 
     res.status(202).json({ results: findUser });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
 // this is use to upload user profile
-const uploadProfile = async (req: Request, res: Response) => {
+const uploadProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
     const file = req.file;
@@ -86,8 +90,7 @@ const uploadProfile = async (req: Request, res: Response) => {
 
     res.status(202).json({ success: true, msg: "change profile Successful" });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
@@ -95,6 +98,7 @@ const uploadProfile = async (req: Request, res: Response) => {
 const changeUserName = async (
   req: Request<{}, {}, { new_name: string }>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -147,7 +151,7 @@ const changeUserName = async (
 
     res.status(202).json({ success: true, msg: "rename successful" });
   } catch (error) {
-    res.status(500).json({ msg: "internal server error", error });
+    next(error);
   }
 };
 
@@ -159,6 +163,7 @@ const checkPassword = async (
     { user_password: string }
   >,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -173,13 +178,14 @@ const checkPassword = async (
 
     res.status(202).json({ success: true, msg: "corrent password" });
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 
 const changePassword = async (
   req: Request<{}, {}, { old_password: string; new_password: string }>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -211,15 +217,15 @@ const changePassword = async (
       return res.status(400).json({
         success: false,
         point: "old-pwd",
-        msg: "password can not have characters more then 100 ",
+        msg: "password can not have characters more then 50 ",
       });
     }
 
     if (new_password.length > 50) {
       return res.status(400).json({
         success: false,
-        point: "old-pwd",
-        msg: "password can not have characters more then 100 ",
+        point: "new-pwd",
+        msg: "password can not have characters more then 50 ",
       });
     }
 
@@ -243,7 +249,7 @@ const changePassword = async (
 
     res.status(202).json({ success: true, point: "btn", msg: "SuccessFul" });
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 

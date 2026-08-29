@@ -86,3 +86,12 @@ export function getClientHost(): string {
   }
   return clientHost;
 }
+
+export function getNodeMode(): string {
+  const nodeMode = process.env.NODE_MODE;
+  if (!nodeMode) {
+    throw new Error("NODE_MODE is not set");
+  }
+
+  return nodeMode;
+}

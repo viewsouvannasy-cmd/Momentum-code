@@ -1,5 +1,5 @@
 import { sql } from "../../../config/database.js";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { checkPayload } from "../../../utils/checkPayload.js";
 
 import {
@@ -44,6 +44,7 @@ interface FilterTaskDateData {
 const getTaskDate = async (
   req: Request<{}, {}, {}, FilterTaskDateData>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -73,8 +74,7 @@ const getTaskDate = async (
       return res.status(202).json({ results });
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 
@@ -82,6 +82,7 @@ const getTaskDate = async (
 const addDate = async (
   req: Request<ParamForValid, {}, AddDateTypeBody>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -112,7 +113,7 @@ const addDate = async (
     res.sendStatus(201);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 
@@ -120,6 +121,7 @@ const addDate = async (
 const editDateTime = async (
   req: Request<ParamForValid, {}, { start_time: string; end_time: string }>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -146,7 +148,7 @@ const editDateTime = async (
 
     res.sendStatus(200);
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 
@@ -154,6 +156,7 @@ const editDateTime = async (
 const moveStatusTaskDate = async (
   req: Request<ParamForValid, {}, { toStatus: "completed" | "miss" | "today" }>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -190,7 +193,7 @@ const moveStatusTaskDate = async (
 
     res.sendStatus(200);
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 
@@ -198,6 +201,7 @@ const moveStatusTaskDate = async (
 const deleteDate = async (
   req: Request<ParamForValid, {}, {}>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -221,13 +225,14 @@ const deleteDate = async (
 
     res.sendStatus(200);
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 
 const deleteAllDate = async (
   req: Request<ParamForValid, {}, {}>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -250,7 +255,7 @@ const deleteAllDate = async (
 
     res.sendStatus(200);
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 
@@ -260,6 +265,7 @@ const deleteAllDate = async (
 const deleteRemainderStatus = async (
   req: Request<DeleteRemainderStatus, {}, {}>,
   res: Response,
+  next: NextFunction,
 ) => {
   try {
     const user_id = checkPayload(req.user?.user_id);
@@ -283,7 +289,7 @@ const deleteRemainderStatus = async (
 
     res.sendStatus(200);
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 

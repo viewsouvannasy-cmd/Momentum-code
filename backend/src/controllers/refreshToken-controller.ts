@@ -1,9 +1,8 @@
 import jwt from "jsonwebtoken";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import { generateAccessToken } from "../utils/generateToken.js";
 import { getRefreshTokenSecret } from "../utils/getEnv.js";
-import { sql } from "../config/database.js";
 import { findUserById } from "../utils/findUserById.js";
 
 interface PayloadType {
@@ -12,7 +11,11 @@ interface PayloadType {
   exp: number;
 }
 
-const refreshToken = async (req: Request, res: Response) => {
+const refreshToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const cookie = req.cookies;
 
@@ -48,7 +51,7 @@ const refreshToken = async (req: Request, res: Response) => {
 
     res.status(200).json({ success: true, accessToken: accessToken });
   } catch (error) {
-    res.status(500).json({ msg: `internal server error ${error}` });
+    next(error);
   }
 };
 

@@ -8,7 +8,6 @@ export const checkUser = async () => {
     const response = await axios.get(`${serverHost}/api/auth/check-user`, {
       withCredentials: true,
     });
-    console.log(response.data);
     return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
