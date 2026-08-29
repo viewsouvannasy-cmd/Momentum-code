@@ -166,7 +166,7 @@ const createAccount = async (
 
     res.cookie("jwt_otp", otpToken, {
       httpOnly: true,
-      sameSite: getNodeMode() === "production" ? "strict" : "lax",
+      sameSite: getNodeMode() === "production" ? "none" : "lax",
       secure: getNodeMode() === "production",
       maxAge: 5 * 60 * 1000,
     });
@@ -257,13 +257,13 @@ const verifyUserOTP = async (
 
     res.clearCookie("jwt_otp", {
       httpOnly: true,
-      sameSite: getNodeMode() === "production" ? "strict" : "lax",
+      sameSite: getNodeMode() === "production" ? "none" : "lax",
       secure: getNodeMode() === "production",
     });
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: getNodeMode() === "production" ? "strict" : "lax",
+      sameSite: getNodeMode() === "production" ? "none" : "lax",
       secure: getNodeMode() === "production",
       maxAge: 15 * 24 * 60 * 60 * 1000,
     });
@@ -353,7 +353,7 @@ const handleLogin = async (
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: getNodeMode() === "production" ? "strict" : "lax",
+      sameSite: getNodeMode() === "production" ? "none" : "lax",
       secure: getNodeMode() === "production",
       maxAge: 15 * 24 * 60 * 60 * 1000,
     });
@@ -399,7 +399,7 @@ const handleLogout = async (
     if (findUser.length === 0) {
       res.clearCookie("jwt", {
         httpOnly: true,
-        sameSite: getNodeMode() === "production" ? "strict" : "lax",
+        sameSite: getNodeMode() === "production" ? "none" : "lax",
         secure: getNodeMode() === "production",
       });
       return res.status(404).json({
@@ -415,7 +415,11 @@ const handleLogout = async (
     WHERE user_id = ${payload.user_id}
   `;
 
-    res.clearCookie("jwt", { httpOnly: true, sameSite: "lax", secure: false });
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      sameSite: getNodeMode() === "production" ? "none" : "lax",
+      secure: getNodeMode() === "production",
+    });
 
     res.status(202).json({ success: true, msg: "log out" });
   } catch (error) {
@@ -434,9 +438,12 @@ const checkUser = async (
   try {
     const cookie = req.cookies;
 
-    // check that token jwt is exist
     if (!cookie?.jwt) {
-      res.clearCookie("jwt", { httpOnly: true });
+      res.clearCookie("jwt", {
+        httpOnly: true,
+        sameSite: getNodeMode() === "production" ? "none" : "lax",
+        secure: getNodeMode() === "production",
+      });
       return res
         .status(401)
         .json({ success: false, msg: "cookie jwt is not found" });

@@ -53,10 +53,13 @@ export function LoginPage() {
       handleToMainApp(response.data);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
+        console.log(error);
         if (error.response) {
           setIsLading(false);
           setResultFetch(error.response.data);
+          return;
         }
+        setIsLading(false);
       }
     }
   };

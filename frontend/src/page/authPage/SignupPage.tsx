@@ -67,9 +67,9 @@ export function SignupPage() {
         if (error.response) {
           setIsLading(false);
           setResultFetch(error.response.data);
+          return;
         }
-      } else {
-        console.log(error);
+        setIsLading(false);
       }
     }
   };
