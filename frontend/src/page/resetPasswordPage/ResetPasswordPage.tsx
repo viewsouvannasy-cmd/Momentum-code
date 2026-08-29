@@ -105,7 +105,7 @@ export function ResetPasswordPage() {
               <TickIcon />
             </div>
             <span>
-              Reset Password Successful{" "}
+              {responseStatus.msg}{" "}
               <Link className="link-to-login" to="/login">
                 Back To Login
               </Link>

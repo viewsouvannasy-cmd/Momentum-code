@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { sql } from "../config/database.js";
+import { getNodeMode } from "../utils/getEnv.js";
 
 // helpers function
 import {
@@ -165,8 +166,8 @@ const createAccount = async (
 
     res.cookie("jwt_otp", otpToken, {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
+      sameSite: getNodeMode() === "production" ? "strict" : "lax",
+      secure: getNodeMode() === "production",
       maxAge: 5 * 60 * 1000,
     });
 
@@ -256,14 +257,14 @@ const verifyUserOTP = async (
 
     res.clearCookie("jwt_otp", {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
+      sameSite: getNodeMode() === "production" ? "strict" : "lax",
+      secure: getNodeMode() === "production",
     });
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
+      sameSite: getNodeMode() === "production" ? "strict" : "lax",
+      secure: getNodeMode() === "production",
       maxAge: 15 * 24 * 60 * 60 * 1000,
     });
 
@@ -352,8 +353,8 @@ const handleLogin = async (
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
+      sameSite: getNodeMode() === "production" ? "strict" : "lax",
+      secure: getNodeMode() === "production",
       maxAge: 15 * 24 * 60 * 60 * 1000,
     });
 
@@ -398,8 +399,8 @@ const handleLogout = async (
     if (findUser.length === 0) {
       res.clearCookie("jwt", {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false,
+        sameSite: getNodeMode() === "production" ? "strict" : "lax",
+        secure: getNodeMode() === "production",
       });
       return res.status(404).json({
         success: false,

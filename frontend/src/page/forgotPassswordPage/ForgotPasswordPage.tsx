@@ -84,7 +84,7 @@ export function ForgotPasswordPage() {
             <div>
               <TickIcon />
             </div>
-            <p>We have been have message to your email</p>
+            <p>{responseStatus.msg}</p>
           </div>
         )}
       </form>

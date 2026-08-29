@@ -3,11 +3,33 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  padding-bottom: 50px;
 }
 
-.container-state-section-mb > h3 {
+.header-state-section-mb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-state-section-mb > h3 {
   font-size: 1.1rem;
   font-weight: 500;
+}
+
+.header-state-section-mb > button {
+  border: none;
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  border-radius: 5px;
+  font-weight: 500;
+  background-color: var(--main-opponent-color);
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.header-state-section-mb > button:hover {
+  background-color: var(--color-hover-button-auth);
 }
 
 .state-section-mb-header {

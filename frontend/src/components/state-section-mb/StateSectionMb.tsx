@@ -1,7 +1,19 @@
+// library
 import { useState } from "react";
-import { NotHaveTask } from "../not-have-task/NotHaveTask";
+
+// main components
 import { DisplayItemToDo } from "../../page/appPage/inboxPage/stateSection/displayState/displayItemToDo/DisplayItemToDo";
+
+// components
+import { NotHaveTask } from "../not-have-task/NotHaveTask";
+
+// context api
+import usePopup from "../../context/usePopup";
+
+// api
 import useTask from "../../api/task/useTask";
+
+// type
 import "./StateSectionMb.css";
 
 interface TaskType {
@@ -24,6 +36,10 @@ export function StateSectionMb({ taskData }: StateSectionMbProp) {
     "todo",
   );
 
+  const { openPopup } = usePopup();
+
+  const [isLength, setIsLength] = useState<number>(4);
+
   function handleSelectState(state: "todo" | "doing" | "done") {
     setIsSelectState(state);
   }
@@ -31,6 +47,18 @@ export function StateSectionMb({ taskData }: StateSectionMbProp) {
   const filterTaskState = taskData.filter(
     (task) => task.task_status === isSelectState,
   );
+
+  if (isSelectState === "todo") {
+    filterTaskState.reverse();
+  }
+
+  function handleOpenPopup() {
+    if (filterTaskState.length === 0) {
+      openPopup("create");
+      return;
+    }
+    openPopup("add-task");
+  }
 
   const countToDo = taskData.filter(
     (task) => task.task_status === "todo",
@@ -46,7 +74,10 @@ export function StateSectionMb({ taskData }: StateSectionMbProp) {
 
   return (
     <div className="container-state-section-mb">
-      <h3>My Momuntum</h3>
+      <div className="header-state-section-mb">
+        <h3>My Momuntum</h3>
+        <button onClick={handleOpenPopup}>+ Add Task</button>
+      </div>
       <div className={`state-section-mb-header ${isSelectState}`}>
         <button onClick={() => handleSelectState("todo")}>
           To Do <span>{countToDo}</span>
@@ -59,8 +90,9 @@ export function StateSectionMb({ taskData }: StateSectionMbProp) {
         </button>
       </div>
       <div className="container-display-todo-item-mb">
-        {filterTaskState.map((task) => {
-          return <DisplayItemToDo key={task.task_id} task={task} />;
+        {filterTaskState.map((task, index) => {
+          if (index + 1 <= isLength)
+            return <DisplayItemToDo key={task.task_id} task={task} />;
         })}
 
         {!isLoadingTask && filterTaskState.length === 0 && <NotHaveTask />}
@@ -73,6 +105,31 @@ export function StateSectionMb({ taskData }: StateSectionMbProp) {
           </>
         )}
       </div>
+      <div
+        role="button"
+        className="container-add-task"
+        onClick={handleOpenPopup}
+        style={{ display: isSelectState === "todo" ? "initial" : "none" }}
+      >
+        + Add Task
+      </div>
+      {filterTaskState.length > isLength && (
+        <button
+          className="btn-view-more-item-task-state"
+          onClick={() => setIsLength(isLength + 4)}
+        >
+          view more
+        </button>
+      )}
+
+      {filterTaskState.length <= isLength && filterTaskState.length > 4 && (
+        <button
+          className="btn-view-less-item-task-state"
+          onClick={() => setIsLength(4)}
+        >
+          view less
+        </button>
+      )}
     </div>
   );
 }

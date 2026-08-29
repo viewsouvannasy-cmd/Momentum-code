@@ -56,6 +56,28 @@
   background-color: rgba(69, 69, 69, 0.3);
 }
 
+.btn-view-more-item-task-state,
+.btn-view-less-item-task-state {
+  border: 1px dashed var(--border-card-color);
+  color: var(--border-card-color);
+  background-color: transparent;
+  font-family: nunito, sans-serif;
+  font-weight: 300;
+  font-size: 0.7rem;
+  align-self: end;
+  padding: 1px 10px;
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.btn-view-more-item-task-state:hover,
+.btn-view-less-item-task-state:hover {
+  border-color: var(--main-opponent-color);
+  color: var(--main-opponent-color);
+}
+
 @media (max-width: 510px) {
   .container-state-section-header > div > h4 {
     font-size: 0.95rem;

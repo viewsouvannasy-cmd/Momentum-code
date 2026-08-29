@@ -1,11 +1,23 @@
+// library
+import { useState } from "react";
+
+// main components
 import { DisplayItemToDo } from "./displayItemToDo/DisplayItemToDo";
-import { getLoadingStateEl } from "../../../../../utils/loadingEl.ts";
+
+// components
 import { NotHaveTask } from "../../../../../components/not-have-task/NotHaveTask.tsx";
+
+// helper function
+import { getLoadingStateEl } from "../../../../../utils/loadingEl.ts";
+
+// api
 import useTask from "../../../../../api/task/useTask";
 import useGropList from "../../../../../api/group-lists/useGroupList.ts";
+
+// context api
 import usePopup from "../../../../../context/usePopup.ts";
 
-// typr
+// type
 import type { TaskType } from "../../../../../types/task-type.ts";
 
 // css
@@ -21,6 +33,11 @@ export function DisplayState({ taskData, state }: DisplaystateProp) {
   const loadingEl = new Array(getLoadingStateEl(state)).fill("");
 
   const filterState = taskData.filter((task) => task.task_status === state);
+  if (state === "todo") {
+    filterState.reverse();
+  }
+
+  const [isLength, setIsLength] = useState<number>(4);
 
   const { isLoadingTask } = useTask();
   const { groupListData } = useGropList();
@@ -51,8 +68,10 @@ export function DisplayState({ taskData, state }: DisplaystateProp) {
       </div>
       <div className="container-todo-state-item-section">
         {!isLoadingTask &&
-          filterState.map((task) => {
-            return <DisplayItemToDo key={task.task_id} task={task} />;
+          filterState.map((task, index) => {
+            if (index + 1 <= isLength) {
+              return <DisplayItemToDo key={task.task_id} task={task} />;
+            }
           })}
 
         {isLoadingTask &&
@@ -75,6 +94,23 @@ export function DisplayState({ taskData, state }: DisplaystateProp) {
       >
         + Add Task
       </div>
+      {filterState.length > isLength && (
+        <button
+          className="btn-view-more-item-task-state"
+          onClick={() => setIsLength(isLength + 4)}
+        >
+          view more
+        </button>
+      )}
+
+      {filterState.length <= isLength && filterState.length > 4 && (
+        <button
+          className="btn-view-less-item-task-state"
+          onClick={() => setIsLength(4)}
+        >
+          view less
+        </button>
+      )}
     </div>
   );
 }

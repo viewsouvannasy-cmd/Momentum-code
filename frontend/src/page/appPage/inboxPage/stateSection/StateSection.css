@@ -4,6 +4,7 @@
   flex-direction: column;
   width: 100%;
   max-width: 2000px;
+  padding-bottom: 70px;
 }
 
 .container-to-do-list-state > div:first-child {

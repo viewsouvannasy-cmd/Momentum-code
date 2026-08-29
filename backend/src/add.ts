@@ -8,6 +8,7 @@ import groupRoute from "./routes/todo/group-route.js";
 import taskRoute from "./routes/todo/task-route.js";
 import taskDateRoute from "./routes/todo/task-date-route.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import { getClientHost } from "./utils/getEnv.js";
 
 // this middleware use to verify jwt token
 import verifyJwt from "./middleware/verifyJwt.js";
@@ -16,7 +17,7 @@ const app: Express = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"],
+    origin: getClientHost(),
     credentials: true,
   }),
 );

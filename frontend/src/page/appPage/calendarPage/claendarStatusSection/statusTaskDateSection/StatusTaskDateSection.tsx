@@ -1,9 +1,20 @@
-import { useMemo } from "react";
-import { ItemTaskDateStatus } from "./itemTaskDateStatus/ItemTaskDateStatus";
-import useTaskDate from "../../../../../api/task-date/useTaskDate";
+// library
+import { useMemo, useState } from "react";
 import dayjs from "dayjs";
+
+// mian components
+import { ItemTaskDateStatus } from "./itemTaskDateStatus/ItemTaskDateStatus";
+
+// components
 import { NotHaveTask } from "../../../../../components/not-have-task/NotHaveTask";
+
+// api
+import useTaskDate from "../../../../../api/task-date/useTaskDate";
+
+// type
 import type { TaskDateType } from "../../../../../types/task-date-type";
+
+// css
 import "./StatusTaskDateSection.css";
 
 interface StatusTaskDateSectionProp {
@@ -12,6 +23,8 @@ interface StatusTaskDateSectionProp {
 
 export function StatusTaskDateSection({ status }: StatusTaskDateSectionProp) {
   const { taskDateData, isLoadingTaskDate } = useTaskDate();
+
+  const [isLength, setIsLength] = useState<number>(5);
 
   const filterStatus: TaskDateType[] = useMemo(() => {
     const today = dayjs(new Date()).format("YYYY-MM-DD");
@@ -46,14 +59,16 @@ export function StatusTaskDateSection({ status }: StatusTaskDateSectionProp) {
       </div>
       <div>
         {!isLoadingTaskDate &&
-          filterStatus.map((item) => {
-            return (
-              <ItemTaskDateStatus
-                key={item.date_id}
-                item={item}
-                status={status}
-              />
-            );
+          filterStatus.map((item, index) => {
+            if (index + 1 <= isLength) {
+              return (
+                <ItemTaskDateStatus
+                  key={item.date_id}
+                  item={item}
+                  status={status}
+                />
+              );
+            }
           })}
         {isLoadingTaskDate && (
           <>
@@ -63,6 +78,23 @@ export function StatusTaskDateSection({ status }: StatusTaskDateSectionProp) {
         )}
         {filterStatus.length === 0 && !isLoadingTaskDate && <NotHaveTask />}
       </div>
+      {filterStatus.length > isLength && (
+        <button
+          className="btn-view-more-item-task-state"
+          onClick={() => setIsLength(isLength + 5)}
+        >
+          view more
+        </button>
+      )}
+
+      {filterStatus.length <= isLength && filterStatus.length > 4 && (
+        <button
+          className="btn-view-less-item-task-state"
+          onClick={() => setIsLength(5)}
+        >
+          view less
+        </button>
+      )}
     </div>
   );
 }
