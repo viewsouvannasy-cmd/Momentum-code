@@ -1,8 +1,15 @@
+// library
 import { Link, useLocation, useNavigate } from "react-router";
 import { useState } from "react";
 import axios from "axios";
+
+// components
 import { LoadButton } from "../../components/load-button/LoadButton";
 
+// helper function
+import { getHostServer } from "../../utils/getENV";
+
+// css
 import "./VerifyOtpPage.css";
 
 type FetchResult = {
@@ -31,8 +38,9 @@ export function VerifyOtpPage() {
   // this will save a user to database if valid success
   const fetchVerifyOtpEmail = async () => {
     try {
+      const hostServer = getHostServer();
       const response = await axios.post(
-        "http://localhost:4000/api/auth/verify-otp",
+        `${hostServer}/api/auth/verify-otp`,
         {
           user_name: user_name,
           user_email: user_email,

@@ -8,6 +8,9 @@ import { LoadButton } from "../../components/load-button/LoadButton";
 import { FullLogo } from "../../components/logo/FullLogo";
 import { EyeIcon } from "../../components/icon-svg/EyeIcon";
 
+// helper function
+import { getHostServer } from "../../utils/getENV";
+
 // sotre
 import useToggleTheme from "../../store/theme/useToggleTheme";
 
@@ -47,8 +50,9 @@ export function SignupPage() {
   // we actual store user whem they verify they email at verift-otp page
   const fetchCreateAccount = async () => {
     try {
+      const hostServer = getHostServer();
       const response = await axios.post(
-        "http://localhost:4000/api/auth/create-account",
+        `${hostServer}/api/auth/create-account`,
         {
           user_name: inputName,
           user_email: inputEmail,

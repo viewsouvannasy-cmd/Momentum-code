@@ -11,6 +11,9 @@ import { EyeIcon } from "../../components/icon-svg/EyeIcon";
 // context api
 import useToggleTheme from "../../store/theme/useToggleTheme";
 
+// helper function
+import { getHostServer } from "../../utils/getENV";
+
 // css
 import "./authPage.css";
 
@@ -37,8 +40,9 @@ export function LoginPage() {
   // function fetch valid login
   const fetchLogin = async () => {
     try {
+      const hostServer = getHostServer();
       const response = await axios.post(
-        "http://localhost:4000/api/auth/login",
+        `${hostServer}/api/auth/login`,
         {
           user_name: inputName,
           user_password: inputPassword,
