@@ -73,6 +73,8 @@ export function LoginPage() {
   function handleToMainApp(data: FetchResult) {
     if (data.success) {
       window.open("/app/inbox", "_blank", "noopener,noreferrer");
+      setInputName("");
+      setInputPassword("");
     }
   }
 

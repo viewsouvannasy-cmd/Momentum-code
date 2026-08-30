@@ -38,12 +38,12 @@ export function getOtpTokenSecret(): string {
   return otpToken;
 }
 
-export function getAppPassword(): string {
-  const appPassword = process.env.APP_PASSWORD;
-  if (!appPassword) {
-    throw new Error("APP_PASSWORD is not set");
+export function getSendGridApiKey(): string {
+  const sendGridApiKey = process.env.SENDGRID_API_KEY;
+  if (!sendGridApiKey) {
+    throw new Error("SENDGRID_API_KEY is not set");
   }
-  return appPassword;
+  return sendGridApiKey;
 }
 
 export function getCloudinaryName(): string {

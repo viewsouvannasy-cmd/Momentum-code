@@ -87,7 +87,7 @@ export function StatusTaskDateSection({ status }: StatusTaskDateSectionProp) {
         </button>
       )}
 
-      {filterStatus.length <= isLength && filterStatus.length > 4 && (
+      {filterStatus.length <= isLength && filterStatus.length > 5 && (
         <button
           className="btn-view-less-item-task-state"
           onClick={() => setIsLength(5)}

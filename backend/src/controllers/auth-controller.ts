@@ -529,7 +529,18 @@ const userForgetPassowrd = async (
       { expiresIn: "15m" },
     );
 
-    await sendResetPassword(user_email, resetPasswordToken);
+    const result: boolean = await sendResetPassword(
+      user_email,
+      resetPasswordToken,
+    );
+    if (!result) {
+      return res.status(500).json({
+        success: false,
+        point: "internal",
+        msg: "Something went wrong while sending your email. Please try again shortly.",
+      });
+    }
+
     res.status(202).json({
       success: true,
       msg: "we have been message to your email",

@@ -1,17 +1,12 @@
 .container-user-page-main {
   display: flex;
-  justify-content: center;
-}
-
-.container-user-page {
-  width: 100%;
-  max-width: 400px;
-  display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
+  max-width: 400px;
 }
 
-.container-user-page > div:nth-child(1) {
+.container-user-page-main > div:nth-child(1) {
   display: flex;
   justify-content: space-between;
 }
@@ -118,7 +113,7 @@
   border-radius: 5px;
 }
 
-.container-user-page > button {
+.container-user-page-main > button {
   border: none;
   padding: 5px 10px;
   font-weight: 550;
@@ -131,6 +126,6 @@
   transition: background-color 0.2s ease;
 }
 
-.container-user-page > button:hover {
+.container-user-page-main > button:hover {
   background-color: var(--color-hover-button-auth);
 }

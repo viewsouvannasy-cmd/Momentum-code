@@ -1,19 +1,14 @@
-import nodemailer from "nodemailer";
-import path from "path";
+import sgMail from "../config/sendGrid.js";
+import fs from "fs";
+import path, { dirname } from "path";
+import { getClientHost } from "../utils/getEnv.js";
 import { fileURLToPath } from "url";
-import { getAppPassword, getClientHost } from "../utils/getEnv.js";
 
-//email that use to send
-const appPassword = getAppPassword();
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "momentum.v0@gmail.com",
-    pass: appPassword,
-  },
-});
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
+
+const logoPath = path.join(__dirname, "../assets/logo-momentum-black.png");
+const logoBase64 = fs.readFileSync(logoPath).toString("base64");
 
 function genrateOtp(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -22,9 +17,13 @@ function genrateOtp(): string {
 const sentOtpEmail = async (email: string, otpCode: string) => {
   try {
     // email message
-    const mailOptions = {
-      from: '"Momentum" momentum.v0@gmail.com',
+    const msg = {
       to: email,
+
+      from: {
+        email: "momentum.v0@gmail.com",
+        name: "Momentum",
+      },
       subject: "Your Verification Code (OTP)",
       html: `
       <div style="font-family: Arial, sans-serif; padding: 20px; text-align: center;">
@@ -38,26 +37,33 @@ const sentOtpEmail = async (email: string, otpCode: string) => {
       `,
       attachments: [
         {
+          content: logoBase64,
           filename: "logo-momentum-black.png",
-          path: path.join(__dirname, "../assets/logo-momentum-black.png"),
-          cid: "logo_id",
+          type: "image/png",
+          disposition: "inline",
+          content_id: "logo_id",
         },
       ],
     };
 
-    await transporter.sendMail(mailOptions);
+    await sgMail.send(msg);
     return true;
-  } catch (error) {
-    console.log("Failed to send email otp", error);
+  } catch (error: any) {
+    console.log(`Failed to send email otp ${error}`);
+    console.log(JSON.stringify(error.response?.body?.errors, null, 2));
     return false;
   }
 };
 
 const sendResetPassword = async (email: string, resetUrl: string) => {
   try {
-    const mailOptions = {
-      from: '"Momentum" <momentum.v0@gmail.com>',
+    const msg = {
       to: email,
+
+      from: {
+        email: "momentum.v0@gmail.com",
+        name: "Momentum",
+      },
       subject: "Reset Your Password",
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; text-align: center; color: #333333;">
@@ -77,14 +83,16 @@ const sendResetPassword = async (email: string, resetUrl: string) => {
       `,
       attachments: [
         {
+          content: logoBase64,
           filename: "logo-momentum-black.png",
-          path: path.join(__dirname, "../assets/logo-momentum-black.png"),
-          cid: "logo_id",
+          type: "image/png",
+          disposition: "inline",
+          content_id: "logo_id",
         },
       ],
     };
 
-    await transporter.sendMail(mailOptions);
+    await sgMail.send(msg);
     return true;
   } catch (error) {
     console.log("Failed to send email reset password", error);

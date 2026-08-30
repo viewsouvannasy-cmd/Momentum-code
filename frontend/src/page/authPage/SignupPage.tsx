@@ -102,6 +102,9 @@ export function SignupPage() {
         user_password: inputPasswrod,
       },
     });
+    setInputEmail("");
+    setInputName("");
+    setInputPassword("");
   }
 
   return (
