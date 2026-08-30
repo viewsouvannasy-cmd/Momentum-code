@@ -87,6 +87,15 @@ export function getClientHost(): string {
   return clientHost;
 }
 
+export function getServerHost(): string {
+  const serverHost = process.env.SERVER_HOST;
+  if (!serverHost) {
+    throw new Error("SERVERHOST is not set");
+  }
+
+  return serverHost;
+}
+
 export function getNodeMode(): string {
   const nodeMode = process.env.NODE_MODE;
   if (!nodeMode) {

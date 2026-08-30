@@ -1,14 +1,5 @@
 import sgMail from "../config/sendGrid.js";
-import fs from "fs";
-import path, { dirname } from "path";
-import { getClientHost } from "../utils/getEnv.js";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const logoPath = path.join(__dirname, "../assets/logo-momentum-black.png");
-const logoBase64 = fs.readFileSync(logoPath).toString("base64");
+import { getClientHost, getServerHost } from "../utils/getEnv.js";
 
 function genrateOtp(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -27,7 +18,7 @@ const sentOtpEmail = async (email: string, otpCode: string) => {
       subject: "Your Verification Code (OTP)",
       html: `
       <div style="font-family: Arial, sans-serif; padding: 20px; text-align: center;">
-      <img src="cid:logo_id" alt="Logo" style="width: 50px; margin: 0 auto 10px auto; display: block;"/>
+      <img src="${getServerHost()}/public/logo-momentum-black.png" alt="Logo" style="width: 50px; margin: 0 auto 10px auto; display: block;"/>
           <h2>Verify Your Emaill Address</h2>
           <p>Your OTP code for registration is:</p>
           <h1 style="color: #111111; letter-spacing: 5px;">${otpCode}</h1>
@@ -35,15 +26,6 @@ const sentOtpEmail = async (email: string, otpCode: string) => {
           <p>If you did not request this code, please igorne this email.</p>
         </div>
       `,
-      attachments: [
-        {
-          content: logoBase64,
-          filename: "logo-momentum-black.png",
-          type: "image/png",
-          disposition: "inline",
-          content_id: "logo_id",
-        },
-      ],
     };
 
     await sgMail.send(msg);
@@ -67,7 +49,7 @@ const sendResetPassword = async (email: string, resetUrl: string) => {
       subject: "Reset Your Password",
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; text-align: center; color: #333333;">
-          <img src="cid:logo_id" alt="Logo" style="width: 50px; margin: 0 auto 10px auto; display: block;"/>
+          <img src="${getServerHost()}/public/logo-momentum-black.png" alt="Logo" style="width: 50px; margin: 0 auto 10px auto; display: block;"/>
           <h2>Password Reset Request</h2>
           <p>We received a request to reset your password. Click the button below to choose a new one:</p>
           
@@ -81,15 +63,6 @@ const sendResetPassword = async (email: string, resetUrl: string) => {
           </p>
         </div>
       `,
-      attachments: [
-        {
-          content: logoBase64,
-          filename: "logo-momentum-black.png",
-          type: "image/png",
-          disposition: "inline",
-          content_id: "logo_id",
-        },
-      ],
     };
 
     await sgMail.send(msg);

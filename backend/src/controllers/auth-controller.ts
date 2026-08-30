@@ -543,7 +543,7 @@ const userForgetPassowrd = async (
 
     res.status(202).json({
       success: true,
-      msg: "we have been message to your email",
+      msg: "we have been message to your email. if not see check box spam",
       resetPasswordToken,
     });
   } catch (error) {
