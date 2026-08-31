@@ -23,18 +23,24 @@ export function PopupChangeProfile() {
 
   const [isDragOn, setIsDragOn] = useState(false);
 
+  const [isNotImageFile, setIsNotImageFile] = useState(false);
+
   function handleChangeFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    if (!file) {
+    if (!file || file.type.split("/")[0] !== "image") {
+      setIsNotImageFile(true);
+      setIsDragOn(false);
       return;
     }
 
+    setIsDragOn(false);
     setInputFile(file);
     setPreviewUrl(URL.createObjectURL(file));
   }
 
   function handleDragEnter(e: React.DragEvent<HTMLInputElement>) {
     e.preventDefault();
+    setIsNotImageFile(false);
 
     setIsDragOn(true);
   }
@@ -77,12 +83,7 @@ export function PopupChangeProfile() {
         </div>
         {!previewUrl && (
           <div
-            className="container-drag-file"
-            style={{
-              borderColor: isDragOn
-                ? "var(--main-opponent-color)"
-                : "var(--border-card-color)",
-            }}
+            className={`container-drag-file ${isDragOn ? "in" : ""} ${isNotImageFile ? "error" : ""}`}
           >
             <p>Put Your File</p>
             <input
@@ -91,6 +92,7 @@ export function PopupChangeProfile() {
               onChange={handleChangeFile}
               onDragEnter={handleDragEnter}
               onDragLeave={handleDragLeave}
+              onFocus={() => setIsNotImageFile(false)}
               required
             />
           </div>
@@ -112,6 +114,7 @@ export function PopupChangeProfile() {
             </button>
           </div>
         )}
+        {isNotImageFile && <p>accept only image</p>}
         <button
           type="submit"
           className={
