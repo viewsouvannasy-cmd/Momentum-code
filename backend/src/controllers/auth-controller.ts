@@ -455,8 +455,7 @@ const checkUser = async (
     };
     const findUser = await sql`
     SELECT
-    user_name,
-    user_email
+    *
     FROM users
     WHERE user_id = ${payload.user_id}
     `;
@@ -465,6 +464,23 @@ const checkUser = async (
         success: false,
         msg: "user is not found",
       });
+    }
+
+    // check refresh token
+    const refreshToken = cookie.jwt;
+    const checkRefreshToken = await bcrypt.compare(
+      refreshToken,
+      findUser[0].refresh_token,
+    );
+    if (!checkRefreshToken) {
+      res.clearCookie("jwt", {
+        httpOnly: true,
+        sameSite: getNodeMode() === "production" ? "none" : "lax",
+        secure: getNodeMode() === "production",
+      });
+      return res
+        .status(401)
+        .json({ success: false, msg: "refresh token is invalid" });
     }
 
     res.status(202).json({ success: true, results: findUser });

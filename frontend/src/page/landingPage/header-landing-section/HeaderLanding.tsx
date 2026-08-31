@@ -27,7 +27,7 @@ export function HeaderLanding({ isScroll }: prop) {
 
   function handleToPage(data: fetchResult) {
     if (data.success) {
-      window.open("app/inbox", "_blank", "noopener,noreferrer");
+      navigate("/app/inbox");
       setIsLoading(false);
       return;
     }
