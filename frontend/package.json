@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "serve -s dist -l $PORT",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -15,6 +16,7 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router": "^8.3.0",
+    "serve": "^14.2.6",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
