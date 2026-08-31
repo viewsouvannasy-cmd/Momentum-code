@@ -58,6 +58,8 @@ export function ShowTaskDate({ page, data, date }: ShowTaskDateProp) {
     navigate(`/app/preview/${newDate}`);
   }
 
+  console.log(data);
+
   const sortData = sortByTime(data);
 
   useEffect(() => {
@@ -78,61 +80,57 @@ export function ShowTaskDate({ page, data, date }: ShowTaskDateProp) {
 
   return (
     <>
-      <div className="container-today-list-page-main">
-        <div className="container-today-list-page">
+      <div className="container-today-list-page">
+        <div>
           <div>
-            <div>
-              <div className="container-title-today-list">
-                <BtnOpenNavBarMB />
-                <div>
-                  <h1>
-                    {page === "today-list" && "Today Lists"}
-                    {page === "preview" && "Preview"}
-                  </h1>
-                  <span>My Day {date}</span>
-                </div>
-              </div>
-
-              <div className="contanier-change-date-preview">
-                <button onClick={() => handleMoveDate("back")}>
-                  <ButtonArrow />
-                </button>
-                <span>{date}</span>
-                <button onClick={() => handleMoveDate("forward")}>
-                  <ButtonArrow />
-                </button>
+            <div className="container-title-today-list">
+              <BtnOpenNavBarMB />
+              <div>
+                <h1>
+                  {page === "today-list" && "Today Lists"}
+                  {page === "preview" && "Preview"}
+                </h1>
+                <span>My Day {date}</span>
               </div>
             </div>
-            <div>
-              <span>
-                {data.length === 0
-                  ? "You not have task in this date"
-                  : "  Let start with the first task"}
-              </span>
-              <span>
-                {data.length} {data.length > 1 ? "tasks" : "task"}
-              </span>
+
+            <div className="contanier-change-date-preview">
+              <button onClick={() => handleMoveDate("back")}>
+                <ButtonArrow />
+              </button>
+              <span>{date}</span>
+              <button onClick={() => handleMoveDate("forward")}>
+                <ButtonArrow />
+              </button>
             </div>
           </div>
-
-          <div className="container-display-task-in-date">
-            {!isLoadingTaskDate &&
-              sortData.map((item) => {
-                return <ItemTaskTodayList key={item.date_id} item={item} />;
-              })}
-            {data.length === 0 && !isLoadingTaskDate && <NotHaveTask />}
-            {isLoadingTaskDate && (
-              <>
-                <div className="loading-element"></div>
-                <div className="loading-element"></div>
-                <div className="loading-element"></div>
-              </>
-            )}
+          <div>
+            <span>
+              {data.length === 0
+                ? "You not have task in this date"
+                : "  Let start with the first task"}
+            </span>
+            <span>
+              {data.length} {data.length > 1 ? "tasks" : "task"}
+            </span>
           </div>
-          <p>
-            when pass this day the task will be miss if it not get mark done
-          </p>
         </div>
+
+        <div className="container-display-task-in-date">
+          {!isLoadingTaskDate &&
+            sortData.map((item) => {
+              return <ItemTaskTodayList key={item.date_id} item={item} />;
+            })}
+          {data.length === 0 && !isLoadingTaskDate && <NotHaveTask />}
+          {isLoadingTaskDate && (
+            <>
+              <div className="loading-element"></div>
+              <div className="loading-element"></div>
+              <div className="loading-element"></div>
+            </>
+          )}
+        </div>
+        <p>when pass this day the task will be miss if it not get mark done</p>
       </div>
 
       <PopupChangeTime page="t-p" />
