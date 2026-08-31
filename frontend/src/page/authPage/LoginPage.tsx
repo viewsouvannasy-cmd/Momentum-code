@@ -1,6 +1,7 @@
 // library
 import { Link } from "react-router";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
 
 // components
@@ -24,6 +25,8 @@ type FetchResult = {
 };
 
 export function LoginPage() {
+  const navigate = useNavigate();
+
   // this is use to change color of image
   const { themeColor } = useToggleTheme();
 
@@ -72,7 +75,7 @@ export function LoginPage() {
 
   function handleToMainApp(data: FetchResult) {
     if (data.success) {
-      window.open("/app/inbox", "_blank", "noopener,noreferrer");
+      navigate("/app/inbox");
       setInputName("");
       setInputPassword("");
     }
