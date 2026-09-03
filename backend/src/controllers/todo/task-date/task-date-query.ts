@@ -149,8 +149,8 @@ const getFilterMonthAndYear = async (
         INNER JOIN group_list AS gl
           ON gl.group_id = t.group_id
         WHERE gl.user_id = ${user_id}
-        AND td.task_date > ${startDate}
-        AND td.task_date < ${endDate}
+        AND td.task_date >= ${startDate}
+        AND td.task_date <= ${endDate}
         AND task_status = ${status}
         `;
   }
@@ -174,8 +174,8 @@ const getFilterMonthAndYear = async (
         INNER JOIN group_list AS gl
           ON gl.group_id = t.group_id
         WHERE gl.user_id = ${user_id}
-        AND td.task_date > ${startDate}
-        AND td.task_date < ${endDate}
+        AND td.task_date >= ${startDate}
+        AND td.task_date <= ${endDate}
        
         `;
 };
